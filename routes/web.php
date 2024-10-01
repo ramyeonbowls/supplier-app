@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-Auth::routes();
+Auth::routes([
+    'register' => true,
+    'verify' => true,
+    'confirm' => false,
+    'reset' => false
+]);
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});

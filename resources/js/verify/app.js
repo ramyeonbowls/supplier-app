@@ -7,8 +7,6 @@
 import './bootstrap'
 import { createApp } from 'vue'
 import App from './App.vue'
-import routes from './routes'
-import { createRouter, createWebHistory } from 'vue-router'
 import { Notyf } from 'notyf'
 
 /**
@@ -16,12 +14,6 @@ import { Notyf } from 'notyf'
  * registering components with the application instance so they are ready
  * to use in your application's views. An example is included for you.
  */
-
-const router = createRouter({
-    history: createWebHistory(),
-    linkActiveClass: 'active',
-    routes,
-})
 
 const notyf = new Notyf({
     duration: 5000,
@@ -54,5 +46,4 @@ app.config.globalProperties.$notyf = notyf
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-app.use(router)
-app.mount('#app-container')
+app.mount('#verify-container')

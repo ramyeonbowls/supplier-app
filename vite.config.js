@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/home/app.js',
                 'resources/js/login/app.js',
                 'resources/js/register/app.js',
+                'resources/js/verify/app.js',
             ],
             refresh: true,
         }),

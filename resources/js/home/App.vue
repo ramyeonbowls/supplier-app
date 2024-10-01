@@ -69,7 +69,7 @@
 
         <div class="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
             <form action="#">
-                <button type="submit" class="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                <button type="submit" class="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" @click.prevent="logout">
                     <svg xmlns="http://www.w3.org/2000/svg" class="size-5 opacity-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
@@ -82,5 +82,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+    methods: {
+        async logout() {
+            await window.axios.post('/logout').then((e) => {
+                this.$notyf.success('Logout successful!')
+                window.location = '/'
+            })
+        },
+    },
+}
 </script>
