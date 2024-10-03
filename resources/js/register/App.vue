@@ -1,11 +1,11 @@
 <template>
     <section class="bg-white">
         <div class="lg:grid lg:min-h-screen lg:grid-cols-12">
-            <section class="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+            <section class="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-4">
                 <img alt="" src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" class="absolute inset-0 h-full w-full object-cover opacity-80" />
 
                 <div class="hidden lg:relative lg:block lg:p-12">
-                    <a class="block text-white" href="#">
+                    <a class="block text-white" href="/">
                         <span class="sr-only">Home</span>
                         <svg class="h-8 sm:h-10" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -15,13 +15,13 @@
                         </svg>
                     </a>
 
-                    <h2 class="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">Welcome to Squid 🦑</h2>
+                    <h2 class="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">Form Register</h2>
 
-                    <p class="mt-4 leading-relaxed text-white/90">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.</p>
+                    <p class="mt-4 leading-relaxed text-white/90"></p>
                 </div>
             </section>
 
-            <main class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+            <main class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-8">
                 <div class="max-w-xl lg:max-w-3xl">
                     <div class="relative -mt-16 block lg:hidden">
                         <a class="inline-flex size-16 items-center justify-center rounded-full bg-white text-blue-600 sm:size-20" href="#">
@@ -34,57 +34,251 @@
                             </svg>
                         </a>
 
-                        <h1 class="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">Welcome to Squid 🦑</h1>
+                        <h1 class="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">Form Register</h1>
 
-                        <p class="mt-4 leading-relaxed text-gray-500">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.</p>
+                        <p class="mt-4 leading-relaxed text-gray-500"></p>
                     </div>
 
                     <form action="#" class="mt-8 grid grid-cols-6 gap-6">
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="FirstName" class="block text-sm font-medium text-gray-700"> First Name </label>
-
-                            <input type="text" id="FirstName" name="first_name" class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
-                        </div>
-
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="LastName" class="block text-sm font-medium text-gray-700"> Last Name </label>
-
-                            <input type="text" id="LastName" name="last_name" class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
-                        </div>
-
                         <div class="col-span-6">
-                            <label for="Email" class="block text-sm font-medium text-gray-700"> Email </label>
+                            <label for="name" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Company Name" name="name" v-model="form.field.name" required autocomplete="name" autofocus />
 
-                            <input type="email" id="Email" name="email" class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
-                        </div>
-
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="Password" class="block text-sm font-medium text-gray-700"> Password </label>
-
-                            <input type="password" id="Password" name="password" class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
-                        </div>
-
-                        <div class="col-span-6 sm:col-span-3">
-                            <label for="PasswordConfirmation" class="block text-sm font-medium text-gray-700"> Password Confirmation </label>
-
-                            <input type="password" id="PasswordConfirmation" name="password_confirmation" class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
-                        </div>
-
-                        <div class="col-span-6">
-                            <label for="MarketingAccept" class="flex gap-4">
-                                <input type="checkbox" id="MarketingAccept" name="marketing_accept" class="size-5 rounded-md border-gray-200 bg-white shadow-sm" />
-
-                                <span class="text-sm text-gray-700"> I want to receive emails about events, product updates and company announcements. </span>
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Company Name</span>
                             </label>
                         </div>
 
                         <div class="col-span-6">
-                            <p class="text-sm text-gray-500">
-                                By creating an account, you agree to our
-                                <a href="#" class="text-gray-700 underline"> terms and conditions </a>
-                                and
-                                <a href="#" class="text-gray-700 underline">privacy policy</a>.
-                            </p>
+                            <label for="email" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="email" id="email" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Email" name="email" v-model="form.field.email" required autocomplete="email" autofocus />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Email</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="password" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="password" id="password" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Enter password" name="password" v-model="form.field.password" required autocomplete="current-password" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Password</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="password_confirmation" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="password" id="password_confirmation" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Confirm Password" name="password_confirmation" v-model="form.field.password_confirmation" required autocomplete="new-password" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Confirm Password</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <select name="country" id="country" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.country">
+                                <option value="">Please select Country</option>
+                                <option value="IDN">Indonesia</option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <select name="province" id="province" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.province">
+                                <option value="">Please select Province</option>
+                                <option value="IDN">Indonesia</option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <select name="regency" id="regency" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.regency">
+                                <option value="">Please select Regency</option>
+                                <option value="IDN">Indonesia</option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <select name="district" id="district" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.district">
+                                <option value="">Please select District</option>
+                                <option value="IDN">Indonesia</option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <select name="subdistrict" id="subdistrict" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.subdistrict">
+                                <option value="">Please select Subdistrict</option>
+                                <option value="IDN">Indonesia</option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="postal_code" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="postal_code" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Postal Code" name="postal_code" v-model="form.field.postal_code" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Postal Code</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6">
+                            <textarea id="address" class="mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm" rows="3" placeholder="Enter address..." name="address" v-model="form.field.address"></textarea>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="telephone" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="telephone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Telephone" name="telephone" v-model="form.field.telephone" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Telephone</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="handphone" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="handphone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone" name="handphone" v-model="form.field.handphone" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label for="director" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Director Name" name="director" v-model="form.field.director" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Director Name</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="position" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="position" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Position" name="position" v-model="form.field.position" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Position</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="handphone_director" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="handphone_director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Director" name="handphone_director" v-model="form.field.handphone_director" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone Director</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="person_in_charge" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Person In Charge" name="person_in_charge" v-model="form.field.person_in_charge" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Person In Charge</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="handphone_person_in_charge" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+                                <input type="text" id="handphone_person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Person In Charge" name="handphone_person_in_charge" v-model="form.field.handphone_person_in_charge" />
+
+                                <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone Person In Charge</span>
+                            </label>
+                        </div>
+
+                        <div class="col-span-6">
+                            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                                    <thead class="justify-between text-center">
+                                        <tr>
+                                            <th class="w-[80%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">Imprint Data</th>
+                                            <th class="w-[20%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                                                <button type="button" @click="addImprint">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    </svg>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="items-center divide-y divide-gray-200">
+                                        <template v-if="form.field.imprint.length > 0">
+                                            <tr v-for="(imprint, key) in form.field.imprint" :key="key">
+                                                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                                                    <label :for="'imprint_' + (key + 1)" class="relative block overflow-hidden border-b border-gray-200 bg-transparent pt-3 focus-within:border-blue-600">
+                                                        <input type="text" :id="'imprint_' + (key + 1)" :placeholder="'Imprint Name' + (key + 1)" class="peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" :name="'imprint_' + (key + 1)" v-model="imprint.name" />
+
+                                                        <span class="absolute start-0 top-2 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs"> Imprint Name {{ key + 1 }} </span>
+                                                    </label>
+                                                </td>
+                                                <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
+                                                    <button type="button" @click="delImprint(imprint)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <template v-else>
+                                            <tr>
+                                                <td colspan="2" class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
+                                                    <div>Click the plus button to add</div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-span-6">
+                            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                                    <thead class="justify-between text-center">
+                                        <tr>
+                                            <th class="w-[80%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">Authorizing Publisher</th>
+                                            <th class="w-[20%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                                                <button type="button" @click="addPublisher">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    </svg>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="items-center divide-y divide-gray-200">
+                                        <template v-if="form.field.publisher.length > 0">
+                                            <tr v-for="(publisher, key) in form.field.publisher" :key="key">
+                                                <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                                                    <label :for="'publisher_' + (key + 1)" class="relative block overflow-hidden border-b border-gray-200 bg-transparent pt-3 focus-within:border-blue-600">
+                                                        <input type="text" :id="'publisher_' + (key + 1)" :placeholder="'Publisher Name' + (key + 1)" class="peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" :name="'publisher_' + (key + 1)" v-model="publisher.name" />
+
+                                                        <span class="absolute start-0 top-2 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs"> Publisher Name {{ key + 1 }} </span>
+                                                    </label>
+                                                </td>
+                                                <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
+                                                    <button type="button" @click="delPublisher(publisher)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <template v-else>
+                                            <tr>
+                                                <td colspan="2" class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
+                                                    <div>Click the plus button to add</div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="col-span-6">
+                            <p class="text-sm text-red-500 underline">Saya menyatakan bahwa semua data telah diisi dengan data yang benar dan apabila ada perubahan saya akan mengisi ulang formulir ini sebagai data perbaikan. Saya bertanggungjawab terhadap kebenaran data ini, dan dokumen akan otomatis terbentuk tanda tangan elektronik atas dasar persetujuan saya.</p>
                         </div>
 
                         <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
@@ -100,24 +294,85 @@
             </main>
         </div>
     </section>
+
+    <!-- modal -->
+    <TransitionRoot as="template" :show="open">
+        <Dialog class="relative z-10" @close="open = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+                                    </div>
+                                    <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Deactivate account</DialogTitle>
+                                        <div class="mt-2">
+                                            <p class="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="open = false">Deactivate</button>
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Cancel</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+    <!-- modal -->
 </template>
 
 <script>
 import { Form as VeeForm, Field, ErrorMessage } from 'vee-validate'
+import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 
 export default {
     components: {
         VeeForm,
         Field,
         ErrorMessage,
+        Dialog,
+        DialogPanel,
+        DialogTitle,
+        TransitionChild,
+        TransitionRoot,
+        ExclamationTriangleIcon,
     },
 
     data() {
         return {
+            open: false,
             form: {
                 field: {
+                    name: '',
                     email: '',
                     password: '',
+                    password_confirmation: '',
+                    country: '',
+                    province: '',
+                    regency: '',
+                    district: '',
+                    subdistrict: '',
+                    postal_code: '',
+                    address: '',
+                    telephone: '',
+                    handphone: '',
+                    director: '',
+                    position: '',
+                    handphone_director: '',
+                    imprint: [],
+                    publisher: [],
                 },
             },
         }
@@ -126,6 +381,20 @@ export default {
     mounted() {},
 
     methods: {
+        addImprint() {
+            this.form.field.imprint.push({ name: '' })
+        },
+        delImprint(index) {
+            this.form.field.imprint.splice(this.form.field.imprint.indexOf(index), 1)
+        },
+
+        addPublisher() {
+            this.form.field.publisher.push({ name: '' })
+        },
+        delPublisher(index) {
+            this.form.field.publisher.splice(this.form.field.publisher.indexOf(index), 1)
+        },
+
         async submit() {
             try {
                 const response = await window.axios.post('/login', this.form.field)
