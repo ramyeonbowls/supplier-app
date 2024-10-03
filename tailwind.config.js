@@ -11,6 +11,9 @@ export default {
       fontFamily: {
         sans: ["ui-sans-serif", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
       },
+      colors: {
+        'sidebar-color': '#ffff'
+      }
     },
   },
   plugins: [
