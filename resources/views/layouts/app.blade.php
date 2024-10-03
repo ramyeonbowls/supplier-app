@@ -16,7 +16,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/home/app.js'])
     </head>
-    <body class="font-sans bg-sidebar-color relative min-w-[375px]">
+    <body class="font-sans bg-sidebar-color relative min-w-[375px] max-h-screen box-border">
         @yield('content')
     </body>
 </html>
