@@ -4,10 +4,10 @@
 
 @layer components {
     .hide-sidebar {
-        @apply -translate-x-[200%] transition duration-500 ease-in-out
+        @apply -translate-x-[200%] transition duration-500 ease-in-out;
     }
 
     .show-sidebar {
-        @apply translate-x-0 transition duration-500 ease-in-out
+        @apply translate-x-0 transition duration-500 ease-in-out;
     }
 }

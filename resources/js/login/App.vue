@@ -1,13 +1,13 @@
 <template>
     <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-lg">
-            <h1 class="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">Get started today</h1>
-
-            <p class="mx-auto mt-4 max-w-md text-center text-gray-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati sunt dolores deleniti inventore quaerat mollitia?</p>
+            <div class="flex items-center justify-center">
+                <img class="w-[50%]" src="images/logo/logo.svg" alt="logo" />
+            </div>
 
             <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
                 <form class="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8" @submit.prevent="handleSubmit($event, submit)">
-                    <p class="text-center text-lg font-medium">Sign in to your account</p>
+                    <p class="text-center text-lg font-medium text-gray-700">Sign in to your account</p>
 
                     <div>
                         <label for="email" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
