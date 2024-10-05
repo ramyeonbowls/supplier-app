@@ -20,8 +20,8 @@
 
                 <div class="list-profile-menu absolute bg-white p-2 font-medium text-slate-600 rounded-md text-[0.70rem] -translate-x-20 translate-y-1 w-[100px] drop-shadow-md hidden">
                     <ul>
-                        <li class="hover:text-slate-900 hover:cursor-pointer">Your profile</li>
-                        <li class="hover:text-slate-900 hover:cursor-pointer" @click="logout">Sign out</li>
+                        <li class="hover:text-slate-900 hover:cursor-pointer mb-1">Your profile</li>
+                        <li class="hover:text-slate-900 hover:cursor-pointer border-t-[1px] border-t-slate-300" @click="logout">Sign out</li>
                     </ul>
                 </div>
             </div>
