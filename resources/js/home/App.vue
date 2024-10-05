@@ -7,13 +7,25 @@
         </div>
 
         <div class="profile-icon flex gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-            </svg>
+            <div class="notif-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                </svg>
+            </div>
 
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>
+            <div class="user-icon relative">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+
+                <div class="list-profile-menu absolute bg-white p-2 font-light text-slate-600 rounded-md text-[0.70rem] -translate-x-20 translate-y-1 w-[100px] drop-shadow-md hidden">
+                    <ul>
+                        <li class="hover:text-slate-900 hover:cursor-pointer">Your profile</li>
+                        <li class="hover:text-slate-900 hover:cursor-pointer">Sign out</li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </header>
 
@@ -93,7 +105,7 @@
     <main class="mt-4 p-4 lg:ml-[20%]">
         <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md">
             <!-- Card Header -->
-            <div class="border-b border-gray-200 p-4">
+            <div class="border-b border-gray-200 p-4 z-50">
                 <div class="flex h-12 w-full items-center justify-between">
                     <div class="button">
                         <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
@@ -104,27 +116,7 @@
                             <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">Delete</button>
                         </span>
                     </div>
-                    <div class="breadcrumb">
-                        <nav aria-label="Breadcrumb" class="flex">
-                            <ol class="flex overflow-hidden rounded-lg border border-gray-200 text-gray-600">
-                                <li class="flex items-center">
-                                    <a href="#" class="flex h-10 items-center gap-1.5 bg-gray-100 px-4 transition hover:text-gray-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
-
-                                        <span class="ms-1.5 text-xs font-medium"> Dashboard </span>
-                                    </a>
-                                </li>
-
-                                <li class="relative flex items-center">
-                                    <span class="absolute inset-y-0 -start-px h-10 w-4 bg-gray-100 [clip-path:_polygon(0_0,_0%_100%,_100%_50%)] rtl:rotate-180"> </span>
-
-                                    <a href="#" class="flex h-10 items-center bg-white pe-4 ps-8 text-xs font-medium transition hover:text-gray-900"> Shirts </a>
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
+                   
                 </div>
             </div>
             <div class="p-6">
@@ -214,6 +206,8 @@ export default {
         const buttonCLose = document.getElementById('button-close')
         const shadowSidebar = document.querySelector('.shadow-sidebar')
         const sidebar = document.querySelector('.sidebar')
+        const userIcon = document.querySelector('.user-icon');
+        const listProfileMenu = document.querySelector('.list-profile-menu');
 
         window.addEventListener('resize', () => {
             const width = window.innerWidth
@@ -229,6 +223,14 @@ export default {
 
         hamburgerMenu.addEventListener('click', () => {
             this.showSidebar(shadowSidebar, sidebar)
+        })
+
+        userIcon.addEventListener('click', () => {
+            if(listProfileMenu.classList.contains('hidden')){
+                listProfileMenu.classList.remove('hidden');
+            }else{
+                listProfileMenu.classList.add('hidden');
+            }
         })
     },
 
