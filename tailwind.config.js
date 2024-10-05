@@ -12,7 +12,8 @@ export default {
         sans: ["ui-sans-serif", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
       },
       colors: {
-        'sidebar-color': '#ffff'
+        'sidebar-color': '#ffff',
+        'svg-icon-color': 'rgb(100 116 139)'
       }
     },
   },
@@ -21,6 +22,9 @@ export default {
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/container-queries'),
+    require('flowbite/plugin')({
+      datatables: true,
+    }),
   ],
 }
 
