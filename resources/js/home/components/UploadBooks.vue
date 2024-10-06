@@ -3,9 +3,9 @@
         <div class="z-50 border-b border-gray-200 p-4">
             <div class="flex h-12 w-full items-center justify-between">
                 <div class="button">
-                    <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
-                        <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative" @click.prevent="submit">Upload</button>
-                        <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">Export</button>
+                    <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-indigo-400 shadow-sm">
+                        <button class="inline-block px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:relative" @click.prevent="submit">Upload</button>
+                        <button class="inline-block px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:relative">Export</button>
                     </span>
                 </div>
             </div>
@@ -82,34 +82,24 @@ export default {
                     if(result.valid) {
                         this.form.submitted = false;
 
-                        // let loader = this.$loading.show();
-                        // if(this.form.new) {
-                            let form_data = new FormData();
-                            Object.keys(this.form.field).forEach(value => {
-                                form_data.append(value, this.form.field[value]);
+                        let form_data = new FormData();
+                        Object.keys(this.form.field).forEach(value => {
+                            form_data.append(value, this.form.field[value]);
+                        });
+                        
+                        window.axios.post('/upload/encrypt-books?menu='+ this.$route.name, form_data)
+                            .then((response) => {
+                                console.log(response)
+                            })
+                            .catch((e) => {
+                                this.form.submitted = false;
+
+                                if (e.response && e.response.data && e.response.data.message) {
+                                    this.$notyf.error(e.response.data.message)
+                                } else {
+                                    this.$notyf.error(e.message || 'An error occurred.')
+                                }
                             });
-                            
-                            window.axios.post('/upload/encrypt-books?menu='+ this.$route.name, form_data)
-                                .then((response) => {
-                                    // loader.hide();
-                                    // this.cancel();
-
-                                    /* this.$swal({
-                                        toast: true,
-                                        position: 'top',
-                                        icon: response.status === 201 ? 'success' : 'info',
-                                        html: response.data
-                                    }); */
-                                })
-                                .catch((e) => {
-                                    // loader.hide();
-                                    this.form.submitted = false;
-
-                                    if(e.response.status === 422) {
-                                        this.$refs.form.setErrors(e.response.data.errors);
-                                    }
-                                });
-                        // }
                     } else {
                         this.form.submitted = false;
                     }

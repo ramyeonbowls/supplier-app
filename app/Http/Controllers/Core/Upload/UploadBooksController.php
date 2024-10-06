@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Core\Upload;
 
 use Exception;
+use File;
 use Throwable;
 use App\Logs;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Upload\EncryptBooksRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UploadBooksController extends Controller
 {
@@ -39,11 +43,13 @@ class UploadBooksController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  EncryptBooksRequest  $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(EncryptBooksRequest $request): JsonResponse
     {
+        $validated = $request->validated();
+
         $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
         $logs->write(__FUNCTION__, 'START');
 
@@ -52,6 +58,7 @@ class UploadBooksController extends Controller
         try {
             DB::enableQueryLog();
 
+            $file_cover = '';
             if ($request->hasFile('file_cover')) {
                 try {
                     $file_cover = $request->file('file_cover')->getClientOriginalName();
@@ -59,26 +66,76 @@ class UploadBooksController extends Controller
                     $zipObj = new \ZipArchive();
                     $file = $zipObj->open($request->file('file_cover')->path());
                     if ($file === TRUE) {
-                        $logs->write('ZIP', 'OPEN SUCCESS');
+                        $logs->write('SUCCESS', 'OPEN '.$file_cover);
 
                         if($zipObj->extractTo(storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_cover))[0]))) {
                             $zipObj->close();
 
-                            $logs->write('ZIP', 'EXTRAC SUCCESS');
+                            $logs->write('SUCCESS', 'EXTRACT TO '.storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_cover))[0]));
                         } else {
-                            $logs->write('ZIP', 'EXTRAC FAILED');
+                            $logs->write('FAILED', 'EXTRACT '.$file_cover);
                         }
                     } else {
-                        $logs->write('ZIP', 'OPEN FAILED');
+                        $logs->write('FAILED', 'OPEN '.$file_cover);
                     }
-                    // $banner_file = $request->file('file')->getClientOriginalName();
-                    // $extension = $request->file('file')->getClientOriginalExtension();
-                    // $banner_name = explode('.', str_replace(' ', '', $banner_file))[0] . '-' . now('Asia/Jakarta')->format('YmdHis') . '-' . rand(100000, 999999) . '.' . $extension;
-                    // $request->file('file')->storeAs('/public/images/banner', $banner_name);
-
-                    // $validated['file'] = '/storage/images/banner/'.$banner_name;
                 } catch (Throwable $th) {
                     $logs->write("ERROR", $th->getMessage());
+                }
+            }
+
+            $file_pdf = '';
+            if ($request->hasFile('file_pdf')) {
+                try {
+                    $file_pdf = $request->file('file_pdf')->getClientOriginalName();
+
+                    $zipObj = new \ZipArchive();
+                    $file = $zipObj->open($request->file('file_pdf')->path());
+                    if ($file === TRUE) {
+                        $logs->write('SUCCESS', 'OPEN '.$file_pdf);
+
+                        if($zipObj->extractTo(storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_pdf))[0]))) {
+                            $zipObj->close();
+
+                            $logs->write('SUCCESS', 'EXTRACT TO '.storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_pdf))[0]));
+                        } else {
+                            $logs->write('FAILED', 'EXTRACT '.$file_pdf);
+                        }
+                    } else {
+                        $logs->write('FAILED', 'OPEN '.$file_pdf);
+                    }
+                } catch (Throwable $th) {
+                    $logs->write("ERROR", $th->getMessage());
+                }
+            }
+
+            if ($file_cover != '' && $file_pdf != '') {
+                $path_pdf = storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_pdf))[0]);
+                $path_cover = storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_cover))[0]);
+                $files = File::files($path_pdf);
+
+                if (File::exists($path_pdf) && File::isDirectory($path_pdf)) {
+                    foreach ($files as $key => $file) {
+                        $logs->write("INFO", basename($file));
+
+                        $cover_books = '';
+                        $extensions = ['jpg', 'png', 'jpeg'];
+                        foreach ($extensions as $extension) {
+                            $filePath = $path_cover .'/'. explode('.', basename($file))[0] . '.' . $extension;
+
+                            if (File::exists($filePath)) {
+                                $cover_books = explode('.', basename($file))[0] . '.' . $extension;
+                            }
+                        }
+
+                        if ($cover_books) {
+                            $fileContent = Storage::get('books/'.explode('.', str_replace(' ', '', $file_pdf))[0].'/'.basename($file));
+
+                            $encryptedContent = encrypt($fileContent);
+
+                            $filename = explode('.', basename($file))[0];
+                            Storage::put('books/'.$filename.'.gns', $encryptedContent);
+                        }
+                    }
                 }
             }
 
@@ -98,7 +155,7 @@ class UploadBooksController extends Controller
         } catch (Throwable $th) {
             $logs->write("ERROR", $th->getMessage());
 
-            $result['message'] = "Failed updated.<br>" . $th->getMessage();
+            $result['message'] = "FAILED updated.<br>" . $th->getMessage();
         }
 
         return response()->json($result['message'], $result['status']);
