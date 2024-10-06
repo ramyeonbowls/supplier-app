@@ -18,47 +18,46 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                 </svg>
 
-                <div class="list-profile-menu absolute bg-white p-2 font-medium text-slate-600 rounded-md text-[0.70rem] -translate-x-20 translate-y-1 w-[100px] drop-shadow-md hidden">
+                <div class="list-profile-menu absolute hidden w-[100px] -translate-x-20 translate-y-1 rounded-md bg-white p-2 text-[0.70rem] font-medium text-slate-600 drop-shadow-md">
                     <ul>
-                        <li class="hover:text-slate-900 hover:cursor-pointer mb-1">Your profile</li>
-                        <li class="hover:text-slate-900 hover:cursor-pointer border-t-[1px] border-t-slate-300" @click="logout">Sign out</li>
+                        <li class="mb-1 hover:cursor-pointer hover:text-slate-900">Your profile</li>
+                        <li class="border-t-[1px] border-t-slate-300 hover:cursor-pointer hover:text-slate-900" @click="logout">Sign out</li>
                     </ul>
                 </div>
             </div>
-
         </div>
     </header>
 
     <div class="sidebar hide-sidebar absolute top-0 z-10 box-border h-screen max-h-screen w-[70%] bg-sidebar-color px-5 py-5 drop-shadow-md lg:w-[20%] lg:translate-x-0">
-        <div class="logo mb-10 flex w-[8rem] justify-between">
+        <div class="logo mb-10 flex w-[10rem] justify-between">
             <img src="images/logo/logo.svg" alt="logo" />
         </div>
 
         <div class="menus">
             <ul class="flex max-h-[80vh] flex-col overflow-y-auto">
                 <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 active:bg-indigo-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 group-hover:stroke-white stroke-svg-icon-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color group-hover:stroke-white">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                     </svg>
 
                     <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Dashboard</p>
                 </li>
                 <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 focus:bg-indigo-600 active:bg-indigo-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 group-hover:stroke-white stroke-svg-icon-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color group-hover:stroke-white">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                     </svg>
 
                     <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Team</p>
                 </li>
                 <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 focus:bg-indigo-600 active:bg-indigo-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 group-hover:stroke-white stroke-svg-icon-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color group-hover:stroke-white">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
                     </svg>
 
                     <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Projects</p>
                 </li>
                 <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 focus:bg-indigo-600 active:bg-indigo-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 group-hover:stroke-white stroke-svg-icon-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color group-hover:stroke-white">
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -69,7 +68,7 @@
                     <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Calendar</p>
                 </li>
                 <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 focus:bg-indigo-600 active:bg-indigo-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 group-hover:stroke-white stroke-svg-icon-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color group-hover:stroke-white">
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -80,7 +79,7 @@
                     <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Documents</p>
                 </li>
                 <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 focus:bg-indigo-600 active:bg-indigo-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 group-hover:stroke-white stroke-svg-icon-color">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color group-hover:stroke-white">
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -102,28 +101,7 @@
         </div>
     </div>
 
-    <main class="mt-[0.05rem] p-4 lg:ml-[20%] h-[92vh] box-border overflow-scroll bg-slate-200">
-        <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md">
-            <!-- Card Header -->
-            <div class="border-b border-gray-200 p-4 z-50">
-                <div class="flex h-12 w-full items-center justify-between">
-                    <div class="button">
-                        <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
-                            <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">Edit</button>
-
-                            <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">View</button>
-
-                            <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">Delete</button>
-                        </span>
-                    </div>
-                   
-                </div>
-            </div>
-            <div class="p-6">    
-                <router-view></router-view> 
-            </div>
-        </div>
-    </main>
+    <main class="mt-[0.05rem] box-border h-[92vh] overflow-scroll bg-slate-200 p-4 lg:ml-[20%]"><router-view></router-view></main>
     <footer></footer>
 </template>
 
@@ -134,8 +112,8 @@ export default {
         const buttonCLose = document.getElementById('button-close')
         const shadowSidebar = document.querySelector('.shadow-sidebar')
         const sidebar = document.querySelector('.sidebar')
-        const userIcon = document.querySelector('.user-icon');
-        const listProfileMenu = document.querySelector('.list-profile-menu');
+        const userIcon = document.querySelector('.user-icon')
+        const listProfileMenu = document.querySelector('.list-profile-menu')
 
         window.addEventListener('resize', () => {
             const width = window.innerWidth
@@ -154,10 +132,10 @@ export default {
         })
 
         userIcon.addEventListener('click', () => {
-            if(listProfileMenu.classList.contains('hidden')){
-                listProfileMenu.classList.remove('hidden');
-            }else{
-                listProfileMenu.classList.add('hidden');
+            if (listProfileMenu.classList.contains('hidden')) {
+                listProfileMenu.classList.remove('hidden')
+            } else {
+                listProfileMenu.classList.add('hidden')
             }
         })
     },
