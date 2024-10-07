@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tbook_tmp', function (Blueprint $table) {
             $table->string('book_id', 50)->primary();
+            $table->string('supplier_id', 50)->nullable();
             $table->string('isbn', 50)->nullable();
             $table->string('eisbn', 50)->nullable();
             $table->string('title', 100)->nullable();
@@ -26,10 +27,13 @@ return new class extends Migration
             $table->text('sinopsis')->nullable();
             $table->float('sellprice')->nullable();
             $table->float('rentprice')->nullable();
+            $table->float('retailprice')->nullable();
             $table->string('city', 50)->nullable();
             $table->string('category_id', 50)->nullable();
+            $table->string('book_format_id', 25)->nullable();
             $table->string('filename', 100)->nullable();
             $table->string('cover', 200)->nullable();
+            $table->integer('age')->nullable();
             $table->string('flag', 1)->nullable();
             $table->dateTime('createdate')->nullable();
             $table->string('createby', 50)->nullable();

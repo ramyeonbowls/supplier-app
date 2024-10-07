@@ -15,6 +15,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::namespace('App\Http\Controllers\Core')->group(function() {
         Route::prefix('upload')->namespace('Upload')->group(function() {
             Route::apiResource('encrypt-books', UploadBooksController::class);
+            Route::prefix('encrypt-books-excel')->group(function() {
+                Route::post('upload', 'UploadBooksController@uploadExcel');
+                Route::get('export-tpl', 'UploadBooksController@exportTpl');
+            });
         });
     });
 });
