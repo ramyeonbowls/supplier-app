@@ -14,8 +14,11 @@
                         </span>
                     </template>
                     <template v-else>
-                        <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-indigo-400 shadow-sm">
+                        <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-indigo-400 shadow-sm" :class="form.preview ? 'hidden' : ''">
                             <button class="inline-block px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:relative" @click.prevent="submitUploadExcel">Upload File</button>
+                        </span>
+                        <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-indigo-400 shadow-sm" :class="!form.preview ? 'hidden' : ''">
+                            <button class="inline-block px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500 focus:relative" @click.prevent="submitData">Submit</button>
                         </span>
                     </template>
                 </div>
@@ -59,22 +62,22 @@
             <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
                 <form class="mt-5" @submit.prevent="handleSubmit($event, submit)">
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8" :class="form.update ? 'hidden' : ''">
-                        <div class="h-32 rounded-lg bg-slate-200 p-4">
-                            <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white" for="file_cover">Upload file Zip Cover</label>
-                            <input class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400" aria-describedby="file_cover" ref="file_cover" id="file_cover" name="file_cover" type="file" @change="onChangeBanner" accept=".zip" :disabled="form.update" />
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_cover">File types: Zip.</p>
+                        <div class="h-32 font-[sans-serif]">
+                            <label class="mb-2 block text-base font-semibold text-gray-500">Upload file zip cover</label>
+                            <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_cover" ref="file_cover" id="file_cover" name="file_cover" @change="onChangeBanner" accept=".zip" :disabled="form.update" />
+                            <p class="mt-2 text-xs text-gray-400">.ZIP are Allowed.</p>
                         </div>
-                        <div class="h-32 rounded-lg bg-slate-200 p-4">
-                            <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white" for="file_pdf">Upload file Zip PDF</label>
-                            <input class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400" aria-describedby="file_pdf" ref="file_pdf" id="file_pdf" name="file_pdf" type="file" @change="onChangePdf" accept=".zip" :disabled="form.update" />
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_pdf">File types: Zip.</p>
+                        <div class="h-32 font-[sans-serif]">
+                            <label class="mb-2 block text-base font-semibold text-gray-500">Upload file zip pdf</label>
+                            <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_pdf" ref="file_pdf" id="file_pdf" name="file_pdf" @change="onChangePdf" accept=".zip" :disabled="form.update" />
+                            <p class="mt-2 text-xs text-gray-400">.ZIP are Allowed.</p>
                         </div>
                     </div>
                     <div class="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8" :class="!form.export || form.preview ? 'hidden' : ''">
-                        <div class="h-32 rounded-lg bg-slate-200 p-4">
-                            <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white" for="file_excel">Upload Excel</label>
-                            <input class="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400" aria-describedby="file_excel" ref="file_excel" id="file_excel" name="file_excel" type="file" @change="onFileExcelUpload" accept=".xlsx" />
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_excel">File types: xlsx.</p>
+                        <div class="h-32 font-[sans-serif]">
+                            <label class="mb-2 block text-base font-semibold text-gray-500">Upload file zip excel</label>
+                            <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_excel" ref="file_excel" id="file_excel" name="file_excel" @change="onFileExcelUpload" accept=".xlsx" />
+                            <p class="mt-2 text-xs text-gray-400">.XLSX are Allowed.</p>
                         </div>
                     </div>
                     <template v-if="form.data.length > 0">
@@ -171,8 +174,30 @@
                                         <td class="px-4 py-2 text-gray-700">{{ file.city }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.category_id }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.book_format_id }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.filename }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.cover }}</td>
+                                        <!-- <td class="px-4 py-2 text-gray-700">{{ file.filename }}</td> -->
+                                        <td class="px-4 py-2 text-gray-700">
+                                            <a href="javascript:void(0);" @click="downloadFile('books', file.filename)">
+                                                <span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 hover:bg-emerald-300 focus:relative">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+
+                                                    <p class="whitespace-nowrap text-sm">Download Encrypt</p>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <!-- <td class="px-4 py-2 text-gray-700">{{ file.cover }}</td> -->
+                                        <td class="px-4 py-2 text-gray-700">
+                                            <a href="javascript:void(0);" @click="downloadFile('covers', file.cover)">
+                                                <span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 hover:bg-amber-300 focus:relative">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+
+                                                    <p class="whitespace-nowrap text-sm">Download Cover</p>
+                                                </span>
+                                            </a>
+                                        </td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.age }}</td>
                                         <td class="px-4 py-2 text-gray-700">
                                             <span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
@@ -230,6 +255,13 @@ export default {
     },
 
     mounted() {
+        document.addEventListener('DOMContentLoaded', () => {
+            let loader = this.$loading.show()
+            setTimeout(() => {
+                loader.hide()
+            }, 1000)
+        })
+
         this.clearForm()
         this.getCategory()
         this.getPublisher()
@@ -245,6 +277,19 @@ export default {
             this.$refs.file_cover.value = ''
             this.$refs.file_pdf.value = ''
             this.$refs.file_excel.value = ''
+        },
+
+        clearForms() {
+            this.form.update = false
+            this.form.export = false
+            this.form.preview = false
+            this.form.submitted = false
+            this.form.submit_count = 0
+            this.form.data = []
+            this.form.data_preview = []
+            this.form.file_excel = null
+
+            this.clearForm()
         },
 
         getCategory() {
@@ -336,6 +381,7 @@ export default {
                     if (result.valid) {
                         this.form.submitted = false
 
+                        let loader = this.$loading.show()
                         if (!this.form.update) {
                             let form_data = new FormData()
                             Object.keys(this.form.field).forEach((value) => {
@@ -357,9 +403,11 @@ export default {
                                     })
 
                                     this.clearForm()
+                                    loader.hide()
                                 })
                                 .catch((e) => {
                                     this.form.submitted = false
+                                    loader.hide()
 
                                     if (e.response && e.response.data && e.response.data.message) {
                                         this.$notyf.error(e.response.data.message)
@@ -375,9 +423,47 @@ export default {
                                     this.exportTpl()
                                     this.form.export = true
                                     this.$notyf.success(response.data)
+                                    loader.hide()
                                 })
                                 .catch((e) => {
                                     this.form.submitted = false
+                                    loader.hide()
+
+                                    if (e.response && e.response.data && e.response.data.message) {
+                                        this.$notyf.error(e.response.data.message)
+                                    } else {
+                                        this.$notyf.error(e.message || 'An error occurred.')
+                                    }
+                                })
+                        }
+                    } else {
+                        this.form.submitted = false
+                    }
+                })
+            }
+        },
+
+        submitData() {
+            if (!this.form.submitted) {
+                this.form.submitted = true
+
+                this.$refs.form.validate().then((result) => {
+                    if (result.valid) {
+                        this.form.submitted = false
+
+                        if (this.form.preview) {
+                            let loader = this.$loading.show()
+
+                            window.axios
+                                .post('/upload/encrypt-books-submit/submit-draft?menu=' + this.$route.name, this.form.data_preview)
+                                .then((response) => {
+                                    this.clearForms()
+                                    loader.hide()
+                                    this.$notyf.success(response.data)
+                                })
+                                .catch((e) => {
+                                    this.form.submitted = false
+                                    loader.hide()
 
                                     if (e.response && e.response.data && e.response.data.message) {
                                         this.$notyf.error(e.response.data.message)
@@ -420,6 +506,8 @@ export default {
             if (this.form.file_excel) {
                 this.form.submit_count += 1
                 if (this.form.submit_count === 1) {
+                    let loader = this.$loading.show()
+
                     let form_data = new FormData()
                     form_data.append('file_master', this.form.file_excel)
 
@@ -434,17 +522,43 @@ export default {
                             this.form.preview = true
                             this.getPreviewData()
                             this.clearForm()
+                            loader.hide()
 
                             this.$notyf.success(response.data)
                         })
                         .catch((e) => {
                             this.form.submit_count = 0
+                            loader.hide()
                             console.log(e.response.data)
                         })
                 }
             } else {
                 this.$notyf.error('No file selected')
             }
+        },
+
+        async downloadFile(param, file) {
+            await window
+                .axios({
+                    url: '/upload/encrypt-books-download/download-file',
+                    method: 'GET',
+                    responseType: 'blob',
+                    params: {
+                        data: param,
+                        file: file,
+                    },
+                })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', file)
+                    document.body.appendChild(link)
+                    link.click()
+                })
+                .catch((e) => {
+                    console.log(e.response.data)
+                })
         },
     },
 }

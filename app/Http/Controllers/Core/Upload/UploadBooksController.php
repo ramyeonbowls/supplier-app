@@ -470,6 +470,80 @@ class UploadBooksController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function submitDraft(Request $request): JsonResponse
+    {
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $result['status'] = 200;
+        $result['message'] = '';
+        try {
+            DB::enableQueryLog();
+
+            foreach ($request->all() as $key => $value) {
+                if (is_array($value)) {
+                    $updated = DB::table('tbook_draft')
+                        ->insert([
+                            'book_id' => $value['book_id'],
+                            'supplier_id' => $value['supplier_id'],
+                            'isbn' => $value['isbn'],
+                            'eisbn' => $value['eisbn'],
+                            'title' => $value['title'],
+                            'writer' => $value['writer'],
+                            'publisher_id' => $value['publisher_id'],
+                            'size' => $value['size'],
+                            'year' => $value['year'],
+                            'volume' => $value['volume'],
+                            'edition' => $value['edition'],
+                            'page' => $value['page'],
+                            'sinopsis' => $value['sinopsis'],
+                            'sellprice' => $value['sellprice'],
+                            'rentprice' => $value['rentprice'],
+                            'retailprice' => $value['retailprice'],
+                            'city' => $value['city'],
+                            'category_id' => $value['category_id'],
+                            'book_format_id' => $value['book_format_id'],
+                            'filename' => $value['filename'],
+                            'cover' => $value['cover'],
+                            'age' => $value['age'],
+                            'status' => '2',
+                            'reason' => '',
+                            'createdate' => Carbon::now('Asia/Jakarta'),
+                            'createby' => auth()->user()->email,
+                            'updatedate' => Carbon::now('Asia/Jakarta'),
+                            'updateby' => auth()->user()->email,
+                        ]);
+                }
+            }
+            
+            if ($updated) {
+                $logs->write("INFO", "Successfully listing to Review");
+
+                $result['status'] = 201;
+                $result['message'] = "Successfully listing to Review.";
+            }
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $queries[$q]['query']);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+
+            $result['message'] = "Failed listing to Review.<br>" . $th->getMessage();
+        }
+
+        return response()->json($result['message'], $result['status']);
+    }
+
+    /**
      * @param Request $request
      * @return BinaryFileResponse
      */
@@ -631,5 +705,23 @@ class UploadBooksController extends Controller
         $logs->write(__FUNCTION__, "STOP\r\n");
 
         return response()->json($result['message'], $result['status']);
+    }
+
+    /**
+     * @param Request $request
+     * @return BinaryFileResponse
+     */
+    public function downloadFile(Request $request)
+    {
+        $filePath = $request->data.'/'.$request->file;
+        $fileContent = Storage::get($filePath);
+
+        return response()->make($fileContent, 200, [
+            'Cache-Control'         => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-Type'          => Storage::mimeType($filePath),
+            'Content-Length'        => Storage::size($filePath),
+            'Content-Disposition'   => 'attachment; filename="' . basename($filePath) . '"',
+            'Pragma'                => 'public',
+        ]);
     }
 }

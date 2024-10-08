@@ -7,6 +7,7 @@
 import 'notyf/notyf.min.css'
 import 'flowbite'
 import 'flowbite/dist/flowbite.min.css'
+import 'vue-loading-overlay/dist/css/index.css'
 
 import axios from 'axios'
 window.axios = axios

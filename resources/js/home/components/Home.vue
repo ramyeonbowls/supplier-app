@@ -1,17 +1,19 @@
 <template>
     <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md">
         <div class="z-50 border-b border-gray-200 p-4">
-            <div class="flex h-12 w-full items-center justify-between">
-                <div class="button">
-                    <span class="inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
-                        <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">Edit</button>
+            <nav aria-label="Breadcrumb" class="flex justify-start">
+                <ol class="flex overflow-hidden rounded-lg border border-gray-200 text-gray-600">
+                    <li class="flex items-center">
+                        <a href="#" class="flex h-10 items-center gap-1.5 bg-gray-100 px-4 transition hover:text-gray-900">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
 
-                        <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">View</button>
-
-                        <button class="inline-block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:relative">Delete</button>
-                    </span>
-                </div>
-            </div>
+                            <span class="ms-1.5 text-xs font-medium"> Home </span>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
         </div>
         <div class="p-6">
             <table id="default-table">
@@ -190,7 +192,6 @@ import { DataTable } from 'simple-datatables'
 export default {
     mounted() {
         const dataTable = new DataTable('#default-table')
-        console.log('Component mounted.')
     },
 }
 </script>
