@@ -51,35 +51,7 @@ class UploadBooksController extends Controller
             DB::enableQueryLog();
 
             $results = DB::table('tbook_draft as a')->sharedLock()
-                ->select(
-                    'a.book_id',
-                    'a.isbn',
-                    'a.eisbn',
-                    'a.title',
-                    'a.writer',
-                    'a.publisher_id',
-                    'a.size',
-                    'a.year',
-                    'a.volume',
-                    'a.edition',
-                    'a.page',
-                    'a.sinopsis',
-                    'a.sellprice',
-                    'a.rentprice',
-                    'a.retailprice',
-                    'a.city',
-                    'a.category_id',
-                    'a.book_format_id',
-                    'a.filename',
-                    'a.cover',
-                    'a.age',
-                    'a.status',
-                    'a.reason',
-                    'a.createdate',
-                    'a.createby',
-                    'a.updatedate',
-                    'a.updateby'
-                )
+                ->select('a.book_id', 'a.isbn', 'a.eisbn', 'a.title', 'a.writer', 'a.publisher_id', 'a.size', 'a.year', 'a.volume', 'a.edition', 'a.page', 'a.sinopsis', 'a.sellprice', 'a.rentprice', 'a.retailprice', 'a.city', 'a.category_id', 'a.book_format_id', 'a.filename', 'a.cover', 'a.age', 'a.status', 'a.reason', 'a.createdate', 'a.createby', 'a.updatedate', 'a.updateby')
                 ->where('a.supplier_id', auth()->user()->client_id)
                 ->get();
 
