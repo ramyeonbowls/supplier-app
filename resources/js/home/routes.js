@@ -12,7 +12,7 @@ const routes = [
     {
         path: '/encrypt-book',
         name: 'encrypt_book',
-        component: () => import(/* webpackChunkName: "encrypt_book" */ './components/UploadBooks.vue'),
+        component: () => import(/* webpackChunkName: "encrypt_book" */ './components/EncryptBooks.vue'),
     },
 ]
 

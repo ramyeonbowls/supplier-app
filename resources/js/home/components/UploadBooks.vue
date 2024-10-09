@@ -44,16 +44,16 @@
 
                     <div class="mt-4 overflow-hidden rounded-full bg-gray-200">
                         <template v-if="!form.update && !form.export && !form.preview">
-                            <div class="h-2 w-1/4 rounded-full bg-blue-500"></div>
+                            <div class="h-2 w-[25%] rounded-full bg-blue-500"></div>
                         </template>
                         <template v-else-if="form.update && !form.export && !form.preview">
-                            <div class="h-2 w-1/3 rounded-full bg-blue-500"></div>
+                            <div class="h-2 w-[50%] rounded-full bg-blue-500"></div>
                         </template>
                         <template v-else-if="form.update && form.export && !form.preview">
-                            <div class="h-2 w-4/5 rounded-full bg-blue-500"></div>
+                            <div class="h-2 w-[75%] rounded-full bg-blue-500"></div>
                         </template>
                         <template v-else>
-                            <div class="h-2 w-full rounded-full bg-blue-500"></div>
+                            <div class="h-2 w-[100%] rounded-full bg-blue-500"></div>
                         </template>
                     </div>
                 </div>

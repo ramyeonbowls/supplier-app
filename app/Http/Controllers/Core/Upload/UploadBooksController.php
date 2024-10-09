@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Yajra\DataTables\Facades\DataTables;
 
 class UploadBooksController extends Controller
 {
@@ -42,7 +43,66 @@ class UploadBooksController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return response()->json($request, 200);
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $results = [];
+        try {
+            DB::enableQueryLog();
+
+            $results = DB::table('tbook_draft as a')->sharedLock()
+                ->select(
+                    'a.book_id',
+                    'a.isbn',
+                    'a.eisbn',
+                    'a.title',
+                    'a.writer',
+                    'a.publisher_id',
+                    'a.size',
+                    'a.year',
+                    'a.volume',
+                    'a.edition',
+                    'a.page',
+                    'a.sinopsis',
+                    'a.sellprice',
+                    'a.rentprice',
+                    'a.retailprice',
+                    'a.city',
+                    'a.category_id',
+                    'a.book_format_id',
+                    'a.filename',
+                    'a.cover',
+                    'a.age',
+                    'a.status',
+                    'a.reason',
+                    'a.createdate',
+                    'a.createby',
+                    'a.updatedate',
+                    'a.updateby'
+                )
+                ->where('a.supplier_id', auth()->user()->client_id)
+                ->get();
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $queries[$q]['query']);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+        }
+        $logs->write(__FUNCTION__, "STOP\r\n");
+
+        return DataTables::of($results)
+            ->escapeColumns()
+            ->editColumn('createdate', function ($value) {
+                return Carbon::parse($value->createdate)->toDateTimeString();
+            })
+            ->editColumn('updatedate', function ($value) {
+                return Carbon::parse($value->updatedate)->toDateTimeString();
+            })
+            ->addIndexColumn()
+            ->toJson();
     }
 
     /**
@@ -75,7 +135,7 @@ class UploadBooksController extends Controller
                     if ($file === TRUE) {
                         $logs->write('SUCCESS', 'OPEN '.$file_cover);
 
-                        if($zipObj->extractTo(storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_cover))[0]))) {
+                        if($zipObj->extractTo(storage_path('app/private/tmp/'.explode('.', str_replace(' ', '', $file_cover))[0]))) {
                             $zipObj->close();
 
                             $logs->write('SUCCESS', 'EXTRACT TO '.storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_cover))[0]));
@@ -100,7 +160,7 @@ class UploadBooksController extends Controller
                     if ($file === TRUE) {
                         $logs->write('SUCCESS', 'OPEN '.$file_pdf);
 
-                        if($zipObj->extractTo(storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_pdf))[0]))) {
+                        if($zipObj->extractTo(storage_path('app/private/tmp/'.explode('.', str_replace(' ', '', $file_pdf))[0]))) {
                             $zipObj->close();
 
                             $logs->write('SUCCESS', 'EXTRACT TO '.storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_pdf))[0]));
@@ -116,8 +176,9 @@ class UploadBooksController extends Controller
             }
 
             if ($file_cover != '' && $file_pdf != '') {
-                $path_pdf = storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_pdf))[0]);
-                $path_cover = storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_cover))[0]);
+                $path_pdf = storage_path('app/private/tmp/'.explode('.', str_replace(' ', '', $file_pdf))[0]);
+                $path_cover = storage_path('app/private/tmp/'.explode('.', str_replace(' ', '', $file_cover))[0]);
+
                 $files = File::files($path_pdf);
 
                 $books = [];
@@ -131,7 +192,7 @@ class UploadBooksController extends Controller
 
                                 if (File::exists($filePath)) {
                                     $cover_books = explode('.', basename($file))[0] . '.' . $extension;
-                                    Storage::put('covers/'.explode('.', basename($file))[0] . '.' . $extension, $filePath);
+                                    File::move($filePath, storage_path('app/private/covers/'.$cover_books));
                                 } 
                             }
 
@@ -164,10 +225,10 @@ class UploadBooksController extends Controller
                                     }
                                 }
                             } else {
-                                $results['error'][] = "Failed upload " . basename($file) . "Not Found.";
+                                $results['error'][] = "Failed upload " . basename($file) . " Not Found.";
                             }
                         } else {
-                            $results['error'][] = "Failed upload " . basename($file) . "Not PDF Extension.";
+                            $results['error'][] = "Failed upload " . basename($file) . " Not PDF Extension.";
                         }
                     }
                 }
