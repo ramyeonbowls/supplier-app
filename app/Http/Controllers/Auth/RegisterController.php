@@ -134,10 +134,10 @@ class RegisterController extends Controller
                 'client_id' => $client_id,
                 'author_id' => Str::uuid(),
                 'author_desc' => $value['name'],
-                'created_at' => $data['email'],
-                'created_by' => Carbon::now('Asia/Jakarta'),
-                'updated_at' => $data['email'],
-                'updated_by' => Carbon::now('Asia/Jakarta'),
+                'created_at' => Carbon::now('Asia/Jakarta'),
+                'created_by' => $data['email'],
+                'updated_at' => Carbon::now('Asia/Jakarta'),
+                'updated_by' => $data['email'],
             ]);
         }
 
@@ -146,10 +146,10 @@ class RegisterController extends Controller
                 'client_id' => $client_id,
                 'category_id' => $value['id'],
                 'category_desc' => $value['desc'],
-                'created_at' => $data['email'],
-                'created_by' => Carbon::now('Asia/Jakarta'),
-                'updated_at' => $data['email'],
-                'updated_by' => Carbon::now('Asia/Jakarta'),
+                'created_at' => Carbon::now('Asia/Jakarta'),
+                'created_by' => $data['email'],
+                'updated_at' => Carbon::now('Asia/Jakarta'),
+                'updated_by' => $data['email'],
             ]);
         }
 
