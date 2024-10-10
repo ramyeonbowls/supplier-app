@@ -142,15 +142,17 @@ class RegisterController extends Controller
         }
 
         foreach ($data['category'] as $key => $value) {
-            DB::table('tclient_category')->insert([
-                'client_id' => $client_id,
-                'category_id' => $value['id'],
-                'category_desc' => $value['desc'],
-                'created_at' => Carbon::now('Asia/Jakarta'),
-                'created_by' => $data['email'],
-                'updated_at' => Carbon::now('Asia/Jakarta'),
-                'updated_by' => $data['email'],
-            ]);
+            if ($value['desc']) {
+                DB::table('tclient_category')->insert([
+                    'client_id' => $client_id,
+                    'category_id' => $value['id'],
+                    'category_desc' => $value['desc'],
+                    'created_at' => Carbon::now('Asia/Jakarta'),
+                    'created_by' => $data['email'],
+                    'updated_at' => Carbon::now('Asia/Jakarta'),
+                    'updated_by' => $data['email'],
+                ]);
+            }
         }
 
         return User::create([
