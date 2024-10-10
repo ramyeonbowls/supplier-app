@@ -73,7 +73,7 @@ class RegisterController extends Controller
             'imprint' => ['nullable'],
             'publisher' => ['nullable'],
             'category' => ['nullable'],
-            'npwp' => ['nullable'],
+            'npwp' => ['required'],
             'account_bank' => ['required'],
             'bank' => ['required'],
             'account_name' => ['required'],
