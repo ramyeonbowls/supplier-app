@@ -29,144 +29,194 @@
                         <p class="mt-4 leading-relaxed text-gray-500"></p>
                     </div>
 
-                    <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
-                        <form class="mt-8 grid grid-cols-6 gap-6" @submit.prevent="handleSubmit($event, submit)">
+                    <VeeForm ref="form" v-slot="{ handleSubmit, errors }" as="div">
+                        <form class="mt-8 grid grid-cols-6 gap-6"  @submit.prevent="handleSubmit($event, submit)">
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="supplier" class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50">
+                                    <div class="flex items-center">
+                                        &#8203;
+                                        <input type="checkbox" class="size-4 rounded border-gray-300" id="supplier" name="supplier" v-model="form.field.supplier" />
+                                    </div>
+
+                                    <div>
+                                        <strong class="font-medium text-gray-900"> Supplier </strong>
+
+                                        <p class="mt-1 text-pretty text-sm text-gray-700">Daftar Sebagai Supplier.</p>
+                                    </div>
+                                </label>
+                                <ErrorMessage name="supplier" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="distributor" class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50">
+                                    <div class="flex items-center">
+                                        &#8203;
+                                        <input type="checkbox" class="size-4 rounded border-gray-300" id="distributor" name="distributor" v-model="form.field.distributor" />
+                                    </div>
+
+                                    <div>
+                                        <strong class="font-medium text-gray-900"> Distributor </strong>
+
+                                        <p class="mt-1 text-pretty text-sm text-gray-700">Daftar Sebagai Distributor.</p>
+                                    </div>
+                                </label>
+                                <ErrorMessage name="distributor" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
+                            </div>
+
                             <div class="col-span-6">
-                                <label for="name" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Perusahaan" name="name" v-model="form.field.name" required autocomplete="name" autofocus />
+                                <label for="name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.name ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Perusahaan" name="name" v-model="form.field.name" required autocomplete="name" autofocus />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Perusahaan</span>
                                 </label>
+                                <ErrorMessage name="name" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6">
-                                <label for="email" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="email" id="email" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Email" name="email" v-model="form.field.email" required autocomplete="email" autofocus />
+                                <label for="email" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.email ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="email" id="email" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Email" name="email" v-model="form.field.email" required autocomplete="email" autofocus />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Email</span>
                                 </label>
+                                <ErrorMessage name="email" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="password" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="password" id="password" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Enter password" name="password" v-model="form.field.password" required autocomplete="current-password" />
+                                <label for="password" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.password ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="password" id="password" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Enter password" name="password" v-model="form.field.password" required autocomplete="current-password" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Password</span>
                                 </label>
+                                <ErrorMessage name="password" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="password_confirmation" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="password" id="password_confirmation" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Konfirmasi Password" name="password_confirmation" v-model="form.field.password_confirmation" required autocomplete="new-password" />
+                                <label for="password_confirmation" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.password_confirmation ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="password" id="password_confirmation" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Konfirmasi Password" name="password_confirmation" v-model="form.field.password_confirmation" required autocomplete="new-password" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Konfirmasi Password</span>
                                 </label>
+                                <ErrorMessage name="password_confirmation" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <select name="country" id="country" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.country" @change="getProvinsi">
+                                <Field as="select" name="country" id="country" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.country ? 'border-red-500' : 'border-gray-300'" v-model="form.field.country" @change="getProvinsi">
                                     <option value="">Silakan pilih Negara</option>
                                     <option value="IDN">Indonesia</option>
-                                </select>
+                                </Field>
+                                <ErrorMessage name="country" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <select name="province" id="province" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.province" @change="getKabupaten">
+                                <Field as="select" name="province" id="province" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.province ? 'border-red-500' : 'border-gray-300'" v-model="form.field.province" @change="getKabupaten">
                                     <option value="">Silakan pilih Provinsi</option>
                                     <option v-for="(value, key) in option.province" :key="key" :value="value.id">{{ value.name }}</option>
-                                </select>
+                                </Field>
+                                <ErrorMessage name="province" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <select name="regency" id="regency" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.regency" @change="getKecamatan">
+                                <Field as="select" name="regency" id="regency" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.regency ? 'border-red-500' : 'border-gray-300'" v-model="form.field.regency" @change="getKecamatan">
                                     <option value="">Silakan pilih Kabupaten/Kota</option>
                                     <option v-for="(value, key) in option.regency" :key="key" :value="value.id">{{ value.name }}</option>
-                                </select>
+                                </Field>
+                                <ErrorMessage name="regency" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <select name="district" id="district" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.district" @change="getKelurahan">
+                                <Field as="select" name="district" id="district" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.district ? 'border-red-500' : 'border-gray-300'" v-model="form.field.district" @change="getKelurahan">
                                     <option value="">Silakan pilih Kecamatan</option>
                                     <option v-for="(value, key) in option.district" :key="key" :value="value.id">{{ value.name }}</option>
-                                </select>
+                                </Field>
+                                <ErrorMessage name="district" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <select name="subdistrict" id="subdistrict" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.subdistrict">
+                                <Field as="select" name="subdistrict" id="subdistrict" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.subdistrict ? 'border-red-500' : 'border-gray-300'" v-model="form.field.subdistrict">
                                     <option value="">Silakan pilih Kelurahan</option>
                                     <option v-for="(value, key) in option.subdistrict" :key="key" :value="value.id">{{ value.name }}</option>
-                                </select>
+                                </Field>
+                                <ErrorMessage name="subdistrict" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="postal_code" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="postal_code" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Pos" name="postal_code" v-model="form.field.postal_code" />
+                                <label for="postal_code" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.postal_code ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="postal_code" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Pos" name="postal_code" v-model="form.field.postal_code" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kode Pos</span>
                                 </label>
+                                <ErrorMessage name="postal_code" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6">
-                                <textarea id="address" class="mt-2 w-full rounded-lg border-gray-200 align-top shadow-sm sm:text-sm" rows="3" placeholder="Masukkan alamat..." name="address" v-model="form.field.address"></textarea>
+                                <Field as="textarea" id="address" class="mt-2 w-full rounded-lg align-top shadow-sm sm:text-sm" :class="errors.address ? 'border-red-500' : 'border-gray-200'" rows="3" placeholder="Masukkan alamat..." name="address" v-model="form.field.address" />
+                                <ErrorMessage name="address" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
-                            <div class="col-span-6 sm:col-span-3">
-                                <label for="telephone" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="telephone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Telephone" name="telephone" v-model="form.field.telephone" />
+                            <div class="col-span-6 sm:col-span-3 hidden">
+                                <label for="telephone" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.telephone ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="telephone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Telephone" name="telephone" v-model="form.field.telephone" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Telephone</span>
                                 </label>
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3">
-                                <label for="handphone" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="handphone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone" name="handphone" v-model="form.field.handphone" />
-
-                                    <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone</span>
-                                </label>
+                                <ErrorMessage name="telephone" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6">
-                                <label for="director" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Direktur" name="director" v-model="form.field.director" />
+                                <label for="handphone" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="handphone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone" name="handphone" v-model="form.field.handphone" />
+
+                                    <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone</span>
+                                </label>
+                                <ErrorMessage name="handphone" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
+                            </div>
+
+                            <div class="col-span-6">
+                                <label for="director" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.director ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Direktur" name="director" v-model="form.field.director" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Direktur</span>
                                 </label>
+                                <ErrorMessage name="director" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="position" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="position" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan" name="position" v-model="form.field.position" />
+                                <label for="position" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.position ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="position" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan" name="position" v-model="form.field.position" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Jabatan</span>
                                 </label>
+                                <ErrorMessage name="position" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="handphone_director" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="handphone_director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Direktur" name="handphone_director" v-model="form.field.handphone_director" />
+                                <label for="handphone_director" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone_director ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="handphone_director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Direktur" name="handphone_director" v-model="form.field.handphone_director" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone Direktur</span>
                                 </label>
+                                <ErrorMessage name="handphone_director" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="person_in_charge" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Penanggung Jawab" name="person_in_charge" v-model="form.field.person_in_charge" />
+                                <label for="person_in_charge" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.person_in_charge ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Penanggung Jawab" name="person_in_charge" v-model="form.field.person_in_charge" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Penanggung Jawab</span>
                                 </label>
+                                <ErrorMessage name="person_in_charge" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="handphone_person_in_charge" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="handphone_person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Penanggung Jawab" name="handphone_person_in_charge" v-model="form.field.handphone_person_in_charge" />
+                                <label for="handphone_person_in_charge" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone_person_in_charge ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="handphone_person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Penanggung Jawab" name="handphone_person_in_charge" v-model="form.field.handphone_person_in_charge" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone Penanggung Jawab</span>
                                 </label>
+                                <ErrorMessage name="handphone_person_in_charge" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="col-span-6" :class="form.field.supplier ? '': 'hidden'">
                                 <div class="overflow-x-auto rounded-lg border border-gray-200">
                                     <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                         <thead class="justify-between text-center">
@@ -217,7 +267,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="col-span-6" :class="form.field.supplier ? '': 'hidden'">
                                 <div class="overflow-x-auto rounded-lg border border-gray-200">
                                     <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                         <thead class="justify-between text-center">
@@ -268,7 +318,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-span-6">
+                            <div class="col-span-6" :class="form.field.supplier ? '': 'hidden'">
                                 <div class="overflow-x-auto rounded-lg border border-gray-200">
                                     <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                         <thead class="justify-between text-center">
@@ -314,73 +364,48 @@
                             </div>
 
                             <div class="col-span-6">
-                                <label for="npwp" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="npwp" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. NPWP" name="npwp" v-model="form.field.npwp" />
+                                <label for="npwp" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.npwp ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="npwp" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. NPWP" name="npwp" v-model="form.field.npwp" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. NPWP</span>
                                 </label>
+                                <ErrorMessage name="npwp" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="account_bank" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="account_bank" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Rekening" name="account_bank" v-model="form.field.account_bank" />
+                                <label for="account_bank" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.account_bank ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="account_bank" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Rekening" name="account_bank" v-model="form.field.account_bank" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Rekening</span>
                                 </label>
+                                <ErrorMessage name="account_bank" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="account_name" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="account_name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Rekening" name="account_name" v-model="form.field.account_name" />
+                                <label for="account_name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.account_name ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="account_name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Rekening" name="account_name" v-model="form.field.account_name" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Rekening</span>
                                 </label>
+                                <ErrorMessage name="account_name" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="bank" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="bank" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Bank" name="bank" v-model="form.field.bank" />
+                                <label for="bank" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.bank ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="bank" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Bank" name="bank" v-model="form.field.bank" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Bank</span>
                                 </label>
+                                <ErrorMessage name="bank" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <label for="bank_city" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-                                    <input type="text" id="bank_city" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kota Bank" name="bank_city" v-model="form.field.bank_city" />
+                                <label for="bank_city" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.bank_city ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="bank_city" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kota Bank" name="bank_city" v-model="form.field.bank_city" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kota Bank</span>
                                 </label>
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3">
-                                <label for="supplier" class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50">
-                                    <div class="flex items-center">
-                                        &#8203;
-                                        <input type="checkbox" class="size-4 rounded border-gray-300" id="supplier" name="supplier" v-model="form.field.supplier" />
-                                    </div>
-
-                                    <div>
-                                        <strong class="font-medium text-gray-900"> Supplier </strong>
-
-                                        <p class="mt-1 text-pretty text-sm text-gray-700">Daftar Sebagai Supplier.</p>
-                                    </div>
-                                </label>
-                            </div>
-
-                            <div class="col-span-6 sm:col-span-3">
-                                <label for="distributor" class="flex cursor-pointer items-start gap-4 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50">
-                                    <div class="flex items-center">
-                                        &#8203;
-                                        <input type="checkbox" class="size-4 rounded border-gray-300" id="distributor" name="distributor" v-model="form.field.distributor" />
-                                    </div>
-
-                                    <div>
-                                        <strong class="font-medium text-gray-900"> Distributor </strong>
-
-                                        <p class="mt-1 text-pretty text-sm text-gray-700">Daftar Sebagai Distributor.</p>
-                                    </div>
-                                </label>
+                                <ErrorMessage name="bank_city" class="mt-1 text-sm text-red-600 dark:text-red-500 block"/>
                             </div>
 
                             <div class="col-span-6">
@@ -653,12 +678,14 @@ export default {
                 window.location.href = '/'
                 loader.hide()
             } catch (e) {
+                loader.hide()
+                this.$refs.form.setErrors(e.response.data.errors)
+
                 if (e.response && e.response.data && e.response.data.message) {
                     this.$notyf.error(e.response.data.message)
                 } else {
                     this.$notyf.error(e.message || 'An error occurred.')
                 }
-                loader.hide()
             }
         },
     },

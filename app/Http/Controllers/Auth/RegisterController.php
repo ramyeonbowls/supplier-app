@@ -63,7 +63,7 @@ class RegisterController extends Controller
             'subdistrict' => ['required', 'string', 'max:50'],
             'postal_code' => ['required', 'string', 'max:20'],
             'address' => ['required', 'string', 'max:150'],
-            'telephone' => ['required', 'string', 'max:20'],
+            'telephone' => ['nullable', 'string', 'max:20'],
             'handphone' => ['required', 'string', 'max:20'],
             'director' => ['required', 'string', 'max:50'],
             'position' => ['required', 'string', 'max:50'],
@@ -78,8 +78,8 @@ class RegisterController extends Controller
             'bank' => ['required'],
             'account_name' => ['required'],
             'bank_city' => ['required'],
-            'supplier' => ['required'],
-            'distributor' => ['required'],
+            'supplier' => ['required_without:distributor'],
+            'distributor' => ['required_without:supplier'],
         ]);
     }
 
@@ -120,29 +120,46 @@ class RegisterController extends Controller
         ]);
 
         foreach ($data['imprint'] as $key => $value) {
-            DB::table('tpublisher')->insert([
-                'client_id' => $client_id,
-                'id' => Str::uuid(),
-                'description' => $value['name'],
-                'created_at' => Carbon::now('Asia/Jakarta'),
-                'updated_at' => Carbon::now('Asia/Jakarta'),
-            ]);
+            if ($value['name'] != '') {
+                DB::table('tpublisher')->insert([
+                    'client_id' => $client_id,
+                    'id' => Str::uuid(),
+                    'description' => $value['name'],
+                    'flag' => 'I',
+                    'created_at' => Carbon::now('Asia/Jakarta'),
+                    'updated_at' => Carbon::now('Asia/Jakarta'),
+                ]);
+            }
         }
 
         foreach ($data['publisher'] as $key => $value) {
-            DB::table('tclient_authorizing')->insert([
-                'client_id' => $client_id,
-                'author_id' => Str::uuid(),
-                'author_desc' => $value['name'],
-                'created_at' => Carbon::now('Asia/Jakarta'),
-                'created_by' => $data['email'],
-                'updated_at' => Carbon::now('Asia/Jakarta'),
-                'updated_by' => $data['email'],
-            ]);
+            if ($value['name'] != '') {
+                DB::table('tpublisher')->insert([
+                    'client_id' => $client_id,
+                    'id' => Str::uuid(),
+                    'description' => $value['name'],
+                    'flag' => 'K',
+                    'created_at' => Carbon::now('Asia/Jakarta'),
+                    'updated_at' => Carbon::now('Asia/Jakarta'),
+                ]);
+            }
         }
 
+        DB::table('tclient_bank_account')->insert([
+            'client_id' => $client_id,
+            'npwp' => $value['npwp'],
+            'account_bank' => $value['account_bank'],
+            'bank' => $value['bank'],
+            'account_name' => $value['account_name'],
+            'bank_city' => $value['bank_city'],
+            'created_at' => Carbon::now('Asia/Jakarta'),
+            'created_by' => $data['email'],
+            'updated_at' => Carbon::now('Asia/Jakarta'),
+            'updated_by' => $data['email'],
+        ]);
+
         foreach ($data['category'] as $key => $value) {
-            if ($value['desc']) {
+            if ($value['desc'] != '') {
                 DB::table('tclient_category')->insert([
                     'client_id' => $client_id,
                     'category_id' => $value['id'],

@@ -9,6 +9,10 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{{ asset('images/logo/favicon.svg?' . rand(10000, 99999)) }}" type="image/x-icon" />
+        @yield('favicon')
+
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.bunny.net" />
         <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet" />
