@@ -9,6 +9,12 @@ Auth::routes([
     'reset' => false
 ]);
 
+Route::middleware(['guest'])->group(function () {
+    Route::namespace('App\Http\Controllers\Web')->group(function() {
+        Route::apiResource('options', OptionsController::class);
+    });
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

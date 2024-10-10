@@ -184,7 +184,7 @@
             </table>
         </div>
     </div> -->
-    <div class="grid rounded-md h-screen place-content-center bg-white px-4">
+    <div class="grid h-screen place-content-center rounded-md bg-white px-4">
         <div class="text-center">
             <h1 class="text-9xl font-black text-gray-200">Coming Soon</h1>
 
