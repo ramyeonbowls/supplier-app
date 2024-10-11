@@ -233,7 +233,7 @@
                                     <ErrorMessage name="handphone_person_in_charge" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                                 </div>
 
-                                <div class="col-span-6" :class="form.field.supplier ? '' : 'hidden'">
+                                <div class="col-span-6" :class="form.field.supplier || form.field.supp_distributor ? '' : 'hidden'">
                                     <div class="overflow-x-auto rounded-lg border border-gray-200">
                                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                             <thead class="justify-between text-center">
@@ -284,7 +284,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-span-6" :class="form.field.supplier ? '' : 'hidden'">
+                                <div class="col-span-6" :class="form.field.supplier || form.field.supp_distributor ? '' : 'hidden'">
                                     <div class="overflow-x-auto rounded-lg border border-gray-200">
                                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                             <thead class="justify-between text-center">
@@ -335,7 +335,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-span-6" :class="form.field.supplier ? '' : 'hidden'">
+                                <div class="col-span-6" :class="form.field.supplier || form.field.supp_distributor ? '' : 'hidden'">
                                     <div class="overflow-x-auto rounded-lg border border-gray-200">
                                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                             <thead class="justify-between text-center">
