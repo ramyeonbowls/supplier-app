@@ -115,7 +115,7 @@ class RegisterController extends Controller
             'handphone_pic' => $data['handphone_person_in_charge'] ?? '',
             'file' => '',
             'type' => ($data['supp_distributor']) ? '3' : (($data['distributor']) ? '2' : '1'),
-            'agreement' => $data['supp_distributor'] ? 'Y' : 'N',
+            'agreement' => $data['agreement'] ? 'Y' : 'N',
             'created_at' => Carbon::now('Asia/Jakarta'),
             'created_by' => $data['email'] ?? '',
             'updated_at' => Carbon::now('Asia/Jakarta'),
