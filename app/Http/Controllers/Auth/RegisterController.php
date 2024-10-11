@@ -78,8 +78,10 @@ class RegisterController extends Controller
             'bank' => ['required'],
             'account_name' => ['required'],
             'bank_city' => ['required'],
-            'supplier' => ['required_without:distributor'],
-            'distributor' => ['required_without:supplier'],
+            'supplier' => ['nullable'],
+            'distributor' => ['nullable'],
+            'supp_distributor' => ['nullable'],
+            'agreement' => ['required'],
         ]);
     }
 
@@ -112,7 +114,8 @@ class RegisterController extends Controller
             'pic' => $data['person_in_charge'],
             'handphone_pic' => $data['handphone_person_in_charge'],
             'file' => '',
-            'type' => ($data['supplier'] && $data['distributor']) ? '3' : ((!$data['supplier'] && $data['distributor']) ? '2' : '1'),
+            'type' => ($data['supp_distributor']) ? '3' : (($data['distributor']) ? '2' : '1'),
+            'agreement' => $data['supp_distributor'] ? 'Y' : 'N',
             'created_at' => Carbon::now('Asia/Jakarta'),
             'created_by' => $data['email'],
             'updated_at' => Carbon::now('Asia/Jakarta'),
