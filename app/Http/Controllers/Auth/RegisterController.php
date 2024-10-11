@@ -150,11 +150,11 @@ class RegisterController extends Controller
 
         DB::table('tclient_bank_account')->insert([
             'client_id' => $client_id,
-            'npwp' => $value['npwp'],
-            'account_bank' => $value['account_bank'],
-            'bank' => $value['bank'],
-            'account_name' => $value['account_name'],
-            'bank_city' => $value['bank_city'],
+            'npwp' => $data['npwp'],
+            'account_bank' => $data['account_bank'],
+            'bank' => $data['bank'],
+            'account_name' => $data['account_name'],
+            'bank_city' => $data['bank_city'],
             'created_at' => Carbon::now('Asia/Jakarta'),
             'created_by' => $data['email'],
             'updated_at' => Carbon::now('Asia/Jakarta'),
