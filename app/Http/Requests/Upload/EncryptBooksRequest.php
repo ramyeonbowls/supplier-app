@@ -35,8 +35,23 @@ class EncryptBooksRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'file_cover' => 'Cover Zip',
-            'file_pdf' => 'Pdf Zip',
+            'file_cover' => 'File Cover Zip',
+            'file_pdf' => 'File Pdf Zip',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            'file_cover.required' => ':attribute diperlukan.',
+            'file_cover.mimes' => ':attribute file bukan zip.',
+            'file_pdf.required' => ':attribute diperlukan.',
+            'file_pdf.mimes' => ':attribute file bukan zip.',
         ];
     }
 }

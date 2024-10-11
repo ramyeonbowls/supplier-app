@@ -11,7 +11,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Encrypt pdf </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Upload Enkripsi Buku </span>
                         </button>
                     </template>
                     <template v-else-if="form.encrypt">
@@ -31,7 +31,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Cancel </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Batalkan </span>
                         </button>
                     </template>
                     <template v-else-if="form.update">
@@ -102,8 +102,8 @@
             <div class="tabs-container">
                 <div class="tabs flex w-48 gap-2">
                     <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.data ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Data</button>
-                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.encrypt ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Encrypt</button>
-                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.update ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Update</button>
+                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.encrypt ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Enkripsi Buku</button>
+                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.update ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Kelengkapan Informasi</button>
                     <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.upload ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Upload</button>
                     <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.review ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Review</button>
                 </div>
@@ -120,14 +120,14 @@
                             <form @submit.prevent="handleSubmit($event, submit)">
                                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
                                     <div class="h-32 font-[sans-serif]">
+                                        <label class="mb-2 block text-base font-semibold text-gray-500">Upload file zip pdf Buku untuk di Enkripsi</label>
+                                        <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_pdf" ref="file_pdf" id="file_pdf" name="file_pdf" @change="onChangePdf" accept=".zip" />
+                                        <p class="mt-2 text-xs text-gray-400">.ZIP yang di Izinkan.</p>
+                                    </div>
+                                    <div class="h-32 font-[sans-serif]" :class="form.field.file_pdf ? '' : 'hidden'">
                                         <label class="mb-2 block text-base font-semibold text-gray-500">Upload file zip cover</label>
                                         <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_cover" ref="file_cover" id="file_cover" name="file_cover" @change="onChangeBanner" accept=".zip" />
-                                        <p class="mt-2 text-xs text-gray-400">.ZIP are Allowed.</p>
-                                    </div>
-                                    <div class="h-32 font-[sans-serif]">
-                                        <label class="mb-2 block text-base font-semibold text-gray-500">Upload file zip pdf</label>
-                                        <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_pdf" ref="file_pdf" id="file_pdf" name="file_pdf" @change="onChangePdf" accept=".zip" />
-                                        <p class="mt-2 text-xs text-gray-400">.ZIP are Allowed.</p>
+                                        <p class="mt-2 text-xs text-gray-400">.ZIP yang di Izinkan.</p>
                                     </div>
                                 </div>
                             </form>

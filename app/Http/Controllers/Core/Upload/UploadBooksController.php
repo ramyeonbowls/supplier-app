@@ -156,7 +156,7 @@ class UploadBooksController extends Controller
                 $books = [];
                 if (File::exists($path_pdf) && File::isDirectory($path_pdf)) {
                     foreach ($files as $key => $file) {
-                        if (explode('.', basename($file))[1] === 'pdf') {
+                        if (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
                             $cover_books = '';
                             $extensions = ['jpg', 'png', 'jpeg'];
                             foreach ($extensions as $extension) {
@@ -229,10 +229,10 @@ class UploadBooksController extends Controller
                 });
 
                 $results['data'] = $rslt;
-
-                File::deleteDirectory($path_pdf);
-                File::deleteDirectory($path_cover);
             }
+
+            File::deleteDirectory($path_pdf);
+            File::deleteDirectory($path_cover);
 
             $queries = DB::getQueryLog();
             for ($q = 0; $q < count($queries); $q++) {

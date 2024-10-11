@@ -55,7 +55,6 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-
             'country' => ['required', 'string', 'max:50'],
             'province' => ['required', 'string', 'max:50'],
             'regency' => ['required', 'string', 'max:50'],
@@ -94,6 +93,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $client_id = Str::uuid();
+        $type = ($data['supp_distributor']) ? '3' : (($data['distributor']) ? '2' : '1');
         
         DB::table('tclient')->insert([
             'id' => $client_id,
@@ -114,7 +114,7 @@ class RegisterController extends Controller
             'pic' => $data['person_in_charge'] ?? '',
             'handphone_pic' => $data['handphone_person_in_charge'] ?? '',
             'file' => '',
-            'type' => ($data['supp_distributor']) ? '3' : (($data['distributor']) ? '2' : '1'),
+            'type' => $type,
             'agreement' => $data['agreement'] ? 'Y' : 'N',
             'created_at' => Carbon::now('Asia/Jakarta'),
             'created_by' => $data['email'] ?? '',
@@ -122,29 +122,31 @@ class RegisterController extends Controller
             'updated_by' => $data['email'] ?? '',
         ]);
 
-        foreach ($data['imprint'] as $key => $value) {
-            if ($value['name'] != '') {
-                DB::table('tpublisher')->insert([
-                    'client_id' => $client_id,
-                    'id' => Str::uuid(),
-                    'description' => $value['name'],
-                    'flag' => 'I',
-                    'created_at' => Carbon::now('Asia/Jakarta'),
-                    'updated_at' => Carbon::now('Asia/Jakarta'),
-                ]);
+        if ($type != '2') {
+            foreach ($data['imprint'] as $key => $value) {
+                if ($value['name'] != '') {
+                    DB::table('tpublisher')->insert([
+                        'client_id' => $client_id,
+                        'id' => Str::uuid(),
+                        'description' => $value['name'],
+                        'flag' => 'I',
+                        'created_at' => Carbon::now('Asia/Jakarta'),
+                        'updated_at' => Carbon::now('Asia/Jakarta'),
+                    ]);
+                }
             }
-        }
 
-        foreach ($data['publisher'] as $key => $value) {
-            if ($value['name'] != '') {
-                DB::table('tpublisher')->insert([
-                    'client_id' => $client_id,
-                    'id' => Str::uuid(),
-                    'description' => $value['name'],
-                    'flag' => 'K',
-                    'created_at' => Carbon::now('Asia/Jakarta'),
-                    'updated_at' => Carbon::now('Asia/Jakarta'),
-                ]);
+            foreach ($data['publisher'] as $key => $value) {
+                if ($value['name'] != '') {
+                    DB::table('tpublisher')->insert([
+                        'client_id' => $client_id,
+                        'id' => Str::uuid(),
+                        'description' => $value['name'],
+                        'flag' => 'K',
+                        'created_at' => Carbon::now('Asia/Jakarta'),
+                        'updated_at' => Carbon::now('Asia/Jakarta'),
+                    ]);
+                }
             }
         }
 
