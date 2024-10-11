@@ -22,7 +22,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Submit </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
                         </button>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelEncrypt">
                             <span class="absolute -start-full transition-all group-hover:start-4">
@@ -42,7 +42,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Submit </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
                         </button>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelUpdate">
                             <span class="absolute -start-full transition-all group-hover:start-4">
@@ -51,7 +51,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Back </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Kembali </span>
                         </button>
                     </template>
                     <template v-else-if="form.upload">
@@ -62,7 +62,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Submit </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
                         </button>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelUpload">
                             <span class="absolute -start-full transition-all group-hover:start-4">
@@ -71,7 +71,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Back </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Kembali </span>
                         </button>
                     </template>
                     <template v-else-if="form.review">
@@ -82,7 +82,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Submit </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
                         </button>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelReview">
                             <span class="absolute -start-full transition-all group-hover:start-4">
@@ -91,7 +91,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Back </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Kembali </span>
                         </button>
                     </template>
                 </div>
@@ -120,12 +120,12 @@
                             <form @submit.prevent="handleSubmit($event, submit)">
                                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
                                     <div class="h-32 font-[sans-serif]">
-                                        <label class="mb-2 block text-base font-semibold text-gray-500">Upload file zip pdf Buku untuk di Enkripsi</label>
+                                        <label class="mb-2 block text-base font-semibold text-red-500">UPLOAD FILE ZIP PDF BUKU UNTUK DI ENKRIPSI</label>
                                         <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_pdf" ref="file_pdf" id="file_pdf" name="file_pdf" @change="onChangePdf" accept=".zip" />
                                         <p class="mt-2 text-xs text-gray-400">.ZIP yang di Izinkan.</p>
                                     </div>
                                     <div class="h-32 font-[sans-serif]" :class="form.field.file_pdf ? '' : 'hidden'">
-                                        <label class="mb-2 block text-base font-semibold text-gray-500">Upload file zip cover</label>
+                                        <label class="mb-2 block text-base font-semibold text-red-500">UPLOAD FILE ZIP COVER</label>
                                         <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_cover" ref="file_cover" id="file_cover" name="file_cover" @change="onChangeBanner" accept=".zip" />
                                         <p class="mt-2 text-xs text-gray-400">.ZIP yang di Izinkan.</p>
                                     </div>

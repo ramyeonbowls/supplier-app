@@ -47,10 +47,10 @@
                 <router-link :to="{ name: 'encrypt_book' }">
                     <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 focus:bg-indigo-600 active:bg-indigo-800">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color group-hover:stroke-white">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                         </svg>
 
-                        <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Encrypt Book</p>
+                        <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Data Buku</p>
                     </li>
                 </router-link>
                 <!-- <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 focus:bg-indigo-600 active:bg-indigo-800">
