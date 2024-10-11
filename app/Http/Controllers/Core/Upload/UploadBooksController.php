@@ -163,18 +163,18 @@ class UploadBooksController extends Controller
                                 $filePath = $path_cover .'/'. pathinfo($file, PATHINFO_FILENAME) . '.' . $extension;
 
                                 if (File::exists($filePath)) {
-                                    $cover_books = pathinfo($file, PATHINFO_FILENAME) . '.' . $extension;
-                                    File::move($filePath, storage_path('app/private/covers/'.$cover_books));
+                                    $cover_books = Carbon::now()->format('ymdHis').' '.pathinfo($file, PATHINFO_FILENAME) . '.' . $extension;
+                                    File::move($filePath, storage_path('app/private/tmp/cover_tmp/'.$cover_books));
                                 } 
                             }
 
                             if ($cover_books) {
-                                $fileContent = Storage::get('books/'.pathinfo($file, PATHINFO_FILENAME).'/'.basename($file));
+                                $fileContent = Storage::get('tmp/'.str_replace(' ', '', pathinfo($file_pdf, PATHINFO_FILENAME)).'/'.basename($file));
 
                                 $encryptedContent = encrypt($fileContent);
 
                                 $filename = Carbon::now()->format('ymdHis').' '.pathinfo($file, PATHINFO_FILENAME);
-                                $encryptFile = Storage::put('books/'.$filename.'.gns', $encryptedContent);
+                                $encryptFile = Storage::put('tmp/book_tmp/'.$filename.'.gns', $encryptedContent);
 
                                 if ($encryptFile) {
                                     $books_id = Str::uuid();
@@ -229,10 +229,10 @@ class UploadBooksController extends Controller
                 });
 
                 $results['data'] = $rslt;
-            }
 
-            File::deleteDirectory($path_pdf);
-            File::deleteDirectory($path_cover);
+                // File::deleteDirectory($path_pdf);
+                // File::deleteDirectory($path_cover);
+            }
 
             $queries = DB::getQueryLog();
             for ($q = 0; $q < count($queries); $q++) {
@@ -747,7 +747,9 @@ class UploadBooksController extends Controller
      */
     public function downloadFile(Request $request)
     {
-        $filePath = $request->data.'/'.$request->file;
+        $path = $request->data == 'books' ? 'book_tmp' : 'cover_tmp';
+
+        $filePath = 'tmp/'.$path.'/'.$request->file;
         $fileContent = Storage::get($filePath);
 
         return response()->make($fileContent, 200, [
