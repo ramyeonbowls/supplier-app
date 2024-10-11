@@ -230,8 +230,8 @@ class UploadBooksController extends Controller
 
                 $results['data'] = $rslt;
 
-                // File::deleteDirectory($path_pdf);
-                // File::deleteDirectory($path_cover);
+                File::deleteDirectory($path_pdf);
+                File::deleteDirectory($path_cover);
             }
 
             $queries = DB::getQueryLog();
