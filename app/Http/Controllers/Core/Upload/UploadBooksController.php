@@ -160,20 +160,20 @@ class UploadBooksController extends Controller
                             $cover_books = '';
                             $extensions = ['jpg', 'png', 'jpeg'];
                             foreach ($extensions as $extension) {
-                                $filePath = $path_cover .'/'. explode('.', basename($file))[0] . '.' . $extension;
+                                $filePath = $path_cover .'/'. pathinfo($file, PATHINFO_FILENAME) . '.' . $extension;
 
                                 if (File::exists($filePath)) {
-                                    $cover_books = explode('.', basename($file))[0] . '.' . $extension;
+                                    $cover_books = pathinfo($file, PATHINFO_FILENAME) . '.' . $extension;
                                     File::move($filePath, storage_path('app/private/covers/'.$cover_books));
                                 } 
                             }
 
                             if ($cover_books) {
-                                $fileContent = Storage::get('books/'.explode('.', str_replace(' ', '', $file_pdf))[0].'/'.basename($file));
+                                $fileContent = Storage::get('books/'.pathinfo($file, PATHINFO_FILENAME).'/'.basename($file));
 
                                 $encryptedContent = encrypt($fileContent);
 
-                                $filename = explode('.', basename($file))[0];
+                                $filename = Carbon::now()->format('ymdHis').' '.pathinfo($file, PATHINFO_FILENAME);
                                 $encryptFile = Storage::put('books/'.$filename.'.gns', $encryptedContent);
 
                                 if ($encryptFile) {
@@ -264,11 +264,12 @@ class UploadBooksController extends Controller
                 case 'category-mst':
                     DB::enableQueryLog();
 
-                    $ketegori = DB::table('tbook_category as a')->sharedLock()
+                    $ketegori = DB::table('tclient_category as a')->sharedLock()
                         ->select(
-                            'a.id as id',
-                            'a.description as name'
+                            'a.category_id as id',
+                            'a.category_desc as name'
                         )
+                        ->where('client_id', auth()->user()->client_id)
                         ->get();
 
                     $queries = DB::getQueryLog();

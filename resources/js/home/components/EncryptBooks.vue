@@ -156,19 +156,19 @@
                                                 <td class="px-4 py-2 text-gray-700">{{ file.cover }}</td>
                                                 <td class="px-4 py-2 text-gray-700">
                                                     <select name="category" id="category" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.category_id">
-                                                        <option value="">Select Category Book</option>
+                                                        <option value="">Pilih Kategori Buku</option>
                                                         <option v-for="(value, key) in options.category" :key="key" :value="value.id">{{ value.name }}</option>
                                                     </select>
                                                 </td>
                                                 <td class="px-4 py-2 text-gray-700">
                                                     <select name="publisher" id="publisher" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.publisher_id">
-                                                        <option value="">Select Publisher</option>
+                                                        <option value="">Pilih Penerbit</option>
                                                         <option v-for="(value, key) in options.publisher" :key="key" :value="value.id">{{ value.name }}</option>
                                                     </select>
                                                 </td>
                                                 <td class="px-4 py-2 text-gray-700">
                                                     <select name="book_format" id="book_format" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.book_format_id">
-                                                        <option value="">Select Publisher</option>
+                                                        <option value="">Pilih Format Buka</option>
                                                         <option v-for="(value, key) in options.format" :key="key" :value="value.id">{{ value.name }}</option>
                                                     </select>
                                                 </td>
@@ -589,6 +589,13 @@ export default {
                                 .then((response) => {
                                     this.form.field.data_upl = response.data.data
                                     this.$notyf.success('Successfully Encrypt file')
+
+                                    if (response.data.error) {
+                                        response.data.error.forEach(element => {
+                                            this.$notyf.error(element)
+                                        })
+                                    }
+
                                     this.encryptUpdate()
                                     loader.hide()
                                 })
