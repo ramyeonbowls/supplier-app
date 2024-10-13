@@ -51,14 +51,50 @@ class UploadBooksController extends Controller
             DB::enableQueryLog();
 
             $results = DB::table('tbook_draft as a')->sharedLock()
-                ->select('a.book_id', 'a.isbn', 'a.eisbn', 'a.title', 'a.writer', 'a.publisher_id', 'a.size', 'a.year', 'a.volume', 'a.edition', 'a.page', 'a.sinopsis', 'a.sellprice', 'a.rentprice', 'a.retailprice', 'a.city', 'a.category_id', 'a.book_format_id', 'a.filename', 'a.cover', 'a.age', 'a.status', 'a.reason', 'a.createdate', 'a.createby', 'a.updatedate', 'a.updateby')
+                ->select(
+                    'a.book_id as book_id', 
+                    'a.isbn as isbn', 
+                    'a.eisbn as eisbn', 
+                    'a.title as title', 
+                    'a.writer as writer', 
+                    'a.publisher_id as publisher_id',
+                    'c.description as publisher_desc',
+                    'a.size as size', 
+                    'a.year as year', 
+                    'a.volume as volume', 
+                    'a.edition as edition', 
+                    'a.page as page', 
+                    'a.sinopsis as sinopsis', 
+                    'a.sellprice as sellprice', 
+                    'a.rentprice as rentprice', 
+                    'a.retailprice as retailprice', 
+                    'a.city as city', 
+                    'a.category_id as category_id', 
+                    'b.category_desc as category_desc',
+                    'a.book_format_id as book_format_id', 
+                    'a.filename as filename', 
+                    'a.cover as cover', 
+                    'a.age as age', 
+                    'a.status as status', 
+                    'a.reason as reason', 
+                    'a.createdate as createdate',
+                )
+                ->join('tclient_category as b', function($join) {
+					$join->on('a.supplier_id', '=', 'b.client_id') 
+						->on('a.category_id', '=', 'b.category_id') ;
+				})
+                ->join('tpublisher as c', function($join) {
+					$join->on('a.supplier_id', '=', 'c.client_id') 
+						->on('a.publisher_id', '=', 'c.id') ;
+				})
                 ->where('a.supplier_id', auth()->user()->client_id)
                 ->get();
 
             $queries = DB::getQueryLog();
             for ($q = 0; $q < count($queries); $q++) {
+                $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
                 $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
-                $logs->write('SQL', $queries[$q]['query']);
+                $logs->write('SQL', $sql);
             }
         } catch (Throwable $th) {
             $logs->write("ERROR", $th->getMessage());
@@ -70,8 +106,8 @@ class UploadBooksController extends Controller
             ->editColumn('createdate', function ($value) {
                 return Carbon::parse($value->createdate)->toDateTimeString();
             })
-            ->editColumn('updatedate', function ($value) {
-                return Carbon::parse($value->updatedate)->toDateTimeString();
+            ->addColumn('path_cover', function ($value) {
+                return file_exists(public_path('/storage/tmp/cover_tmp/'.$value->cover)) ? '/storage/tmp/cover_tmp/'.$value->cover : '';
             })
             ->addIndexColumn()
             ->toJson();

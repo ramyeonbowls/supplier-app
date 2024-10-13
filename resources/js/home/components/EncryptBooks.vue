@@ -285,11 +285,45 @@
             </div>
         </div>
     </div>
+
+    <!-- modal -->
+    <TransitionRoot as="template" :show="open">
+        <Dialog class="relative z-10" @close="open = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mt-3 text-center sm:ml-9 sm:mt-0 sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Cover Buku</DialogTitle>
+                                        <div class="mt-2 items-center">
+                                            <img :src="image_url" class="rounded-lg" alt="Preview" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Close</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+    <!-- modal -->
 </template>
 
 <script>
 import { DataTable } from 'simple-datatables'
 import { Form as VeeForm, Field, ErrorMessage } from 'vee-validate'
+import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 
 let dataTable
 export default {
@@ -297,10 +331,19 @@ export default {
         VeeForm,
         Field,
         ErrorMessage,
+        Dialog,
+        DialogPanel,
+        DialogTitle,
+        TransitionChild,
+        TransitionRoot,
+        ExclamationTriangleIcon,
     },
 
     data() {
         return {
+            open: false,
+            image_url: '',
+
             options: {
                 category: [],
                 publisher: [],
@@ -330,56 +373,113 @@ export default {
 
     mounted() {
         this.getData()
-        this.getCategory()
-        this.getPublisher()
-        this.getFormat()
 
         dataTable = new DataTable('#default-table', {
             sortable: true,
             data: {
-                headings: ['book_id', 'isbn', 'eisbn', 'title', 'writer', 'publisher_id', 'size', 'year', 'volume', 'edition', 'page', 'sinopsis', 'sellprice', 'rentprice', 'retailprice', 'city', 'category_id', 'book_format_id', 'filename', 'cover', 'age', 'status', 'reason', 'createdate', 'createby', 'updatedate', 'updateby'],
+                headings: [
+                    { text: 'cover', data: 'path_cover' },
+                    { text: 'judul', data: 'title' },
+                    { text: 'file enkripsi', data: 'filename' },
+                    { text: 'status', data: 'status' },
+                    { text: 'penulis', data: 'writer' },
+                    { text: 'publisher', data: 'publisher_desc' },
+                    { text: 'isbn', data: 'isbn' },
+                    { text: 'eisbn', data: 'eisbn' },
+                    { text: 'kategori', data: 'category_desc' },
+                    { text: 'kota', data: 'city' },
+                    { text: 'tahun', data: 'year' },
+                    { text: 'edisi', data: 'edition' },
+                    { text: 'halaman', data: 'page' },
+                    { text: 'sinopsis', data: 'sinopsis' },
+                    { text: 'format', data: 'size' },
+                    { text: 'jilid', data: 'volume' },
+                    { text: 'umur', data: 'age' },
+                    { text: 'harga jual', data: 'sellprice' },
+                    { text: 'harga pinjam', data: 'rentprice' },
+                    { text: 'harga retail', data: 'retailprice' },
+                    { text: 'tanggal upload', data: 'createdate' },
+                ],
             },
             columns: [
                 {
-                    select: 18,
+                    select: 0,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
-                        return '<span class="whitespace-nowrap">' + data + '</span>'
+                        return '<img src="' + data + '" class="thumbnail rounded-sm" data-image="' + data + '" alt="covers">'
                     },
                 },
                 {
-                    select: 19,
+                    select: 2,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
-                        return '<span class="whitespace-nowrap">' + data + '</span>'
+                        return '<div class="gap-1">' + '<p class="whitespace-nowrap mb-1 text-sm">' + data + '</p>' + '<a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" data-file="' + data + '">Download file enkripsi</a>' + '</div>'
                     },
                 },
                 {
-                    select: 21,
+                    select: 3,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
-                        return (
-                            '<span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">' +
-                            '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
-                            '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
-                            '</svg>' +
-                            '<p class="whitespace-nowrap text-sm">Review</p>' +
-                            '</span>'
-                        )
-                    },
-                },
-                {
-                    select: 23,
-                    type: 'string',
-                    render: function (data, td, rowIndex, cellIndex) {
-                        return '<span class="whitespace-nowrap">' + data + '</span>'
-                    },
-                },
-                {
-                    select: 25,
-                    type: 'string',
-                    render: function (data, td, rowIndex, cellIndex) {
-                        return '<span class="whitespace-nowrap">' + data + '</span>'
+                        if (data == '1') {
+                            return (
+                                '<span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
+                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
+                                '</svg>' +
+                                '<p class="whitespace-nowrap text-sm">Draft</p>' +
+                                '</span>'
+                            )
+                        }
+                        if (data == '2') {
+                            return (
+                                '<span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
+                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
+                                '</svg>' +
+                                '<p class="whitespace-nowrap text-sm">Review</p>' +
+                                '</span>'
+                            )
+                        }
+                        if (data == '3') {
+                            return (
+                                '<span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
+                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
+                                '</svg>' +
+                                '<p class="whitespace-nowrap text-sm">Publish</p>' +
+                                '</span>'
+                            )
+                        }
+                        if (data == '4') {
+                            return (
+                                '<span class="inline-flex items-center justify-center rounded-full bg-lime-100 px-2.5 py-0.5 text-lime-700">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
+                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
+                                '</svg>' +
+                                '<p class="whitespace-nowrap text-sm">Publish pending</p>' +
+                                '</span>'
+                            )
+                        }
+                        if (data == '5') {
+                            return (
+                                '<span class="inline-flex items-center justify-center rounded-full bg-rose-100 px-2.5 py-0.5 text-rose-700">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
+                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
+                                '</svg>' +
+                                '<p class="whitespace-nowrap text-sm">Reject</p>' +
+                                '</span>'
+                            )
+                        }
+                        if (data == '6') {
+                            return (
+                                '<span class="inline-flex items-center justify-center rounded-full bg-stone-100 px-2.5 py-0.5 text-stone-700">' +
+                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
+                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
+                                '</svg>' +
+                                '<p class="whitespace-nowrap text-sm">Ditarik</p>' +
+                                '</span>'
+                            )
+                        }
                     },
                 },
             ],
@@ -407,12 +507,30 @@ export default {
                     dataTable.data.data = []
                     dataTable.insert(response.data.data)
 
+                    this.attachDownloadListeners()
                     loader.hide()
                 })
                 .catch((e) => {
                     console.error(e)
                     loader.hide()
                 })
+        },
+
+        attachDownloadListeners() {
+            document.querySelectorAll('.download-link').forEach((element) => {
+                element.addEventListener('click', (event) => {
+                    let file = event.target.closest('a').getAttribute('data-file')
+                    this.downloadFile('books', file)
+                })
+            })
+
+            document.querySelectorAll('.thumbnail').forEach((element) => {
+                element.addEventListener('click', (event) => {
+                    let file = event.target.closest('img').getAttribute('data-image')
+                    this.image_url = file
+                    this.open = true
+                })
+            })
         },
 
         getCategory() {
@@ -512,6 +630,10 @@ export default {
             this.form.update = true
             this.form.upload = false
             this.form.review = false
+
+            this.getCategory()
+            this.getPublisher()
+            this.getFormat()
         },
 
         encryptUpload() {
@@ -591,7 +713,7 @@ export default {
                                     this.$notyf.success('Successfully Encrypt file')
 
                                     if (response.data.error) {
-                                        response.data.error.forEach(element => {
+                                        response.data.error.forEach((element) => {
                                             this.$notyf.error(element)
                                         })
                                     }
