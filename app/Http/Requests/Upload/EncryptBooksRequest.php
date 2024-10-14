@@ -22,7 +22,6 @@ class EncryptBooksRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file_cover' => 'required|mimes:zip',
             'file_pdf' => 'required|mimes:zip',
         ];
     }
@@ -35,7 +34,6 @@ class EncryptBooksRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'file_cover' => 'File Cover Zip',
             'file_pdf' => 'File Pdf Zip',
         ];
     }
@@ -48,8 +46,6 @@ class EncryptBooksRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'file_cover.required' => ':attribute diperlukan.',
-            'file_cover.mimes' => ':attribute file bukan zip.',
             'file_pdf.required' => ':attribute diperlukan.',
             'file_pdf.mimes' => ':attribute file bukan zip.',
         ];

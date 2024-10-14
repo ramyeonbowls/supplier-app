@@ -22,6 +22,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Yajra\DataTables\Facades\DataTables;
+use Spatie\PdfToImage\Pdf;
 
 class UploadBooksController extends Controller
 {
@@ -107,7 +108,7 @@ class UploadBooksController extends Controller
                 return Carbon::parse($value->createdate)->toDateTimeString();
             })
             ->addColumn('path_cover', function ($value) {
-                return file_exists(public_path('/storage/tmp/cover_tmp/'.$value->cover)) ? '/storage/tmp/cover_tmp/'.$value->cover : '';
+                return file_exists(public_path('/storage/tmp/covers_tmp/'.$value->cover)) ? '/storage/tmp/covers_tmp/'.$value->cover : '';
             })
             ->addIndexColumn()
             ->toJson();
@@ -133,29 +134,25 @@ class UploadBooksController extends Controller
         try {
             DB::enableQueryLog();
 
-            $file_cover = '';
-            if ($request->hasFile('file_cover')) {
-                try {
-                    $file_cover = $request->file('file_cover')->getClientOriginalName();
+            $book_folder = storage_path('app/private/books');
+            $cover_folder = storage_path('app/public/covers');
+            $btmp_folder = storage_path('app/private/tmp/books_tmp');
+            $ctmp_folder = storage_path('app/public/tmp/covers_tmp');
 
-                    $zipObj = new \ZipArchive();
-                    $file = $zipObj->open($request->file('file_cover')->path());
-                    if ($file === TRUE) {
-                        $logs->write('SUCCESS', 'OPEN '.$file_cover);
+            if (!File::exists($book_folder)) {
+                File::makeDirectory($book_folder, 0777, true);
+            }
 
-                        if($zipObj->extractTo(storage_path('app/private/tmp/'.explode('.', str_replace(' ', '', $file_cover))[0]))) {
-                            $zipObj->close();
+            if (!File::exists($cover_folder)) {
+                File::makeDirectory($cover_folder, 0777, true);
+            }
 
-                            $logs->write('SUCCESS', 'EXTRACT TO '.storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_cover))[0]));
-                        } else {
-                            $logs->write('FAILED', 'EXTRACT '.$file_cover);
-                        }
-                    } else {
-                        $logs->write('FAILED', 'OPEN '.$file_cover);
-                    }
-                } catch (Throwable $th) {
-                    $logs->write("ERROR", $th->getMessage());
-                }
+            if (!File::exists($btmp_folder)) {
+                File::makeDirectory($btmp_folder, 0777, true);
+            }
+
+            if (!File::exists($ctmp_folder)) {
+                File::makeDirectory($ctmp_folder, 0777, true);
             }
 
             $file_pdf = '';
@@ -168,10 +165,10 @@ class UploadBooksController extends Controller
                     if ($file === TRUE) {
                         $logs->write('SUCCESS', 'OPEN '.$file_pdf);
 
-                        if($zipObj->extractTo(storage_path('app/private/tmp/'.explode('.', str_replace(' ', '', $file_pdf))[0]))) {
+                        if ($zipObj->extractTo($btmp_folder.'/'.pathinfo($file_pdf, PATHINFO_FILENAME))) {
                             $zipObj->close();
 
-                            $logs->write('SUCCESS', 'EXTRACT TO '.storage_path('app/private/books/'.explode('.', str_replace(' ', '', $file_pdf))[0]));
+                            $logs->write('SUCCESS', 'EXTRACT TO '.$btmp_folder.'/'.pathinfo($file_pdf, PATHINFO_FILENAME));
                         } else {
                             $logs->write('FAILED', 'EXTRACT '.$file_pdf);
                         }
@@ -183,9 +180,8 @@ class UploadBooksController extends Controller
                 }
             }
 
-            if ($file_cover != '' && $file_pdf != '') {
-                $path_pdf = storage_path('app/private/tmp/'.explode('.', str_replace(' ', '', $file_pdf))[0]);
-                $path_cover = storage_path('app/private/tmp/'.explode('.', str_replace(' ', '', $file_cover))[0]);
+            if ($file_pdf != '') {
+                $path_pdf = $btmp_folder.'/'.pathinfo($file_pdf, PATHINFO_FILENAME);
 
                 $files = File::files($path_pdf);
 
@@ -193,47 +189,40 @@ class UploadBooksController extends Controller
                 if (File::exists($path_pdf) && File::isDirectory($path_pdf)) {
                     foreach ($files as $key => $file) {
                         if (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
-                            $cover_books = '';
-                            $extensions = ['jpg', 'png', 'jpeg'];
-                            foreach ($extensions as $extension) {
-                                $filePath = $path_cover .'/'. pathinfo($file, PATHINFO_FILENAME) . '.' . $extension;
+                            $file_time = Carbon::now()->format('ymdHis');
 
-                                if (File::exists($filePath)) {
-                                    $cover_books = Carbon::now()->format('ymdHis').' '.pathinfo($file, PATHINFO_FILENAME) . '.' . $extension;
-                                    File::move($filePath, storage_path('app/private/tmp/cover_tmp/'.$cover_books));
-                                } 
-                            }
+                            $pdfPath = $btmp_folder.'/'.pathinfo($file_pdf, PATHINFO_FILENAME).'/'.basename($file);
+                            $pdf = new \Spatie\PdfToImage\Pdf($pdfPath);
+                            $cover_name = $file_time.' '.pathinfo($file, PATHINFO_FILENAME).'.jpg';
+                            $outputPath = $ctmp_folder.'/'.$cover_name;
+                            $pdf->selectPage(1)->save($outputPath);
+                            
+                            $fileContent = Storage::get('tmp/books_tmp/'.pathinfo($file_pdf, PATHINFO_FILENAME).'/'.basename($file));
 
-                            if ($cover_books) {
-                                $fileContent = Storage::get('tmp/'.str_replace(' ', '', pathinfo($file_pdf, PATHINFO_FILENAME)).'/'.basename($file));
+                            $encryptedContent = encrypt($fileContent);
 
-                                $encryptedContent = encrypt($fileContent);
+                            $filename = $file_time.' '.pathinfo($file, PATHINFO_FILENAME);
+                            $encryptFile = Storage::put('tmp/books_tmp/'.$filename.'.gns', $encryptedContent);
 
-                                $filename = Carbon::now()->format('ymdHis').' '.pathinfo($file, PATHINFO_FILENAME);
-                                $encryptFile = Storage::put('tmp/book_tmp/'.$filename.'.gns', $encryptedContent);
+                            if ($encryptFile) {
+                                $books_id = Str::uuid();
+                                $upload = DB::table('tbook_tmp')->insert([
+                                        'book_id' => $books_id,
+                                        'filename' => $filename . '.gns',
+                                        'cover' => basename($outputPath),
+                                        'flag' => '1',
+                                        'supplier_id' => auth()->user()->client_id,
+                                        'createdate' => Carbon::now('Asia/Jakarta'),
+                                        'createby' => auth()->user()->email,
+                                        'updatedate' => Carbon::now('Asia/Jakarta'),
+                                        'updateby' => auth()->user()->email
+                                    ]);
+                                if ($upload) {
+                                    $books[] = $books_id->toString(); 
 
-                                if ($encryptFile) {
-                                    $books_id = Str::uuid();
-                                    $upload = DB::table('tbook_tmp')->insert([
-                                            'book_id' => $books_id,
-                                            'filename' => $filename . '.gns',
-                                            'cover' => $cover_books,
-                                            'flag' => '1',
-                                            'supplier_id' => auth()->user()->client_id,
-                                            'createdate' => Carbon::now('Asia/Jakarta'),
-                                            'createby' => auth()->user()->email,
-                                            'updatedate' => Carbon::now('Asia/Jakarta'),
-                                            'updateby' => auth()->user()->email
-                                        ]);
-                                    if ($upload) {
-                                        $books[] = $books_id->toString(); 
-
-                                        $logs->write("INFO", "Successfully upload ". basename($file));
-                                        $results['message'][] = "Successfully Encrypt " . basename($file);
-                                    }
+                                    $logs->write("INFO", "Successfully upload ". basename($file));
+                                    $results['message'][] = "Successfully Encrypt " . basename($file);
                                 }
-                            } else {
-                                $results['error'][] = "Failed upload " . basename($file) . " Not Found.";
                             }
                         } else {
                             $results['error'][] = "Failed upload " . basename($file) . " Not PDF Extension.";
@@ -261,13 +250,13 @@ class UploadBooksController extends Controller
                         'category_id' => $value->category_id ?? '',
                         'publisher_id' => $value->publisher_id ?? '',
                         'book_format_id' => $value->book_format_id ?? '',
+                        'path_cover' => file_exists(public_path('/storage/tmp/covers_tmp/'.$value->cover)) ? '/storage/tmp/covers_tmp/'.$value->cover : ''
                     ];
                 });
 
                 $results['data'] = $rslt;
 
                 File::deleteDirectory($path_pdf);
-                File::deleteDirectory($path_cover);
             }
 
             $queries = DB::getQueryLog();
@@ -399,30 +388,40 @@ class UploadBooksController extends Controller
 
                     $data = DB::table('tbook_tmp as a')->sharedLock()
                         ->select(
-                            'a.book_id',
-                            'a.supplier_id',
-                            'a.isbn',
-                            'a.eisbn',
-                            'a.title',
-                            'a.writer',
-                            'a.publisher_id',
-                            'a.size',
-                            'a.year',
-                            'a.volume',
-                            'a.edition',
-                            'a.page',
-                            'a.sinopsis',
-                            'a.sellprice',
-                            'a.rentprice',
-                            'a.retailprice',
-                            'a.city',
-                            'a.category_id',
-                            'a.book_format_id',
-                            'a.filename',
-                            'a.cover',
-                            'a.age',
-                            'a.flag'
+                            'a.book_id as book_id',
+                            'a.supplier_id as supplier_id',
+                            'a.isbn as isbn',
+                            'a.eisbn as eisbn',
+                            'a.title as title',
+                            'a.writer as writer',
+                            'a.publisher_id as publisher_id',
+                            'c.description as publisher_desc',
+                            'a.size as size',
+                            'a.year as year',
+                            'a.volume as volume',
+                            'a.edition as edition',
+                            'a.page as page',
+                            'a.sinopsis as sinopsis',
+                            'a.sellprice as sellprice',
+                            'a.rentprice as rentprice',
+                            'a.retailprice as retailprice',
+                            'a.city as city',
+                            'a.category_id as category_id',
+                            'b.category_desc as category_desc',
+                            'a.book_format_id as book_format_id',
+                            'a.filename as filename',
+                            'a.cover as cover',
+                            'a.age as age',
+                            'a.flag as flag'
                         )
+                        ->join('tclient_category as b', function($join) {
+                            $join->on('a.supplier_id', '=', 'b.client_id') 
+                                ->on('a.category_id', '=', 'b.category_id') ;
+                        })
+                        ->join('tpublisher as c', function($join) {
+                            $join->on('a.supplier_id', '=', 'c.client_id') 
+                                ->on('a.publisher_id', '=', 'c.id') ;
+                        })
                         ->whereIn('a.book_id', $books)
                         ->where('a.supplier_id', auth()->user()->client_id)
                         ->get();
@@ -445,6 +444,7 @@ class UploadBooksController extends Controller
                                 'title' => $value->title ?? '',
                                 'writer' => $value->writer ?? '',
                                 'publisher_id' => $value->publisher_id ?? '',
+                                'publisher_desc' => $value->publisher_desc ?? '',
                                 'size' => $value->size ?? '',
                                 'year' => $value->year ?? '',
                                 'volume' => $value->volume ?? '',
@@ -456,11 +456,13 @@ class UploadBooksController extends Controller
                                 'retailprice' => $value->retailprice ?? '',
                                 'city' => $value->city ?? '',
                                 'category_id' => $value->category_id ?? '',
+                                'category_desc' => $value->category_desc ?? '',
                                 'book_format_id' => $value->book_format_id ?? '',
                                 'filename' => $value->filename ?? '',
                                 'cover' => $value->cover ?? '',
                                 'age' => $value->age ?? '',
                                 'flag' => $value->flag ?? '',
+                                'path_cover' => file_exists(public_path('/storage/tmp/covers_tmp/'.$value->cover)) ? '/storage/tmp/covers_tmp/'.$value->cover : ''
                             ];
                         });
                     }
@@ -783,7 +785,7 @@ class UploadBooksController extends Controller
      */
     public function downloadFile(Request $request)
     {
-        $path = $request->data == 'books' ? 'book_tmp' : 'cover_tmp';
+        $path = $request->data == 'books' ? 'books_tmp' : 'covers_tmp';
 
         $filePath = 'tmp/'.$path.'/'.$request->file;
         $fileContent = Storage::get($filePath);

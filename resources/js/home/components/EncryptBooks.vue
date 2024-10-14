@@ -64,6 +64,15 @@
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
                         </button>
+                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click.prevent="exportTpl">
+                            <span class="absolute -start-full transition-all group-hover:start-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                            </span>
+
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Download Excel </span>
+                        </button>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelUpload">
                             <span class="absolute -start-full transition-all group-hover:start-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -124,11 +133,6 @@
                                         <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_pdf" ref="file_pdf" id="file_pdf" name="file_pdf" @change="onChangePdf" accept=".zip" />
                                         <p class="mt-2 text-xs text-gray-400">.ZIP yang di Izinkan.</p>
                                     </div>
-                                    <div class="h-32 font-[sans-serif]" :class="form.field.file_pdf ? '' : 'hidden'">
-                                        <label class="mb-2 block text-base font-semibold text-red-500">UPLOAD FILE ZIP COVER</label>
-                                        <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_cover" ref="file_cover" id="file_cover" name="file_cover" @change="onChangeBanner" accept=".zip" />
-                                        <p class="mt-2 text-xs text-gray-400">.ZIP yang di Izinkan.</p>
-                                    </div>
                                 </div>
                             </form>
                         </VeeForm>
@@ -140,17 +144,18 @@
                                     <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                         <thead class="text-left">
                                             <tr>
-                                                <th class="px-4 py-2 font-medium text-gray-900">Book ID</th>
-                                                <th class="px-4 py-2 font-medium text-gray-900">File Name</th>
-                                                <th class="px-4 py-2 font-medium text-gray-900">Cover Name</th>
-                                                <th class="px-4 py-2 font-medium text-gray-900">Category Book</th>
-                                                <th class="px-4 py-2 font-medium text-gray-900">Publisher</th>
-                                                <th class="px-4 py-2 font-medium text-gray-900">Format Book</th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">COVER</th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">BUKU ID</th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">NAMA FILE</th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">NAMA COVER</th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">KATEGORI BUKU</th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">PUBLISHER</th>
                                             </tr>
                                         </thead>
 
                                         <tbody class="divide-y divide-gray-200">
                                             <tr v-for="(file, key) in form.field.data_upl" :key="key">
+                                                <td class="px-4 py-2 text-gray-700"><img :src="file.path_cover" class="w-9/12 h-4/5 shadow-md rounded-sm" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" /></td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.book_id }}</td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.filename }}</td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.cover }}</td>
@@ -164,12 +169,6 @@
                                                     <select name="publisher" id="publisher" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.publisher_id">
                                                         <option value="">Pilih Penerbit</option>
                                                         <option v-for="(value, key) in options.publisher" :key="key" :value="value.id">{{ value.name }}</option>
-                                                    </select>
-                                                </td>
-                                                <td class="px-4 py-2 text-gray-700">
-                                                    <select name="book_format" id="book_format" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.book_format_id">
-                                                        <option value="">Pilih Format Buka</option>
-                                                        <option v-for="(value, key) in options.format" :key="key" :value="value.id">{{ value.name }}</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -197,41 +196,42 @@
                             <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                 <thead class="text-left">
                                     <tr>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Book ID</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Supplier</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Isbn</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Eisbn</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Title</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Writer</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Publisher</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Size</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Year</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Volume</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Edition</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Page</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Sinopsis</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Sellprice</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Rentprice</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Retailprice</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">City</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Category</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Book Format</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Filename</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Cover</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Age</th>
-                                        <th class="px-4 py-2 font-medium text-gray-900">Status</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">COVER</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">BUKU ID</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">ISBN</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">EISBN</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">JUDUL</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">PENULIS</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">PUBLISHER</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">FORMAT</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">TAHUN</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">JILID</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">EDISI</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">HALAMAN</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">SINOPSIS</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">HARGA JUAL</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">HARGA PINJAM</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">HARGA RETAIL</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">KOTA</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">KATEGORI</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">FILE ENKRIPSI</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">COVER</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">TAHUN</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">STATUS</th>
                                     </tr>
                                 </thead>
 
                                 <tbody class="divide-y divide-gray-200">
                                     <tr v-for="(file, key) in form.field.data_view" :key="key">
+                                        <td class="px-4 py-2 text-gray-700">
+                                            <img :src="file.path_cover" class="w-9/12 h-4/5 shadow-md rounded-sm" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" />
+                                        </td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.book_id }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.supplier_id }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.isbn }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.eisbn }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.title }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.writer }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.publisher_id }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.publisher_desc }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.size }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.year }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.volume }}</td>
@@ -242,8 +242,7 @@
                                         <td class="px-4 py-2 text-gray-700">{{ file.rentprice }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.retailprice }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.city }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.category_id }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.book_format_id }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.category_desc }}</td>
                                         <td class="px-4 py-2 text-gray-700">
                                             <a href="javascript:void(0);" @click="downloadFile('books', file.filename)">
                                                 <span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 hover:bg-emerald-300 focus:relative">
@@ -299,10 +298,10 @@
                         <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                             <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
-                                    <div class="mt-3 text-center sm:ml-9 sm:mt-0 sm:text-left">
+                                    <div class="mt-3 text-center sm:ml-15 sm:mt-0 sm:text-left">
                                         <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Cover Buku</DialogTitle>
                                         <div class="mt-2 items-center">
-                                            <img :src="image_url" class="rounded-lg" alt="Preview" />
+                                            <img :src="image_url" class="shadow-md rounded-lg" alt="Preview" />
                                         </div>
                                     </div>
                                 </div>
@@ -494,7 +493,6 @@ export default {
             this.form.field.data_upl = []
             this.form.field.data_view = []
 
-            this.$refs.file_cover.value = ''
             this.$refs.file_pdf.value = ''
             this.$refs.file_excel.value = ''
         },
@@ -531,6 +529,11 @@ export default {
                     this.open = true
                 })
             })
+        },
+
+        showImages(file) {
+            this.image_url = file
+            this.open = true
         },
 
         getCategory() {
@@ -600,10 +603,6 @@ export default {
                 .catch((e) => {
                     console.error(e)
                 })
-        },
-
-        async onChangeBanner(e) {
-            this.form.field.file_cover = this.$refs.file_cover.files[0]
         },
 
         async onChangePdf(e) {
@@ -753,7 +752,6 @@ export default {
                                 .put('/upload/encrypt-books/x0y0z0/?menu=' + this.$route.name, this.form.field.data_upl)
                                 .then((response) => {
                                     this.encryptUpload()
-                                    this.exportTpl()
                                     this.$notyf.success(response.data)
                                     loader.hide()
                                 })
