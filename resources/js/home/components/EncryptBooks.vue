@@ -138,38 +138,50 @@
                         </VeeForm>
                     </div>
                     <div class="tab-panel" :class="form.update ? '' : 'hidden'">
-                        <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
+                        <VeeForm ref="form_update" v-slot="{ handleSubmit }" as="div">
                             <form @submit.prevent="handleSubmit($event, submitUpdate)">
                                 <div class="mt-5 overflow-x-auto rounded-lg border border-gray-200" :class="form.export ? 'hidden' : ''">
                                     <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                         <thead class="text-left">
                                             <tr>
                                                 <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">COVER</th>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">BUKU ID</th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/12">BUKU ID</th>
                                                 <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">NAMA FILE</th>
                                                 <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">NAMA COVER</th>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">KATEGORI BUKU</th>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">PUBLISHER</th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 whitespace-nowrap w-1/6">
+                                                    <select name="category_all" id="category_all" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" @change="changeCategory">
+                                                        <option value="">Pilih Kategori Buku</option>
+                                                        <option v-for="(value, key) in options.category" :key="key" :value="value.id">{{ value.name }}</option>
+                                                    </select>
+                                                </th>
+                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">
+                                                    <select name="publisher_all" id="publisher_all" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" @change="changePublisher">
+                                                        <option value="">Pilih Penerbit</option>
+                                                        <option v-for="(value, key) in options.publisher" :key="key" :value="value.id">{{ value.name }}</option>
+                                                    </select>
+                                                </th>
                                             </tr>
                                         </thead>
 
                                         <tbody class="divide-y divide-gray-200">
                                             <tr v-for="(file, key) in form.field.data_upl" :key="key">
-                                                <td class="px-4 py-2 text-gray-700"><img :src="file.path_cover" class="w-9/12 h-4/5 shadow-md rounded-sm" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" /></td>
-                                                <td class="px-4 py-2 text-gray-700">{{ file.book_id }}</td>
+                                                <td class="px-4 py-2 text-gray-700"><img :src="file.path_cover" class="w-[70%] h-[70%] shadow-md rounded-sm" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" /></td>
+                                                <td class="px-4 py-2 text-gray-700 text-wrap">{{ file.book_id }}</td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.filename }}</td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.cover }}</td>
                                                 <td class="px-4 py-2 text-gray-700">
-                                                    <select name="category" id="category" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.category_id">
+                                                    <Field as="select" :rules="validateCategory" :name="'category'+ key" :id="'category'+ key" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.category_id">
                                                         <option value="">Pilih Kategori Buku</option>
                                                         <option v-for="(value, key) in options.category" :key="key" :value="value.id">{{ value.name }}</option>
-                                                    </select>
+                                                    </Field>
+                                                    <ErrorMessage :name="'category' + key" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                                                 </td>
                                                 <td class="px-4 py-2 text-gray-700">
-                                                    <select name="publisher" id="publisher" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.publisher_id">
+                                                    <Field as="select" :rules="validatePublisher" :name="'publisher' + key" :id="'publisher' + key" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.publisher_id">
                                                         <option value="">Pilih Penerbit</option>
                                                         <option v-for="(value, key) in options.publisher" :key="key" :value="value.id">{{ value.name }}</option>
-                                                    </select>
+                                                    </Field>
+                                                    <ErrorMessage :name="'publisher' + key" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -320,9 +332,12 @@
 
 <script>
 import { DataTable } from 'simple-datatables'
-import { Form as VeeForm, Field, ErrorMessage } from 'vee-validate'
+import { Form as VeeForm, Field, ErrorMessage, defineRule  } from 'vee-validate'
+import { required } from '@vee-validate/rules';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
+
+defineRule('required', required)
 
 let dataTable
 export default {
@@ -613,6 +628,36 @@ export default {
             this.form.field.file_excel = this.$refs.file_excel.files[0]
         },
 
+        changeCategory(event) {
+            const selectedValue = event.target.value
+            this.form.field.data_upl.forEach(element => {
+                element.category_id = selectedValue
+            })
+        },
+
+        validateCategory(value) {
+            if (!value) {
+                return 'Kategory tidak boleh kosong!';
+            }
+
+            return true;
+        },
+
+        changePublisher(event) {
+            const selectedValue = event.target.value
+            this.form.field.data_upl.forEach(element => {
+                element.publisher_id = selectedValue
+            })
+        },
+
+        validatePublisher(value) {
+            if (!value) {
+                return 'Publisher tidak boleh kosong!';
+            }
+
+            return true;
+        },
+
         encrypt() {
             this.form.data = false
             this.form.encrypt = true
@@ -742,7 +787,7 @@ export default {
             if (!this.form.submitted) {
                 this.form.submitted = true
 
-                this.$refs.form.validate().then((result) => {
+                this.$refs.form_update.validate().then((result) => {
                     if (result.valid) {
                         this.form.submitted = false
 
@@ -767,6 +812,8 @@ export default {
                                 })
                         }
                     } else {
+                        console.log(result)
+                        
                         this.form.submitted = false
                     }
                 })

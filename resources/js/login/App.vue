@@ -7,7 +7,10 @@
 
             <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
                 <form class="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8" @submit.prevent="handleSubmit($event, submit)">
-                    <p class="text-center text-lg font-medium text-gray-700">Masuk ke akun Anda</p>
+                    <div class="space-y-0 text-center">
+                        <p class="text-lg font-medium text-gray-700">Masuk ke Akun Dashboard</p>
+                        <p class="text-sm text-gray-500">Sebagai Supplier dan atau Distributor</p>
+                    </div>
 
                     <div>
                         <label for="email" class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
@@ -40,10 +43,10 @@
 
                     <button type="submit" class="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white">Masuk</button>
 
-                    <!-- <p class="text-center text-sm text-gray-500">
-                        No account?
-                        <a class="underline" href="/register">Sign up</a>
-                    </p> -->
+                    <p class="text-center text-sm text-gray-500">
+                        Belum punya akun Supplier/Distributor?
+                        <a class="underline" href="/register">Daftar</a>
+                    </p>
                 </form>
             </VeeForm>
         </div>

@@ -35,6 +35,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('download-file', 'UploadBooksController@downloadFile');
             });
         });
+
+        Route::prefix('report')->namespace('Report')->group(function() {
+            Route::apiResource('category-books', CategoryBooksController::class);
+        });
     });
 
     Route::controller(App\Http\Controllers\HomeController::class)->group(function () {
