@@ -19,6 +19,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::namespace('App\Http\Controllers\Core')->group(function() {
+        Route::prefix('profile')->namespace('Profile')->group(function() {
+            Route::apiResource('profile-company', ProfileCompanyController::class);
+        });
+
         Route::prefix('upload')->namespace('Upload')->group(function() {
             Route::apiResource('encrypt-books', UploadBooksController::class);
 

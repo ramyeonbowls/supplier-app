@@ -20,7 +20,9 @@
 
                 <div class="list-profile-menu absolute hidden w-[100px] -translate-x-20 translate-y-1 rounded-md bg-white p-2 text-[0.70rem] font-medium text-slate-600 drop-shadow-md">
                     <ul>
-                        <li class="mb-1 hover:cursor-pointer hover:text-slate-900">Your profile</li>
+                        <router-link :to="{ name: 'profile' }">
+                            <li class="mb-1 hover:cursor-pointer hover:text-slate-900">Your profile</li>
+                        </router-link>
                         <li class="border-t-[1px] border-t-slate-300 hover:cursor-pointer hover:text-slate-900" @click="logout">Sign out</li>
                     </ul>
                 </div>

@@ -18,10 +18,8 @@
         </div>
         <div class="p-6">
             <table id="default-table">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
+                <thead></thead>
+                <tbody></tbody>
             </table>
         </div>
     </div>

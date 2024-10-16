@@ -144,17 +144,17 @@
                                     <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                         <thead class="text-left">
                                             <tr>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">COVER</th>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/12">BUKU ID</th>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">NAMA FILE</th>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">NAMA COVER</th>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 whitespace-nowrap w-1/6">
+                                                <th class="w-1/6 px-4 py-2 font-semibold text-gray-900">COVER</th>
+                                                <th class="w-1/12 px-4 py-2 font-semibold text-gray-900">BUKU ID</th>
+                                                <th class="w-1/6 px-4 py-2 font-semibold text-gray-900">NAMA FILE</th>
+                                                <th class="w-1/6 px-4 py-2 font-semibold text-gray-900">NAMA COVER</th>
+                                                <th class="w-1/6 whitespace-nowrap px-4 py-2 font-semibold text-gray-900">
                                                     <select name="category_all" id="category_all" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" @change="changeCategory">
                                                         <option value="">Pilih Kategori Buku</option>
                                                         <option v-for="(value, key) in options.category" :key="key" :value="value.id">{{ value.name }}</option>
                                                     </select>
                                                 </th>
-                                                <th class="px-4 py-2 font-semibold text-gray-900 w-1/6">
+                                                <th class="w-1/6 px-4 py-2 font-semibold text-gray-900">
                                                     <select name="publisher_all" id="publisher_all" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" @change="changePublisher">
                                                         <option value="">Pilih Penerbit</option>
                                                         <option v-for="(value, key) in options.publisher" :key="key" :value="value.id">{{ value.name }}</option>
@@ -165,12 +165,12 @@
 
                                         <tbody class="divide-y divide-gray-200">
                                             <tr v-for="(file, key) in form.field.data_upl" :key="key">
-                                                <td class="px-4 py-2 text-gray-700"><img :src="file.path_cover" class="w-[70%] h-[70%] shadow-md rounded-sm" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" /></td>
-                                                <td class="px-4 py-2 text-gray-700 text-wrap">{{ file.book_id }}</td>
+                                                <td class="px-4 py-2 text-gray-700"><img :src="file.path_cover" class="h-[70%] w-[70%] rounded-sm shadow-md" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" /></td>
+                                                <td class="text-wrap px-4 py-2 text-gray-700">{{ file.book_id }}</td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.filename }}</td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.cover }}</td>
                                                 <td class="px-4 py-2 text-gray-700">
-                                                    <Field as="select" :rules="validateCategory" :name="'category'+ key" :id="'category'+ key" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.category_id">
+                                                    <Field as="select" :rules="validateCategory" :name="'category' + key" :id="'category' + key" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="file.category_id">
                                                         <option value="">Pilih Kategori Buku</option>
                                                         <option v-for="(value, key) in options.category" :key="key" :value="value.id">{{ value.name }}</option>
                                                     </Field>
@@ -236,7 +236,7 @@
                                 <tbody class="divide-y divide-gray-200">
                                     <tr v-for="(file, key) in form.field.data_view" :key="key">
                                         <td class="px-4 py-2 text-gray-700">
-                                            <img :src="file.path_cover" class="w-9/12 h-4/5 shadow-md rounded-sm" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" />
+                                            <img :src="file.path_cover" class="h-4/5 w-9/12 rounded-sm shadow-md" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" />
                                         </td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.book_id }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.isbn }}</td>
@@ -310,10 +310,10 @@
                         <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                             <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
-                                    <div class="mt-3 text-center sm:ml-15 sm:mt-0 sm:text-left">
+                                    <div class="sm:ml-15 mt-3 text-center sm:mt-0 sm:text-left">
                                         <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Cover Buku</DialogTitle>
                                         <div class="mt-2 items-center">
-                                            <img :src="image_url" class="shadow-md rounded-lg" alt="Preview" />
+                                            <img :src="image_url" class="rounded-lg shadow-md" alt="Preview" />
                                         </div>
                                     </div>
                                 </div>
@@ -332,8 +332,8 @@
 
 <script>
 import { DataTable } from 'simple-datatables'
-import { Form as VeeForm, Field, ErrorMessage, defineRule  } from 'vee-validate'
-import { required } from '@vee-validate/rules';
+import { Form as VeeForm, Field, ErrorMessage, defineRule } from 'vee-validate'
+import { required } from '@vee-validate/rules'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 
@@ -630,32 +630,32 @@ export default {
 
         changeCategory(event) {
             const selectedValue = event.target.value
-            this.form.field.data_upl.forEach(element => {
+            this.form.field.data_upl.forEach((element) => {
                 element.category_id = selectedValue
             })
         },
 
         validateCategory(value) {
             if (!value) {
-                return 'Kategory tidak boleh kosong!';
+                return 'Kategory tidak boleh kosong!'
             }
 
-            return true;
+            return true
         },
 
         changePublisher(event) {
             const selectedValue = event.target.value
-            this.form.field.data_upl.forEach(element => {
+            this.form.field.data_upl.forEach((element) => {
                 element.publisher_id = selectedValue
             })
         },
 
         validatePublisher(value) {
             if (!value) {
-                return 'Publisher tidak boleh kosong!';
+                return 'Publisher tidak boleh kosong!'
             }
 
-            return true;
+            return true
         },
 
         encrypt() {
@@ -813,7 +813,7 @@ export default {
                         }
                     } else {
                         console.log(result)
-                        
+
                         this.form.submitted = false
                     }
                 })
