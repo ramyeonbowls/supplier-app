@@ -16,69 +16,44 @@
             </nav>
         </div>
         <div class="p-6">
-            <div class="grid grid-cols-5 gap-2 lg:grid-cols-5 lg:gap-6">
-                <div class="h-32">
-                    <article class="rounded-lg border border-gray-100 bg-white p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-                                    </svg>
+            <a href="#" class="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+                <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
 
-                                    <p class="whitespace-nowrap text-sm">Draft</p>
-                                </span>
+                <div class="sm:flex sm:justify-between sm:gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 sm:text-xl">Dokumen & Surat Perjanjian</h3>
 
-                                <p class="text-2xl font-medium text-gray-900">20 Buku</p>
-                            </div>
-                        </div>
+                        <p class="mt-1 text-xs font-medium text-gray-600">{{ form.field.type }}</p>
+                    </div>
 
-                        <div class="mt-1 flex gap-1 text-green-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    <div class="hidden sm:block sm:shrink-0">
+                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-2 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="printDoc">
+                        <span class="absolute -start-full transition-all group-hover:start-4">
+                            <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z"
+                                />
                             </svg>
+                        </span>
 
-                            <p class="flex gap-2 text-xs">
-                                <span class="font-medium"> 67.81% </span>
-
-                                <span class="text-gray-500"> Since last week </span>
-                            </p>
-                        </div>
-                    </article>
+                        <span class="text-sm font-semibold transition-all group-hover:ms-4"> Print Document </span>
+                    </button>
+                    </div>
                 </div>
-                <div class="h-32">
-                    <article class="rounded-lg border border-gray-100 bg-white p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="inline-flex items-center justify-center rounded-full bg-orange-100 px-2.5 py-0.5 text-orange-700">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 15.75-2.489-2.489m0 0a3.375 3.375 0 1 0-4.773-4.773 3.375 3.375 0 0 0 4.774 4.774ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
 
-                                    <p class="whitespace-nowrap text-sm">Review</p>
-                                </span>
-
-                                <p class="text-2xl font-medium text-gray-900">20 Buku</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-1 flex gap-1 text-green-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                            </svg>
-
-                            <p class="flex gap-2 text-xs">
-                                <span class="font-medium"> 67.81% </span>
-
-                                <span class="text-gray-500"> Since last week </span>
-                            </p>
-                        </div>
-                    </article>
+                <div class="mt-2">
+                    <p class="text-pretty text-sm text-gray-500">{{ form.field.name }}</p>
                 </div>
-                <div class="h-32 rounded-lg bg-gray-200"></div>
-                <div class="h-32 rounded-lg bg-gray-200"></div>
-                <div class="h-32 rounded-lg bg-gray-200"></div>
-            </div>
+
+                <dl class="mt-2 flex gap-4 sm:gap-6">
+                    <div class="flex flex-col-reverse">
+                        <dd class="text-xs text-gray-500">{{ form.field.created_at }}</dd>
+                        <dt class="text-sm font-medium text-gray-600">Terdaftar pada</dt>
+                    </div>
+                </dl>
+            </a>
         </div>
     </div>
 </template>
@@ -87,8 +62,97 @@
 import { DataTable } from 'simple-datatables'
 
 export default {
+    data() {
+        return {
+            form: {
+                field: {
+                    id: '',
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                    country: '',
+                    province: '',
+                    regency: '',
+                    district: '',
+                    subdistrict: '',
+                    postal_code: '',
+                    address: '',
+                    telephone: '',
+                    handphone: '',
+                    director: '',
+                    position: '',
+                    handphone_director: '',
+                    person_in_charge: '',
+                    handphone_person_in_charge: '',
+                    npwp: '',
+                    account_bank: '',
+                    bank: '',
+                    account_name: '',
+                    bank_city: '',
+                    type: '',
+                    created_at: '',
+                },
+            },
+        }
+    },
+
     mounted() {
-        // const dataTable = new DataTable('#default-table')
+        this.getData()
+    },
+
+    methods: {
+        getData() {
+            let loader = this.$loading.show()
+            window.axios
+                .get('/profile/profile-company')
+                .then((response) => {
+                    let profile = response.data.data
+
+                    this.form.field.id = profile[0].id
+                    this.form.field.name = profile[0].name
+                    this.form.field.email = profile[0].email
+                    this.form.field.country = profile[0].country
+                    this.form.field.province = profile[0].province
+                    this.form.field.regency = profile[0].regency
+                    this.form.field.district = profile[0].district
+                    this.form.field.subdistrict = profile[0].subdistrict
+                    this.form.field.postal_code = profile[0].postal_code
+                    this.form.field.address = profile[0].address
+                    this.form.field.handphone = profile[0].handphone
+                    this.form.field.director = profile[0].director
+                    this.form.field.position = profile[0].position
+                    this.form.field.handphone_director = profile[0].handphone_director
+                    this.form.field.person_in_charge = profile[0].pic
+                    this.form.field.handphone_person_in_charge = profile[0].handphone_pic
+                    this.form.field.created_at = this.formatTanggal(profile[0].created_at)
+                    this.form.field.type = profile[0].type == '1' ? 'Supplier' : profile[0].type == '2' ? 'Distributor' : 'Distributor & Supplier'
+
+                    loader.hide()
+                })
+                .catch((e) => {
+                    console.error(e)
+                    loader.hide()
+                })
+        },
+
+        printDoc() {
+            window.open('profile/profile-document/agreement?id=' + this.form.field.id + '_blank')
+        },
+
+        formatTanggal(tanggal) {
+            const bulanIndo = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+
+            const dateObj = new Date(tanggal);
+            const hari = dateObj.getDate();
+            const bulan = bulanIndo[dateObj.getMonth()];
+            const tahun = dateObj.getFullYear();
+
+            return `${hari} ${bulan} ${tahun}`;
+        }
     },
 }
 </script>

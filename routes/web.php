@@ -21,6 +21,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::namespace('App\Http\Controllers\Core')->group(function() {
         Route::prefix('profile')->namespace('Profile')->group(function() {
             Route::apiResource('profile-company', ProfileCompanyController::class);
+            Route::prefix('profile-document')->group(function() {
+                Route::get('agreement', 'ProfileCompanyController@agreementLetter');
+            });
         });
 
         Route::prefix('upload')->namespace('Upload')->group(function() {

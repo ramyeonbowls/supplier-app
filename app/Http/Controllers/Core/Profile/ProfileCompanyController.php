@@ -51,9 +51,13 @@ class ProfileCompanyController extends Controller
                     'a.email as email',
                     'a.country as country',
                     'a.province as province',
+                    'b.provinsi_name as province_name',
                     'a.regency as regency',
+                    'c.kabupaten_name as regency_name',
                     'a.district as district',
+                    'd.kecamatan_name as district_name',
                     'a.subdistrict as subdistrict',
+                    'e.kelurahan_name as subdistrict_name',
                     'a.postal_code as postal_code',
                     'a.address as address',
                     'a.telephone as telephone',
@@ -72,6 +76,24 @@ class ProfileCompanyController extends Controller
                     'a.updated_at as updated_at',
                     'a.updated_by as updated_by',
                 )
+                ->join('tprovinsi as b', function($join) {
+					$join->on('a.province', '=', 'b.provinsi_id');
+				})
+                ->join('tkabupaten as c', function($join) {
+					$join->on('a.province', '=', 'c.provinsi_id')
+                        ->on('a.regency', '=', 'c.kabupaten_id');
+				})
+                ->join('tkecamatan as d', function($join) {
+					$join->on('a.province', '=', 'd.provinsi_id')
+                        ->on('a.regency', '=', 'd.kabupaten_id')
+                        ->on('a.district', '=', 'd.kecamatan_id');
+				})
+                ->join('tkelurahan as e', function($join) {
+					$join->on('a.province', '=', 'e.provinsi_id')
+                        ->on('a.regency', '=', 'e.kabupaten_id')
+                        ->on('a.district', '=', 'e.kecamatan_id')
+                        ->on('a.subdistrict', '=', 'e.kelurahan_id');
+				})
                 ->where('a.id', auth()->user()->client_id)
                 ->get();
 
@@ -530,5 +552,118 @@ class ProfileCompanyController extends Controller
     public function destroy(string $id): JsonResponse
     {
         return response()->json(['id' => $id], 200);
+    }
+
+    public function agreementLetter(Request $request)
+    {
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $results = [];
+        try {
+            DB::enableQueryLog();
+
+            $results['profile'] = DB::table('tclient as a')->sharedLock()
+                ->select(
+                    'a.id as id',
+                    'a.name as name',
+                    'a.email as email',
+                    'a.country as country',
+                    'a.province as province',
+                    'b.provinsi_name as province_name',
+                    'a.regency as regency',
+                    'c.kabupaten_name as regency_name',
+                    'a.district as district',
+                    'd.kecamatan_name as district_name',
+                    'a.subdistrict as subdistrict',
+                    'e.kelurahan_name as subdistrict_name',
+                    'a.postal_code as postal_code',
+                    'a.address as address',
+                    'a.telephone as telephone',
+                    'a.handphone as handphone',
+                    'a.director as director',
+                    'a.position as position',
+                    'a.handphone_director as handphone_director',
+                    'a.pic as pic',
+                    'a.handphone_pic as handphone_pic',
+                    'a.file as file',
+                    'a.agreement as agreement',
+                    'a.type as type',
+                    'a.documents as documents',
+                    'a.created_at as created_at',
+                    'a.created_by as created_by',
+                    'a.updated_at as updated_at',
+                    'a.updated_by as updated_by',
+                )
+                ->join('tprovinsi as b', function($join) {
+                    $join->on('a.province', '=', 'b.provinsi_id');
+                })
+                ->join('tkabupaten as c', function($join) {
+                    $join->on('a.province', '=', 'c.provinsi_id')
+                        ->on('a.regency', '=', 'c.kabupaten_id');
+                })
+                ->join('tkecamatan as d', function($join) {
+                    $join->on('a.province', '=', 'd.provinsi_id')
+                        ->on('a.regency', '=', 'd.kabupaten_id')
+                        ->on('a.district', '=', 'd.kecamatan_id');
+                })
+                ->join('tkelurahan as e', function($join) {
+                    $join->on('a.province', '=', 'e.provinsi_id')
+                        ->on('a.regency', '=', 'e.kabupaten_id')
+                        ->on('a.district', '=', 'e.kecamatan_id')
+                        ->on('a.subdistrict', '=', 'e.kelurahan_id');
+                })
+                ->where('a.id', auth()->user()->client_id)
+                ->get();
+
+            $results['imprint'] = DB::table('tpublisher as a')->sharedLock()
+                ->select(
+                    'a.id as id',
+                    'a.description as name'
+                )
+                ->where('a.client_id', auth()->user()->client_id)
+                ->where('a.flag', 'I')
+                ->get();
+
+            $results['kuasa'] = DB::table('tpublisher as a')->sharedLock()
+                ->select(
+                    'a.id as id',
+                    'a.description as name'
+                )
+                ->where('a.client_id', auth()->user()->client_id)
+                ->where('a.flag', 'K')
+                ->get();
+
+            $results['category'] = DB::table('tclient_category as a')->sharedLock()
+                ->select(
+                    'a.category_id as id',
+                    'a.category_desc as name'
+                )
+                ->where('client_id', auth()->user()->client_id)
+                ->get();
+
+            $results['account'] = DB::table('tclient_bank_account as a')->sharedLock()
+                ->select(
+                    'a.npwp as npwp',
+                    'a.account_bank as account_bank',
+                    'a.bank as bank',
+                    'a.account_name as account_name',
+                    'a.bank_city as bank_city'
+                )
+                ->where('client_id', auth()->user()->client_id)
+                ->get();
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $sql);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+        }
+        $logs->write(__FUNCTION__, "STOP\r\n");
+
+        return view('pdf.agreement_letter', ['results' => json_decode(json_encode($results), FALSE)]);
     }
 }
