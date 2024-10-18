@@ -38,7 +38,7 @@
                             </svg>
                         </span>
 
-                        <span class="text-sm font-semibold transition-all group-hover:ms-4"> Print Document </span>
+                        <span class="text-sm font-semibold transition-all group-hover:ms-4"> Print Dokumen </span>
                     </button>
                     </div>
                 </div>
