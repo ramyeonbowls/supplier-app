@@ -758,7 +758,7 @@
             </tr>
         </table>";
 
-        if ($results->profile[0]->type == '1') {
+        if ($results->profile[0]->type == '1' || $results->profile[0]->type == '3') {
             $html .= "
                 <div class='page_break'></div>
                 <div class='font-size-xxs font-w50 text-center'><h2>SURAT AKSES HAK JUAL BUKU ELEKTRONIK</h2></div>
@@ -807,7 +807,7 @@
                 </table>";
         }
 
-        if ($results->profile[0]->type == '1') {
+        if ($results->profile[0]->type == '1' || $results->profile[0]->type == '3') {
             $html .= "
                 <div class='page_break'></div>
                 <div class='font-size-xxs font-w50 text-center'><h2>SURAT KUASA</h2></div>
@@ -853,7 +853,7 @@
                 </table>";
         }
 
-        if ($results->profile[0]->type == '1') {
+        if ($results->profile[0]->type == '1' || $results->profile[0]->type == '3') {
             $html .= "
                 <div class='page_break'></div>
                 <div class='font-size-xxs font-w50 text-center'><h2>SURAT PERNYATAAN IMPRINT</h2></div>

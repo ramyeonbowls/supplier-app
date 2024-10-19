@@ -9,6 +9,8 @@ Auth::routes([
     'reset' => false
 ]);
 
+Route::get('signature', [App\Http\Controllers\Web\OptionsController::class, 'signature'])->name('signature');
+
 Route::middleware(['guest'])->group(function () {
     Route::namespace('App\Http\Controllers\Web')->group(function() {
         Route::apiResource('options', OptionsController::class);

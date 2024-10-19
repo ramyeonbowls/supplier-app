@@ -24,7 +24,6 @@ class OptionsController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
-        $this->middleware('auth');
     }
 
     /**
@@ -263,5 +262,81 @@ class OptionsController extends Controller
     public function destroy(string $id): JsonResponse
     {
         return response()->json(['id' => $id], 200);
+    }
+
+    /**
+     * Get the specified resource from storage.
+     *
+     * @param  string  $id
+     * @return JsonResponse
+     */
+    public function signature(Request $request)
+    {
+        $client_id = $request->id ?? '';
+
+        if ($client_id != '') {
+            $id = DB::table('tclient as a')->sharedLock()
+                ->select(
+                    'a.name as name',
+                    'a.country as country',
+                    'a.province as province',
+                    'b.provinsi_name as province_name',
+                    'a.regency as regency',
+                    'c.kabupaten_name as regency_name',
+                    'a.district as district',
+                    'd.kecamatan_name as district_name',
+                    'a.subdistrict as subdistrict',
+                    'e.kelurahan_name as subdistrict_name',
+                    'a.postal_code as postal_code',
+                    'a.director as director',
+                    'a.position as position',
+                    'a.created_at as created_at',
+                    'a.created_by as created_by',
+                )
+                ->join('tprovinsi as b', function($join) {
+                    $join->on('a.province', '=', 'b.provinsi_id');
+                })
+                ->join('tkabupaten as c', function($join) {
+                    $join->on('a.province', '=', 'c.provinsi_id')
+                        ->on('a.regency', '=', 'c.kabupaten_id');
+                })
+                ->join('tkecamatan as d', function($join) {
+                    $join->on('a.province', '=', 'd.provinsi_id')
+                        ->on('a.regency', '=', 'd.kabupaten_id')
+                        ->on('a.district', '=', 'd.kecamatan_id');
+                })
+                ->join('tkelurahan as e', function($join) {
+                    $join->on('a.province', '=', 'e.provinsi_id')
+                        ->on('a.regency', '=', 'e.kabupaten_id')
+                        ->on('a.district', '=', 'e.kecamatan_id')
+                        ->on('a.subdistrict', '=', 'e.kelurahan_id');
+                })
+                ->where('a.id', $client_id)
+                ->first();
+
+                $id = json_decode(json_encode($id));
+        } else {
+            $id = [
+                'name' => 'PT. GINESIA DIGITAL INDONESIA',
+                'country' => '',
+                'province' => '',
+                'province_name' => '',
+                'regency' => '',
+                'regency_name' => 'Yogyakarta',
+                'district' => '',
+                'district_name' => '',
+                'subdistrict' => '',
+                'subdistrict_name' => '',
+                'postal_code' => '',
+                'director' => 'Irfan Hilmi',
+                'position' => 'Direktur',
+                'created_at' => '',
+                'created_by' => '',
+            ];
+
+            $id = json_decode(json_encode($id));
+        }
+
+        return view('signature', compact('id'));
     }
 }
