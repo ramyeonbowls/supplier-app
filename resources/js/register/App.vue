@@ -12,7 +12,7 @@
 
                     <h2 class="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">Formulir Pendaftaran</h2>
 
-                    <p class="mt-4 leading-relaxed text-white/90">Distributor & Supplier</p>
+                    <p class="mt-4 font-bold leading-relaxed text-white/90">Supplier</p>
                 </div>
             </section>
 
@@ -35,7 +35,7 @@
                                 <label for="supplier" class="flex cursor-pointer items-start gap-2 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50">
                                     <div class="flex items-center">
                                         &#8203;
-                                        <input type="checkbox" class="single-checkbox size-4 rounded border-gray-300" id="supplier" name="supplier" v-model="form.field.supplier" />
+                                        <input type="checkbox" class="single-checkbox size-4 rounded border-gray-300" id="supplier" name="supplier" v-model="form.field.supplier" disabled />
                                     </div>
 
                                     <div>
@@ -238,8 +238,8 @@
                                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                             <thead class="justify-between text-center">
                                                 <tr>
-                                                    <th class="w-[80%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">Imprint Data</th>
-                                                    <th class="w-[20%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                                                    <th class="w-[80%] whitespace-nowrap px-4 py-2 font-bold text-gray-700">Imprint Data</th>
+                                                    <th class="w-[20%] whitespace-nowrap px-4 py-2 font-medium text-blue-600">
                                                         <button type="button" @click="addImprint">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -259,7 +259,7 @@
                                                                 <span class="absolute start-0 top-2 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs"> Imprint {{ key + 1 }} </span>
                                                             </label>
                                                         </td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
+                                                        <td class="whitespace-nowrap px-4 py-2 text-center text-red-600">
                                                             <button type="button" @click="delImprint(imprint)">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                                     <path
@@ -289,8 +289,8 @@
                                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                             <thead class="justify-between text-center">
                                                 <tr>
-                                                    <th class="w-[80%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">Penerbit yang Memberi Kuasa</th>
-                                                    <th class="w-[20%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                                                    <th class="w-[80%] whitespace-nowrap px-4 py-2 font-bold text-gray-700">Penerbit yang Memberi Kuasa</th>
+                                                    <th class="w-[20%] whitespace-nowrap px-4 py-2 font-medium text-blue-600">
                                                         <button type="button" @click="addPublisher">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -310,7 +310,7 @@
                                                                 <span class="absolute start-0 top-2 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs"> Penerbit {{ key + 1 }} </span>
                                                             </label>
                                                         </td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
+                                                        <td class="whitespace-nowrap px-4 py-2 text-center text-red-600">
                                                             <button type="button" @click="delPublisher(publisher)">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                                     <path
@@ -340,8 +340,8 @@
                                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                             <thead class="justify-between text-center">
                                                 <tr>
-                                                    <th class="w-[80%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">Kategori Buku</th>
-                                                    <th class="w-[20%] whitespace-nowrap px-4 py-2 font-medium text-gray-700">
+                                                    <th class="w-[80%] whitespace-nowrap px-4 py-2 font-bold text-gray-700">Kategori Buku</th>
+                                                    <th class="w-[20%] whitespace-nowrap px-4 py-2 font-medium text-blue-600">
                                                         <button type="button" @click="getKategori">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -355,7 +355,7 @@
                                                 <template v-if="form.field.category.length > 0">
                                                     <tr v-for="(category, key) in form.field.category" :key="key">
                                                         <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ category.desc }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
+                                                        <td class="whitespace-nowrap px-4 py-2 text-center text-red-600">
                                                             <button type="button" @click="delKategori(category)">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                                     <path
