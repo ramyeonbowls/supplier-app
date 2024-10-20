@@ -44,7 +44,7 @@
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
                         </button>
-                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelUpdate">
+                        <!-- <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelUpdate">
                             <span class="absolute -start-full transition-all group-hover:start-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
@@ -52,7 +52,7 @@
                             </span>
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Kembali </span>
-                        </button>
+                        </button> -->
                     </template>
                     <template v-else-if="form.upload">
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-indigo-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click.prevent="submitUploadExcel">
@@ -63,15 +63,6 @@
                             </span>
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
-                        </button>
-                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click.prevent="exportTpl">
-                            <span class="absolute -start-full transition-all group-hover:start-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                            </span>
-
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Download Excel </span>
                         </button>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelUpload">
                             <span class="absolute -start-full transition-all group-hover:start-4">
@@ -91,7 +82,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Ajukan Buku </span>
                         </button>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelReview">
                             <span class="absolute -start-full transition-all group-hover:start-4">
@@ -112,9 +103,9 @@
                 <div class="tabs flex w-48 gap-2">
                     <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.data ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Data</button>
                     <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.encrypt ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Enkripsi Buku</button>
-                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.update ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Kelengkapan Informasi</button>
-                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.upload ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Upload</button>
-                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.review ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Review</button>
+                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.update ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Informasi Penerbit & Kategori</button>
+                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.upload ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Upload Informasi Buku</button>
+                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.review ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Draft Review</button>
                 </div>
 
                 <div class="tab-content mt-4">
@@ -191,6 +182,15 @@
                         </VeeForm>
                     </div>
                     <div class="tab-panel" :class="form.upload ? '' : 'hidden'">
+                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click.prevent="exportTpl">
+                            <span class="absolute -start-full transition-all group-hover:start-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                            </span>
+
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Download Excel </span>
+                        </button>
                         <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
                             <form @submit.prevent="handleSubmit($event, submitUploadExcel)">
                                 <div class="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
@@ -249,7 +249,7 @@
                                         <td class="px-4 py-2 text-gray-700">{{ file.volume }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.edition }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.page }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.sinopsis }}</td>
+                                        <td class="px-4 py-2 text-gray-700"><a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(file.sinopsis)">{{ file.sinopsis.substring(0, 10) + '...' }}</a></td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.sellprice }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.rentprice }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.retailprice }}</td>
@@ -327,6 +327,39 @@
             </div>
         </Dialog>
     </TransitionRoot>
+
+    <TransitionRoot as="template" :show="open_sinopsis">
+        <Dialog class="relative z-10" @close="open_sinopsis = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <InformationCircleIcon class="h-6 w-6 text-emerald-600" aria-hidden="true" />
+                                    </div>
+                                    <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Sinopsis</DialogTitle>
+                                        <div class="mt-2">
+                                            <p class="text-sm text-gray-500">{{ detail_sinopsis }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_sinopsis = false" ref="cancelButtonRef">Close</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
     <!-- modal -->
 </template>
 
@@ -335,7 +368,7 @@ import { DataTable } from 'simple-datatables'
 import { Form as VeeForm, Field, ErrorMessage, defineRule } from 'vee-validate'
 import { required } from '@vee-validate/rules'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
+import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
 
 defineRule('required', required)
 
@@ -351,12 +384,15 @@ export default {
         TransitionChild,
         TransitionRoot,
         ExclamationTriangleIcon,
+        InformationCircleIcon,
     },
 
     data() {
         return {
             open: false,
             image_url: '',
+            open_sinopsis: false,
+            detail_sinopsis: '',
 
             options: {
                 category: [],
@@ -496,6 +532,13 @@ export default {
                         }
                     },
                 },
+                {
+                    select: 13,
+                    type: 'string',
+                    render: function (data, td, rowIndex, cellIndex) {
+                        return '<a href="javascript:void(0)" class="detail-sinopsis whitespace-nowrap" data-sinopsis="' + data + '">' + data.substring(0, 10) + '...</a>'
+                    },
+                },
             ],
         })
     },
@@ -544,11 +587,23 @@ export default {
                     this.open = true
                 })
             })
+
+            document.querySelectorAll('.detail-sinopsis').forEach((element) => {
+                element.addEventListener('click', (event) => {
+                    let file = event.target.closest('a').getAttribute('data-sinopsis')
+                    this.showSinopsis(file)
+                })
+            })
         },
 
         showImages(file) {
             this.image_url = file
             this.open = true
+        },
+
+        showSinopsis(text) {
+            this.detail_sinopsis = text
+            this.open_sinopsis = true
         },
 
         getCategory() {

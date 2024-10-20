@@ -31,7 +31,7 @@
 
                     <VeeForm ref="form" v-slot="{ handleSubmit, errors }" as="div">
                         <form class="mt-8 grid grid-cols-6 gap-4" @submit.prevent="handleSubmit($event, submit)">
-                            <div class="col-span-6 sm:col-span-2">
+                            <div class="col-span-6">
                                 <label for="supplier" class="flex cursor-pointer items-start gap-2 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50">
                                     <div class="flex items-center">
                                         &#8203;
@@ -47,7 +47,7 @@
                                 <ErrorMessage name="supplier" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                             </div>
 
-                            <div class="col-span-6 sm:col-span-2">
+                            <!-- <div class="col-span-6 sm:col-span-2">
                                 <label for="distributor" class="flex cursor-pointer items-start gap-2 rounded-lg border border-gray-200 p-4 transition hover:bg-gray-50 has-[:checked]:bg-blue-50">
                                     <div class="flex items-center">
                                         &#8203;
@@ -77,7 +77,7 @@
                                     </div>
                                 </label>
                                 <ErrorMessage name="supp_distributor" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
-                            </div>
+                            </div> -->
 
                             <template v-if="form.field.supplier || form.field.distributor || form.field.supp_distributor">
                                 <div class="col-span-6">
@@ -560,7 +560,7 @@ export default {
                     bank: '',
                     account_name: '',
                     bank_city: '',
-                    supplier: false,
+                    supplier: true,
                     distributor: false,
                     supp_distributor: false,
                     agreement: false,

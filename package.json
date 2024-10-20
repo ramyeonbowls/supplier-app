@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "format": "prettier --write \"resources/**/*.{js,vue,css,html,blade.php}\""
+        "format": "prettier --write \"resources/**/*.{js,vue,css,html}\""
     },
     "devDependencies": {
         "@headlessui/vue": "^1.7.23",

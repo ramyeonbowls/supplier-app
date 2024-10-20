@@ -20,10 +20,7 @@
 
                 <div class="list-profile-menu absolute hidden w-[100px] -translate-x-20 translate-y-1 rounded-md bg-white p-2 text-[0.70rem] font-medium text-slate-600 drop-shadow-md">
                     <ul>
-                        <router-link :to="{ name: 'profile' }">
-                            <li class="mb-1 hover:cursor-pointer hover:text-slate-900">Your profile</li>
-                        </router-link>
-                        <li class="border-t-[1px] border-t-slate-300 hover:cursor-pointer hover:text-slate-900" @click="logout">Sign out</li>
+                        <li class="border-t-slate-300 hover:cursor-pointer hover:text-slate-900" @click="logout">Sign out</li>
                     </ul>
                 </div>
             </div>
@@ -44,6 +41,15 @@
                         </svg>
 
                         <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Dashboard</p>
+                    </li>
+                </router-link>
+                <router-link :to="{ name: 'profile' }">
+                    <li class="group flex items-center gap-3 rounded-md p-2 hover:cursor-pointer hover:bg-indigo-500 focus:bg-indigo-600 active:bg-indigo-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color group-hover:stroke-white">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+
+                        <p class="text-sm font-semibold text-slate-500 group-hover:text-slate-50">Profile</p>
                     </li>
                 </router-link>
                 <router-link :to="{ name: 'encrypt_book' }">
