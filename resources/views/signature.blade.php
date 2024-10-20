@@ -48,7 +48,7 @@
 
                                     @if (!empty($id->created_at))
                                     <div class="flex flex-col-reverse">
-                                        <dd class="text-xs text-gray-500 font-bold">{{ $id->created_at }}</dd>
+                                        <dd class="text-xs text-gray-500 font-bold">{{ \Carbon\Carbon::parse($id->created_at)->translatedFormat('d F Y') }}</dd>
                                         <dt class="text-sm font-medium text-gray-600">Pada tanggal</dt>
                                     </div>
                                     @endif

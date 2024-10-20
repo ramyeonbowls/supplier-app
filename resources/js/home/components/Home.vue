@@ -26,7 +26,7 @@
                         <p class="mt-1 text-xs font-medium text-gray-600">{{ form.field.type }}</p>
                     </div>
 
-                    <div class="hidden sm:block sm:shrink-0">
+                    <div>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-2 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="printDoc">
                             <span class="absolute -start-full transition-all group-hover:start-4">
                                 <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -17,16 +17,6 @@ use Throwable;
 class OptionsController extends Controller
 {
     /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return JsonResponse
@@ -322,7 +312,7 @@ class OptionsController extends Controller
                 'province' => '',
                 'province_name' => '',
                 'regency' => '',
-                'regency_name' => 'Yogyakarta',
+                'regency_name' => 'Kab. Bantul',
                 'district' => '',
                 'district_name' => '',
                 'subdistrict' => '',
