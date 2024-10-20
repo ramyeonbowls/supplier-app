@@ -666,7 +666,7 @@
         "<table class='table-sm font-size-sm' cellspacing='0' style='width: 100%; margin-top: 1rem!important'>
             <thead>
                 <tr>
-                    <td colspan='3' class='font-size-sm' style='vertical-align: bottom; text-align: left;'>Demikian perjanjian ini dibuat dan disetujui secara elektronik di Yogyakarta.</div>
+                    <td colspan='3' class='font-size-sm' style='vertical-align: bottom; text-align: left;'>Demikian perjanjian ini dibuat dan disetujui secara elektronik di Kab. Bantul.</div>
                     </td>
                 </tr>
             </thead>
