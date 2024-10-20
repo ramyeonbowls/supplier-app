@@ -41,7 +41,7 @@
                                     <div>
                                         <strong class="font-medium text-gray-900"> Supplier </strong>
 
-                                        <p class="mt-1 text-pretty text-xs text-gray-700">Daftar Supplier.</p>
+                                        <p class="mt-1 text-pretty text-xs text-gray-700">Daftar Sebagai Supplier.</p>
                                     </div>
                                 </label>
                                 <ErrorMessage name="supplier" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
