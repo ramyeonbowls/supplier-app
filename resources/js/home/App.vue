@@ -20,7 +20,15 @@
 
                 <div class="list-profile-menu absolute hidden w-[100px] -translate-x-20 translate-y-1 rounded-md bg-white p-2 text-[0.70rem] font-medium text-slate-600 drop-shadow-md">
                     <ul>
-                        <li class="border-t-slate-300 hover:cursor-pointer hover:text-slate-900" @click="logout">Sign out</li>
+                        <li class="flex justify-start gap-2 border-t-slate-300 hover:cursor-pointer hover:text-slate-900" @click="logout">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd" d="M3 4.25A2.25 2.25 0 0 1 5.25 2h5.5A2.25 2.25 0 0 1 13 4.25v2a.75.75 0 0 1-1.5 0v-2a.75.75 0 0 0-.75-.75h-5.5a.75.75 0 0 0-.75.75v11.5c0 .414.336.75.75.75h5.5a.75.75 0 0 0 .75-.75v-2a.75.75 0 0 1 1.5 0v2A2.25 2.25 0 0 1 10.75 18h-5.5A2.25 2.25 0 0 1 3 15.75V4.25Z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M19 10a.75.75 0 0 0-.75-.75H8.704l1.048-.943a.75.75 0 1 0-1.004-1.114l-2.5 2.25a.75.75 0 0 0 0 1.114l2.5 2.25a.75.75 0 1 0 1.004-1.114l-1.048-.943h9.546A.75.75 0 0 0 19 10Z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div>Sign out</div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -115,7 +123,7 @@
         </div>
     </div>
 
-    <div class="shadow-sidebar hide-sidebar absolute top-0 flex z-40 h-screen w-full justify-end bg-slate-900/80 lg:hidden">
+    <div class="shadow-sidebar hide-sidebar absolute top-0 z-40 flex h-screen w-full justify-end bg-slate-900/80 lg:hidden">
         <div id="button-close" class="button-close -translate-y-2 p-5 md:object-none">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#ffff" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
