@@ -249,7 +249,9 @@
                                         <td class="px-4 py-2 text-gray-700">{{ file.volume }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.edition }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.page }}</td>
-                                        <td class="px-4 py-2 text-gray-700"><a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(file.sinopsis)">{{ file.sinopsis.substring(0, 10) + '...' }}</a></td>
+                                        <td class="px-4 py-2 text-gray-700">
+                                            <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(file.sinopsis)">{{ file.sinopsis.substring(0, 10) + '...' }}</a>
+                                        </td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.sellprice }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.rentprice }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.retailprice }}</td>
