@@ -27,7 +27,7 @@
         </div>
     </header>
 
-    <div class="sidebar hide-sidebar absolute top-0 z-10 box-border h-screen max-h-screen w-[70%] bg-sidebar-color px-5 py-5 drop-shadow-md lg:w-[20%] lg:translate-x-0">
+    <div class="sidebar hide-sidebar absolute top-0 z-50 box-border h-screen max-h-screen w-[70%] bg-sidebar-color px-5 py-5 drop-shadow-md lg:w-[20%] lg:translate-x-0">
         <div class="logo mb-10 flex w-[10rem] justify-between">
             <img src="images/logo/logo.svg" alt="logo" />
         </div>
@@ -115,7 +115,7 @@
         </div>
     </div>
 
-    <div class="shadow-sidebar hide-sidebar absolute top-0 flex h-screen w-full justify-end bg-slate-900/80 lg:hidden">
+    <div class="shadow-sidebar hide-sidebar absolute top-0 flex z-40 h-screen w-full justify-end bg-slate-900/80 lg:hidden">
         <div id="button-close" class="button-close -translate-y-2 p-5 md:object-none">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#ffff" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
