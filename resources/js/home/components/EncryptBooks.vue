@@ -209,27 +209,25 @@
                                 <thead class="text-left">
                                     <tr>
                                         <th class="px-4 py-2 font-semibold text-gray-900">COVER</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">BUKU ID</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">ISBN</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">EISBN</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">JUDUL</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">FILE ENKRIPSI</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">STATUS</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">PENULIS</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">PUBLISHER</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">FORMAT</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">ISBN</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">EISBN</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">KATEGORI</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">KOTA</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">TAHUN</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">JILID</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">EDISI</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">HALAMAN</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">SINOPSIS</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">JILID</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">FORMAT</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">UMUR</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">HARGA JUAL</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">HARGA PINJAM</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">HARGA RETAIL</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">KOTA</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">KATEGORI</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">FILE ENKRIPSI</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">COVER</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">TAHUN</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">STATUS</th>
                                     </tr>
                                 </thead>
 
@@ -238,48 +236,13 @@
                                         <td class="px-4 py-2 text-gray-700">
                                             <img :src="file.path_cover" class="h-4/5 w-9/12 rounded-sm shadow-md" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" />
                                         </td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.book_id }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.isbn }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.eisbn }}</td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.title }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.writer }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.publisher_desc }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.size }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.year }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.volume }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.edition }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.page }}</td>
                                         <td class="px-4 py-2 text-gray-700">
-                                            <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(file.sinopsis)">{{ file.sinopsis.substring(0, 10) + '...' }}</a>
+                                            <div class="gap-1">
+                                                <p class="whitespace-nowrap mb-1 text-sm">{{ file.filename }}</p>
+                                                <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', file.filename)">Download file enkripsi</a>
+                                            </div>
                                         </td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.sellprice }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.rentprice }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.retailprice }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.city }}</td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.category_desc }}</td>
-                                        <td class="px-4 py-2 text-gray-700">
-                                            <a href="javascript:void(0);" @click="downloadFile('books', file.filename)">
-                                                <span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700 hover:bg-emerald-300 focus:relative">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-
-                                                    <p class="whitespace-nowrap text-sm">Download Encrypt</p>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td class="px-4 py-2 text-gray-700">
-                                            <a href="javascript:void(0);" @click="downloadFile('covers', file.cover)">
-                                                <span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700 hover:bg-amber-300 focus:relative">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-
-                                                    <p class="whitespace-nowrap text-sm">Download Cover</p>
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td class="px-4 py-2 text-gray-700">{{ file.age }}</td>
                                         <td class="px-4 py-2 text-gray-700">
                                             <span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
@@ -289,6 +252,24 @@
                                                 <p class="whitespace-nowrap text-sm">Draft</p>
                                             </span>
                                         </td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.writer }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.publisher_desc }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.isbn }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.eisbn }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.category_desc }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.city }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.year }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.edition }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.page }}</td>
+                                        <td class="px-4 py-2 text-gray-700">
+                                            <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(file.sinopsis)">{{ file.sinopsis.substring(0, 10) + '...' }}</a>
+                                        </td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.size }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.volume }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.age }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.sellprice }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.rentprice }}</td>
+                                        <td class="px-4 py-2 text-gray-700">{{ file.retailprice }}</td>
                                     </tr>
                                 </tbody>
                             </table>

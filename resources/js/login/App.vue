@@ -9,7 +9,7 @@
                 <form class="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8" @submit.prevent="handleSubmit($event, submit)">
                     <div class="space-y-0 text-center">
                         <p class="text-lg font-medium text-gray-700">Masuk ke Akun Dashboard</p>
-                        <p class="text-sm text-gray-500">Sebagai Supplier dan atau Distributor</p>
+                        <p class="text-sm text-gray-500">Sebagai Supplier</p>
                     </div>
 
                     <div>
@@ -48,7 +48,7 @@
                     <button type="submit" class="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white">Masuk</button>
 
                     <p class="text-center text-sm text-gray-500">
-                        Belum punya akun Supplier/Distributor?
+                        Belum punya akun Supplier?
                         <a class="underline" href="/register">Daftar</a>
                     </p>
                 </form>
