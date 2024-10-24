@@ -3,11 +3,14 @@
 use Illuminate\Support\Facades\Route;
 
 Auth::routes([
-    'register' => true,
+    'register' => false,
     'verify' => true,
     'confirm' => false,
     'reset' => false
 ]);
+
+Route::get('pendaftaran-supplier', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('pendaftaran-supplier', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
 Route::get('signature', [App\Http\Controllers\Web\OptionsController::class, 'signature'])->name('signature');
 
