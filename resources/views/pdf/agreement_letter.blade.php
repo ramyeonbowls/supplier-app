@@ -284,7 +284,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td style='vertical-align: top;width: 100%;'>Pihak Pertama diizinkan untuk menyerahkan file produk yang telah terenkripsi kepada pembeli untuk diakses secara offline.</td>
+                        <td style='vertical-align: top;width: 100%;'>Pihak Pertama diizinkan untuk menyerahkan file produk yang telah terenkripsi kepada pembeli untuk diakses secara offline di satu komputer sesuai jumlah product yang terbeli guna kepentingan pengadaan barang.</td>
                     </tr>
                 </tbody>
             </table>
@@ -351,11 +351,11 @@
                 <tbody>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>1.</td>
-                        <td style='vertical-align: top;width: 95%;'>Pihak Pertama berhak menghentikan sementara produk yang mendapat keberatan dari pihak ketiga.</td>
+                        <td style='vertical-align: top;width: 95%;'>Pihak Pertama berhak menghentikan sementara peredaran produk digital yang mendapat keberatan dari pihak ketiga.</td>
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
-                        <td style='vertical-align: top;width: 95%;'>Pihak Pertama akan memberi waktu 60 hari untuk penyelesaian masalah.</td>
+                        <td style='vertical-align: top;width: 95%;'>Pihak Pertama akan memberi waktu 60 hari kepada pihak kedua untuk penyelesaian masalah dengan pihak ketiga.</td>
                     </tr>
                 </tbody>
             </table>
@@ -380,7 +380,7 @@
                 <tbody>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>1.</td>
-                        <td style='vertical-align: top;width: 95%;'>Pihak Kedua memberikan kuasa kepada Pihak Pertama untuk menandatangani surat dukungan untuk pihak ketiga jika diperlukan.</td>
+                        <td style='vertical-align: top;width: 95%;'>Pihak Kedua memberikan kuasa kepada Pihak Pertama untuk menandatangani surat dukungan untuk pihak ketiga yang bertidak sebagai distributor jika diperlukan.</td>
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
@@ -396,7 +396,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td style='vertical-align: top;width: 100%;'>Para pihak tidak bertanggung jawab atas keterlambatan akibat kejadian luar biasa, seperti bencana alam atau perubahan peraturan pemerintah. Jika force majeure berlangsung lebih dari 30 hari, masing-masing pihak dapat mengakhiri perjanjian ini dengan pemberitahuan tertulis.</td>
+                        <td style='vertical-align: top;width: 100%;'>Para pihak tidak bertanggung jawab atas keterlambatan akibat kejadian luar biasa, seperti bencana alam atau perubahan peraturan pemerintah. Jika <i>force majeure</i> berlangsung lebih dari 30 hari, masing-masing pihak dapat mengakhiri perjanjian ini dengan pemberitahuan tertulis.</td>
                     </tr>
                 </tbody>
             </table>
