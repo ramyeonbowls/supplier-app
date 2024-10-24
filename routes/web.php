@@ -43,6 +43,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::prefix('encrypt-books-download')->group(function() {
                 Route::get('download-file', 'UploadBooksController@downloadFile');
             });
+
+            Route::apiResource('encrypt-files', EncryptFileController::class);
+            Route::prefix('encrypt-files-download')->group(function() {
+                Route::get('download-file', 'EncryptFileController@downloadFile');
+            });
         });
 
         Route::prefix('report')->namespace('Report')->group(function() {

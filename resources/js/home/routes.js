@@ -24,6 +24,11 @@ const routes = [
         name: 'category_book',
         component: () => import(/* webpackChunkName: "category_book" */ './components/CategoryBooks.vue'),
     },
+    {
+        path: '/encrypt-file',
+        name: 'encrypt_file',
+        component: () => import(/* webpackChunkName: "encrypt_file" */ './components/EncryptFiles.vue'),
+    },
 ]
 
 export default routes

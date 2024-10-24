@@ -239,7 +239,7 @@
                                         <td class="px-4 py-2 text-gray-700">{{ file.title }}</td>
                                         <td class="px-4 py-2 text-gray-700">
                                             <div class="gap-1">
-                                                <p class="whitespace-nowrap mb-1 text-sm">{{ file.filename }}</p>
+                                                <p class="mb-1 whitespace-nowrap text-sm">{{ file.filename }}</p>
                                                 <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', file.filename)">Download file enkripsi</a>
                                             </div>
                                         </td>
