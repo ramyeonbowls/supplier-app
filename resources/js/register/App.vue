@@ -712,7 +712,7 @@ export default {
         async submit() {
             let loader = this.$loading.show()
             try {
-                const response = await window.axios.post('/register', this.form.field)
+                const response = await window.axios.post('/pendaftaran-supplier', this.form.field)
                 this.$notyf.success(response.data.message || 'Register successful!')
                 window.location.href = '/'
                 loader.hide()
