@@ -20,7 +20,7 @@
                             </svg>
                         </span>
 
-                        <span class="text-sm font-medium transition-all group-hover:ms-4"> Klik di sini untuk meminta yang lain </span>
+                        <span class="text-sm font-medium transition-all group-hover:ms-4"> Klik di sini untuk meminta tautan verifikasi lagi </span>
                     </button>
                 </div>
             </form>
@@ -41,7 +41,9 @@ export default {
     methods: {
         async submit() {
             try {
+                let loader = this.$loading.show()
                 const response = await window.axios.post('/email/resend')
+                loader.hide()
                 this.$notyf.success(response.data.message || 'Verification Resend successful!')
             } catch (e) {
                 if (e.response && e.response.data && e.response.data.message) {
