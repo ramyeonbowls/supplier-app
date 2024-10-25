@@ -49,7 +49,7 @@
 
                     <p class="text-center text-sm text-gray-500">
                         Belum punya akun Supplier?
-                        <a class="underline" href="/register">Daftar</a>
+                        <a class="underline" href="/pendaftaran-supplier">Daftar</a>
                     </p>
                 </form>
             </VeeForm>
