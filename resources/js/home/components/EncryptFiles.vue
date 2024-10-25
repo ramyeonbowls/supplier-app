@@ -91,7 +91,7 @@ export default {
                                 if (response.data.file != '') {
                                     this.downloadFile(response.data.file)
                                 }
-                                
+
                                 this.clearForm()
                                 this.$notyf.success('Successfully Encrypt file')
                             })

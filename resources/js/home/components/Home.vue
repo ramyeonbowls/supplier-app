@@ -1,21 +1,38 @@
 <template>
     <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md">
-        <div class="z-50 border-b border-gray-200 p-4">
-            <nav aria-label="Breadcrumb" class="flex justify-start">
-                <ol class="flex overflow-hidden rounded-lg border border-gray-200 text-gray-600">
-                    <li class="flex items-center">
-                        <a href="#" class="flex h-10 items-center gap-1.5 bg-gray-100 px-4 transition hover:text-gray-900">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                            </svg>
+        <div class="flex flex-col gap-4 p-6">
+            <a href="#" class="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+                <div class="sm:flex sm:justify-between sm:gap-4">
+                    <div class="flex justify-between gap-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 sm:text-xl">Manual Guide Daftar & Upload Buku Supplier</h3>
+                        </div>
 
-                            <span class="ms-1.5 text-xs font-medium"> Home </span>
-                        </a>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-        <div class="p-6">
+                        <div>
+                            <div class="block sm:hidden md:hidden lg:hidden">
+                                <button class="inline-block rounded border border-sky-500 bg-sky-500 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-500 focus:outline-none focus:ring active:text-sky-500" @click="downloadFile">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hidden sm:block">
+                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-sky-500 px-8 py-2 text-white focus:outline-none focus:ring active:bg-sky-500" @click="downloadFile">
+                            <span class="absolute -start-full transition-all group-hover:start-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                            </span>
+
+                            <span class="text-sm font-semibold transition-all group-hover:ms-4"> Download Guide </span>
+                        </button>
+                    </div>
+                </div>
+            </a>
+
             <a href="#" class="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
                 <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
 
@@ -165,6 +182,29 @@ export default {
             const tahun = dateObj.getFullYear()
 
             return `${hari} ${bulan} ${tahun}`
+        },
+
+        async downloadFile() {
+            await window
+                .axios({
+                    url: '/profile/profile-document/download-file',
+                    method: 'GET',
+                    responseType: 'blob',
+                    params: {
+                        file: this.form.field.id,
+                    },
+                })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', 'Manual Guide Daftar & Upload Buku Supplier.pdf')
+                    document.body.appendChild(link)
+                    link.click()
+                })
+                .catch((e) => {
+                    console.log(e.response.data)
+                })
         },
     },
 }

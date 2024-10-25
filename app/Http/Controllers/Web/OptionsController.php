@@ -329,4 +329,27 @@ class OptionsController extends Controller
 
         return view('signature', compact('id'));
     }
+
+    /**
+     * @param Request $request
+     * @return BinaryFileResponse
+     */
+    public function downloadFile(Request $request)
+    {
+        $filePath = public_path('guide/manual-guide.pdf');
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        $fileContent = file_get_contents($filePath);
+
+        return response()->make($fileContent, 200, [
+            'Cache-Control'         => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-Type'          => mime_content_type($filePath),
+            'Content-Length'        => filesize($filePath),
+            'Content-Disposition'   => 'attachment; filename="' . basename($filePath) . '"',
+            'Pragma'                => 'public',
+        ]);
+    }
 }

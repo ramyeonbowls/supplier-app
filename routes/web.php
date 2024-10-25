@@ -13,6 +13,7 @@ Route::get('pendaftaran-supplier', [App\Http\Controllers\Auth\RegisterController
 Route::post('pendaftaran-supplier', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 
 Route::get('signature', [App\Http\Controllers\Web\OptionsController::class, 'signature'])->name('signature');
+Route::get('download-file', [App\Http\Controllers\Web\OptionsController::class, 'downloadFile'])->name('downloadFile');
 
 Route::middleware(['guest'])->group(function () {
     Route::namespace('App\Http\Controllers\Web')->group(function() {
@@ -27,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::prefix('profile')->namespace('Profile')->group(function() {
             Route::apiResource('profile-company', ProfileCompanyController::class);
             Route::prefix('profile-document')->group(function() {
+                Route::get('download-file', 'ProfileCompanyController@downloadFile');
                 Route::get('agreement', 'ProfileCompanyController@agreementLetter');
             });
         });
