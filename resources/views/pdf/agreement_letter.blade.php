@@ -114,7 +114,7 @@
                     <td style='vertical-align: top; text-align: left;'><b>Diwakili Oleh:</b> " .$results->profile[0]->director ."</td>
                 </tr>
             </table>
-            <div class='font-size-sm font-w50'>Kedua belah pihak sepakat untuk mengadakan Perjanjian Penjualan Produk Digital Pihak Kedua di platform milik Pihak Pertama dengan ketentuan sebagai berikut:</div>
+            <div class='font-size-sm font-w50'>Kedua belah pihak sepakat untuk mengadakan Perjanjian Penjualan Produk Digital secara bersama dengan ketentuan sebagai berikut:</div>
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
@@ -137,6 +137,10 @@
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>4.</td>
                         <td style='vertical-align: top;width: 95%;'><b>Perpustakaan Digital</b> adalah koleksi produk digital yang dimiliki oleh lembaga atau individu.</td>
+                    </tr>
+                    <tr>
+                        <td style='vertical-align: top;width: 5%;'>5.</td>
+                        <td style='vertical-align: top;width: 95%;'><b>Platform Perpustakaan Digital</b> yang dikembangkan dapat diakses secara online menggunakan internet dan atau secara offline menggunakan jaringan IP lokal, yang sudah diamankan dengan sistem enkripsi dan restriksi konten digital pada platform.</td>
                     </tr>
                 </tbody>
             </table>
@@ -174,7 +178,7 @@
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
-                        <td style='vertical-align: top;width: 95%;'>Hak distribusi untuk produk pihak ketiga akan dinyatakan dalam surat penunjukan yang disiapkan oleh Pihak Pertama.</td>
+                        <td style='vertical-align: top;width: 95%;'>Hak distribusi untuk produk pihak ketiga akan dinyatakan dalam surat penunjukan atau kerjasama antara kedua belah pihak yang diberikan kepada Pihak Pertama.</td>
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>3.</td>
@@ -260,11 +264,15 @@
                 <tbody>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>1.</td>
-                        <td style='vertical-align: top;width: 95%;'>Pihak Pertama akan membayarkan 40% dari harga jual produk digital yang telah terjual lunas kepada Pihak Kedua.</td>
+                        <td style='vertical-align: top;width: 95%;'>Secara umum, komisi penjualan dalam perjanjian ini sebagai berikut:</td>
                     </tr>
                     <tr>
+                        <td style='vertical-align: top;width: 5%;'>&nbsp;</td>
+                        <td style='vertical-align: top;width: 95%;'>a.	Pihak Pertama (Pemilik Platform) 30%<br>b.	Pihak Kedua (Penerbit/Supplier) 40%<br>c.	Para Pihak yang Menjual (Distributor) 30%.</td>
+                    <tr>
+                    <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
-                        <td style='vertical-align: top;width: 95%;'>Laporan penjualan akan diberikan setelah seluruh transaksi dengan lembaga pembeli selesai dan lunas terbayar.</td>
+                        <td style='vertical-align: top;width: 95%;'>Terkait dengan komisi penjualan pada ayat 1 di atas, dalam kondisi tertentu, Pihak Pertama dan Pihak Kedua dapat bernegosiasi sesuai kesepakatan bersama, dengan dibuatkan surat persetujuan oleh Pihak Kedua.</td>
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>3.</td>
@@ -284,7 +292,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td style='vertical-align: top;width: 100%;'>Pihak Pertama diizinkan untuk menyerahkan file produk yang telah terenkripsi kepada pembeli untuk diakses secara offline di satu komputer sesuai jumlah product yang terbeli guna kepentingan pengadaan barang.</td>
+                        <td style='vertical-align: top;width: 100%;'>Pihak Pertama diizinkan untuk menyerahkan file produk yang telah terenkripsi kepada pembeli untuk diakses secara offline di satu komputer/server sesuai jumlah produk yang terbeli, guna kepentingan pengadaan barang dan jasa.</td>
                     </tr>
                 </tbody>
             </table>
@@ -308,7 +316,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td style='vertical-align: top;width: 100%;'>Pihak Pertama berhak menyeleksi produk digital Pihak Kedua tanpa wajib memberitahukan alasan.</td>
+                        <td style='vertical-align: top;width: 100%;'>Pihak Pertama berhak menyeleksi produk digital Pihak Kedua, dan jika ditemukan pelanggaran sesuai pada Pasal 5 maka Pihak Pertama dapat menonaktifkan produk digital tersebut, dengan memberitahukan kepada Pihak Kedua.</td>
                     </tr>
                 </tbody>
             </table>
@@ -334,7 +342,7 @@
                 <tbody>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>1.</td>
-                        <td style='vertical-align: top;width: 95%;'>Jika pemerintah mengeluarkan peraturan yang berdampak pada perjanjian ini, kedua pihak saling membebaskan tanggung jawab.</td>
+                        <td style='vertical-align: top;width: 95%;'>Jika pemerintah mengeluarkan peraturan yang berdampak pada perjanjian ini, maka kedua belah pihak saling membebaskan tanggung jawab atas dampak peraturan tersebut.</td>
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
@@ -355,32 +363,20 @@
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
-                        <td style='vertical-align: top;width: 95%;'>Pihak Pertama akan memberi waktu 60 hari kepada pihak kedua untuk penyelesaian masalah dengan pihak ketiga.</td>
+                        <td style='vertical-align: top;width: 95%;'>Pihak Pertama akan memberi waktu 45 hari kepada Pihak Kedua untuk penyelesaian masalah dengan pihak ketiga.</td>
                     </tr>
                 </tbody>
             </table>
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
-                        <th class='font-size-xxs font-w50' style='vertical-align: bottom; text-align: left;'><h2>PASAL 14 SURAT PENUNJUKKAN DISTRIBUTOR</h2></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style='vertical-align: top;width: 100%;'>Pihak Kedua memberikan surat kuasa penunjukkan distributor kepada Pihak Pertama jika diperlukan.</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
-                <thead>
-                    <tr>
-                        <th colspan='2' class='font-size-xxs font-w50' style='vertical-align: bottom; text-align: left;'><h2>PASAL 15 KUASA UNTUK MEMBERIKAN DUKUNGAN</h2></th>
+                        <th colspan='2' class='font-size-xxs font-w50' style='vertical-align: bottom; text-align: left;'><h2>PASAL 14 KUASA UNTUK MEMBERIKAN DUKUNGAN</h2></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>1.</td>
-                        <td style='vertical-align: top;width: 95%;'>Pihak Kedua memberikan kuasa kepada Pihak Pertama untuk menandatangani surat dukungan untuk pihak ketiga yang bertidak sebagai distributor jika diperlukan.</td>
+                        <td style='vertical-align: top;width: 95%;'>Pihak Kedua memberikan kuasa kepada Pihak Pertama untuk menandatangani surat dukungan untuk pihak ketiga yang bertindak sebagai distributor jika diperlukan.</td>
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
@@ -391,12 +387,24 @@
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
-                        <th class='font-size-xxs font-w50' style='vertical-align: bottom; text-align: left;'><h2>PASAL 16 FORCE MAJEURE</h2></th>
+                        <th class='font-size-xxs font-w50' style='vertical-align: bottom; text-align: left;'><h2>PASAL 15 FORCE MAJEURE</h2></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td style='vertical-align: top;width: 100%;'>Para pihak tidak bertanggung jawab atas keterlambatan akibat kejadian luar biasa, seperti bencana alam atau perubahan peraturan pemerintah. Jika <i>force majeure</i> berlangsung lebih dari 30 hari, masing-masing pihak dapat mengakhiri perjanjian ini dengan pemberitahuan tertulis.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
+                <thead>
+                    <tr>
+                        <th class='font-size-xxs font-w50' style='vertical-align: bottom; text-align: left;'><h2>PASAL 16 PENANDATANGAN PERJANJIAN</h2></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style='vertical-align: top;width: 100%;'>Penandatangan perjanjian adalah pemilik perusahaan atau yang mewakili dengan dilampirkannya surat kuasa dari pemilik perusahaan.</td>
                     </tr>
                 </tbody>
             </table>
@@ -413,7 +421,7 @@
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
-                        <td style='vertical-align: top;width: 95%;'>Perjanjian akan otomatis diperpanjang jika Pihak Kedua tidak mengajukan perpanjangan 1 bulan sebelum berakhir.</td>
+                        <td style='vertical-align: top;width: 95%;'>Perjanjian akan otomatis diperpanjang jika Pihak Kedua tidak mengajukan penghentian 1 bulan sebelum berakhir.</td>
                     </tr>
                 </tbody>
             </table>
@@ -430,11 +438,10 @@
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
-                        <td style='vertical-align: top;width: 95%;'>Perubahan kepemilikan tidak mengakhiri perjanjian ini.</td>
+                        <td style='vertical-align: top;width: 95%;'>Jika ada perubahan kepemilikan perusahaan Pihak Kedua maka akan dilakukan perjanjian ulang, dan secara otomatis mengakhiri perjanjian yang lama.</td>
                     </tr>
                 </tbody>
             </table>
-            <div class='page_break'></div>
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
@@ -448,10 +455,11 @@
                     </tr>
                     <tr>
                         <td style='vertical-align: top;width: 5%;'>2.</td>
-                        <td style='vertical-align: top;width: 95%;'>Salinan lebih dari dua akan ditandatangani sesuai dengan pernyataan keaslian.</td>
+                        <td style='vertical-align: top;width: 95%;'>Para Pihak dapat mendownload surat perjanjian ini pada dashboard Para Pihak.</td>
                     </tr>
                 </tbody>
             </table>
+            <div class='page_break'></div>
             <table class='table-sm table font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
@@ -666,7 +674,7 @@
         "<table class='table-sm font-size-sm' cellspacing='0' style='width: 100%; margin-top: 1rem!important'>
             <thead>
                 <tr>
-                    <td colspan='3' class='font-size-sm' style='vertical-align: bottom; text-align: left;'>Demikian perjanjian ini dibuat dan disetujui secara elektronik di Kab. Bantul.</div>
+                    <td colspan='3' class='font-size-sm' style='vertical-align: bottom; text-align: left;'>Demikian perjanjian ini dibuat dan disetujui secara elektronik di Bantul.</div>
                     </td>
                 </tr>
             </thead>
