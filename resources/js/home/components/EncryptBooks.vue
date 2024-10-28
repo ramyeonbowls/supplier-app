@@ -407,6 +407,7 @@ export default {
     mounted() {
         this.getData()
 
+        let _row = this
         dataTable = new DataTable('#default-table', {
             sortable: true,
             data: {
@@ -523,6 +524,15 @@ export default {
                     },
                 },
             ],
+        })
+        dataTable.on('datatable.page', function(page) {
+            _row.attachDownloadListeners()
+        })
+        dataTable.on('datatable.perpage', function(perpage) {
+            _row.attachDownloadListeners()
+        })
+        dataTable.on('datatable.search', function(query, matched) {
+            _row.attachDownloadListeners()
         })
     },
 
