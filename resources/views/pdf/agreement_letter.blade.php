@@ -165,6 +165,7 @@
                     </tr>
                 </tbody>
             </table>
+            <div class='page_break'></div>
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
@@ -194,7 +195,6 @@
                     </tr>
                 </tbody>
             </table>
-            <div class='page_break'></div>
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
