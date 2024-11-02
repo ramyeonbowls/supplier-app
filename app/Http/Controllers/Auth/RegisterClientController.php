@@ -97,8 +97,8 @@ class RegisterClientController extends Controller
             'pos_sign_name' => ['required', 'string', 'max:50'],
             'administrator_name' => ['required', 'string', 'max:50'],
             'administrator_phone' => ['required', 'string', 'max:20'],
-            'logo_big' => ['required', 'mimes:png', 'dimensions:max_width=227,max_height=76'],
-            'logo_small' => ['required', 'mimes:png', 'max:1000', 'dimensions:max_width=76,max_height=76'],
+            'logo_big' => ['required', 'mimes:png', 'max:1000'],
+            'logo_small' => ['required', 'mimes:png', 'max:1000'],
             'agreement' => ['required'],
         ]);
     }

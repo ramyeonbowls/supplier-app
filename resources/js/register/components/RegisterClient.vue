@@ -180,13 +180,13 @@
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <file-pond name="logo_big" ref="logo_big" label-idle="Upload Logo disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" imageValidateSizeMaxWidth="227" imageValidateSizeMaxHeight="76" v-on:init="handleFilePondInit" v-on:updatefiles="getFile" />
+                                <file-pond name="logo_big" ref="logo_big" label-idle="Upload Logo disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" v-on:init="handleFilePondInit" v-on:updatefiles="getFile" />
                                 <ErrorMessage name="logo_big" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                                 <dt class="text-xs font-medium text-slate-500">Max. logo size: 1000 kb (227x76 pixels)</dt>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <file-pond name="logo_small" ref="logo_small" label-idle="Upload Logo Kecil disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" imageValidateSizeMaxWidth="76" imageValidateSizeMaxHeight="76" v-on:init="handleFilePondInit" v-on:updatefiles="getFileSmall" />
+                                <file-pond name="logo_small" ref="logo_small" label-idle="Upload Logo Kecil disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" v-on:init="handleFilePondInit" v-on:updatefiles="getFileSmall" />
                                 <ErrorMessage name="logo_small" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                                 <dt class="text-xs font-medium text-slate-500">Max. logo size: 1000 kb (76x76 pixels)</dt>
                             </div>
@@ -277,7 +277,7 @@
     <TransitionRoot as="template" :show="open_finish">
         <Dialog class="relative z-10" @close="open_finish = false">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
             </TransitionChild>
 
             <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
