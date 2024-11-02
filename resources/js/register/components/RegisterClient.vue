@@ -396,8 +396,8 @@ export default {
             this.form.field.logo_small = ''
             this.form.field.agreement = false
 
-            this.$refs.logo_big.value = ''
-            this.$refs.logo_small.value = ''
+            this.$refs.logo_big.removeFiles()
+            this.$refs.logo_small.removeFiles()
         },
 
         handleFilePondInit: function () {},
