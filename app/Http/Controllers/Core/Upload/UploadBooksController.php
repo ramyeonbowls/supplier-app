@@ -158,7 +158,7 @@ class UploadBooksController extends Controller
             $file_pdf = '';
             if ($request->hasFile('file_pdf')) {
                 try {
-                    $file_pdf = $request->file('file_pdf')->getcompanyOriginalName();
+                    $file_pdf = $request->file('file_pdf')->getClientOriginalName();
 
                     $zipObj = new \ZipArchive();
                     $file = $zipObj->open($request->file('file_pdf')->path());
