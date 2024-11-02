@@ -7,14 +7,27 @@
 import './bootstrap'
 import { createApp, h } from 'vue'
 import App from './App.vue'
+import routes from './routes'
+import { createRouter, createWebHistory } from 'vue-router'
 import { Notyf } from 'notyf'
 import { LoadingPlugin } from 'vue-loading-overlay'
+import vueFilePond from 'vue-filepond'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
+import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size'
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
  * to use in your application's views. An example is included for you.
  */
+
+const router = createRouter({
+    history: createWebHistory(),
+    linkActiveClass: 'active',
+    routes,
+})
 
 const notyf = new Notyf({
     duration: 5000,
@@ -24,6 +37,8 @@ const notyf = new Notyf({
     },
     ripple: true,
 })
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview, FilePondPluginFileValidateSize, FilePondPluginImageValidateSize)
 
 const app = createApp(App)
 
@@ -81,4 +96,6 @@ app.use(
             ]),
     }
 )
+app.component('file-pond', FilePond)
+app.use(router)
 app.mount('#register-container')

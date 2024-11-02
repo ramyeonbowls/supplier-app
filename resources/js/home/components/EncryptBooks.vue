@@ -525,13 +525,13 @@ export default {
                 },
             ],
         })
-        dataTable.on('datatable.page', function(page) {
+        dataTable.on('datatable.page', function (page) {
             _row.attachDownloadListeners()
         })
-        dataTable.on('datatable.perpage', function(perpage) {
+        dataTable.on('datatable.perpage', function (perpage) {
             _row.attachDownloadListeners()
         })
-        dataTable.on('datatable.search', function(query, matched) {
+        dataTable.on('datatable.search', function (query, matched) {
             _row.attachDownloadListeners()
         })
     },

@@ -146,6 +146,16 @@
 
 <script>
 export default {
+    data() {
+        return {
+            webmenus: [],
+        }
+    },
+
+    created() {
+        this.WebMenu()
+    },
+
     mounted() {
         const hamburgerMenu = document.querySelector('.menu-icon')
         const buttonCLose = document.getElementById('button-close')
@@ -206,6 +216,19 @@ export default {
             shadowSidebar.classList.remove('hide-sidebar')
             sidebar.classList.add('show-sidebar')
             sidebar.classList.remove('hide-sidebar')
+        },
+
+        WebMenu() {
+            this.webmenus = []
+
+            window.axios
+                .get('/my-web-menu')
+                .then((response) => {
+                    this.webmenus = response.data
+                })
+                .catch((e) => {
+                    console.error(e)
+                })
         },
     },
 }

@@ -80,7 +80,7 @@ class UploadBooksController extends Controller
                     'a.reason as reason', 
                     'a.createdate as createdate',
                 )
-                ->join('tclient_category as b', function($join) {
+                ->join('tcompany_category as b', function($join) {
 					$join->on('a.supplier_id', '=', 'b.client_id') 
 						->on('a.category_id', '=', 'b.category_id') ;
 				})
@@ -158,7 +158,7 @@ class UploadBooksController extends Controller
             $file_pdf = '';
             if ($request->hasFile('file_pdf')) {
                 try {
-                    $file_pdf = $request->file('file_pdf')->getClientOriginalName();
+                    $file_pdf = $request->file('file_pdf')->getcompanyOriginalName();
 
                     $zipObj = new \ZipArchive();
                     $file = $zipObj->open($request->file('file_pdf')->path());
@@ -289,7 +289,7 @@ class UploadBooksController extends Controller
                 case 'category-mst':
                     DB::enableQueryLog();
 
-                    $ketegori = DB::table('tclient_category as a')->sharedLock()
+                    $ketegori = DB::table('tcompany_category as a')->sharedLock()
                         ->select(
                             'a.category_id as id',
                             'a.category_desc as name'
@@ -414,7 +414,7 @@ class UploadBooksController extends Controller
                             'a.age as age',
                             'a.flag as flag'
                         )
-                        ->join('tclient_category as b', function($join) {
+                        ->join('tcompany_category as b', function($join) {
                             $join->on('a.supplier_id', '=', 'b.client_id') 
                                 ->on('a.category_id', '=', 'b.category_id') ;
                         })
@@ -675,7 +675,7 @@ class UploadBooksController extends Controller
                     $city               = $worksheet->getCellByColumnAndRow(16, $row)->getFormattedValue();
                     $age                = $worksheet->getCellByColumnAndRow(17, $row)->getFormattedValue();
 
-                    if ($isbn != '' || $eisbn != '' || $title != '' || $writer != '' || $size != '' || $year != '' || $volume != '' || $edition != '' || $page != '' || $sinopsis != '' || $sellprice != '' || $rentprice != '' || $retailprice != '' || $city != '' || $age != '') {
+                    if ($isbn != '' && $eisbn != '' && $title != '' && $writer != '' && $size != '' && $year != '' && $volume != '' && $edition != '' && $page != '' && $sinopsis != '' && $sellprice != '' && is_numeric($sellprice) && $rentprice != '' && is_numeric($rentprice) && $retailprice != '' && is_numeric($retailprice) && $city != '' && $age != '' && is_numeric($age)) {
                         $tagging = 'exists';
 
                         $data_excel[$tagging][$i][$ii]['book_id'] = $book_id;

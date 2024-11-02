@@ -44,7 +44,7 @@ class ProfileCompanyController extends Controller
         try {
             DB::enableQueryLog();
 
-            $results = DB::table('tclient as a')->sharedLock()
+            $results = DB::table('tcompany as a')->sharedLock()
                 ->select(
                     'a.id as id',
                     'a.name as name',
@@ -384,7 +384,7 @@ class ProfileCompanyController extends Controller
                 case 'category-profile':
                     DB::enableQueryLog();
 
-                    $ketegori = DB::table('tclient_category as a')->sharedLock()
+                    $ketegori = DB::table('tcompany_category as a')->sharedLock()
                         ->select(
                             'a.category_id as id',
                             'a.category_desc as name'
@@ -415,7 +415,7 @@ class ProfileCompanyController extends Controller
                 case 'account-profile':
                     DB::enableQueryLog();
 
-                    $ketegori = DB::table('tclient_bank_account as a')->sharedLock()
+                    $ketegori = DB::table('tcompany_bank_account as a')->sharedLock()
                         ->select(
                             'a.npwp as npwp',
                             'a.account_bank as account_bank',
@@ -507,9 +507,9 @@ class ProfileCompanyController extends Controller
 
             $category = request()->category;
             if (count($category) > 0) {
-                $delete_cat = DB::table('tclient_category')->where('client_id', auth()->user()->client_id)->delete();
+                $delete_cat = DB::table('tcompany_category')->where('client_id', auth()->user()->client_id)->delete();
                 foreach ($category as $key => $value) {
-                    $updated = DB::table('tclient_category')
+                    $updated = DB::table('tcompany_category')
                         ->insert([
                             'client_id' => auth()->user()->client_id,
                             'category_id' => $value['id'],
@@ -563,7 +563,7 @@ class ProfileCompanyController extends Controller
         try {
             DB::enableQueryLog();
 
-            $results['profile'] = DB::table('tclient as a')->sharedLock()
+            $results['profile'] = DB::table('tcompany as a')->sharedLock()
                 ->select(
                     'a.id as id',
                     'a.name as name',
@@ -634,7 +634,7 @@ class ProfileCompanyController extends Controller
                 ->where('a.flag', 'K')
                 ->get();
 
-            $results['category'] = DB::table('tclient_category as a')->sharedLock()
+            $results['category'] = DB::table('tcompany_category as a')->sharedLock()
                 ->select(
                     'a.category_id as id',
                     'a.category_desc as name'
@@ -642,7 +642,7 @@ class ProfileCompanyController extends Controller
                 ->where('client_id', auth()->user()->client_id)
                 ->get();
 
-            $results['account'] = DB::table('tclient_bank_account as a')->sharedLock()
+            $results['account'] = DB::table('tcompany_bank_account as a')->sharedLock()
                 ->select(
                     'a.npwp as npwp',
                     'a.account_bank as account_bank',

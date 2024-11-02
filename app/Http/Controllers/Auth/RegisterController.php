@@ -100,7 +100,7 @@ class RegisterController extends Controller
         $client_id = Str::uuid();
         $type = ($data['supp_distributor']) ? '3' : (($data['distributor']) ? '2' : '1');
         
-        DB::table('tclient')->insert([
+        DB::table('tcompany')->insert([
             'id' => $client_id,
             'name' => $data['name'] ?? '',
             'email' => $data['email'] ?? '',
@@ -155,7 +155,7 @@ class RegisterController extends Controller
             }
         }
 
-        DB::table('tclient_bank_account')->insert([
+        DB::table('tcompany_bank_account')->insert([
             'client_id' => $client_id,
             'npwp' => $data['npwp'],
             'account_bank' => $data['account_bank'],
@@ -170,7 +170,7 @@ class RegisterController extends Controller
 
         foreach ($data['category'] as $key => $value) {
             if ($value['desc'] != '') {
-                DB::table('tclient_category')->insert([
+                DB::table('tcompany_category')->insert([
                     'client_id' => $client_id,
                     'category_id' => $value['id'],
                     'category_desc' => $value['desc'],
