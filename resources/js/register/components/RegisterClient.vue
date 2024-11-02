@@ -33,7 +33,7 @@
                         <form class="mt-8 grid grid-cols-6 gap-4" @submit.prevent="handleSubmit($event, submit)">
                             <div class="col-span-6">
                                 <label for="name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.name ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Instansi" name="name" v-model="form.field.name" required autocomplete="name" autofocus />
+                                    <Field type="text" id="name" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Instansi" name="name" v-model="form.field.name" required autocomplete="name" autofocus />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Instansi</span>
                                 </label>
@@ -42,7 +42,7 @@
 
                             <div class="col-span-6">
                                 <label for="name_apps" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.name_apps ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="name_apps" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Aplikasi" name="name_apps" v-model="form.field.name_apps" required autocomplete="name_apps" autofocus />
+                                    <Field type="text" id="name_apps" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Aplikasi" name="name_apps" v-model="form.field.name_apps" required autocomplete="name_apps" autofocus />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Aplikasi</span>
                                 </label>
@@ -109,7 +109,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="postal_code" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.postal_code ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="postal_code" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Pos" name="postal_code" v-model="form.field.postal_code" />
+                                    <Field type="text" id="postal_code" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Pos" name="postal_code" v-model="form.field.postal_code" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kode Pos</span>
                                 </label>
@@ -118,7 +118,7 @@
 
                             <div class="col-span-6">
                                 <label for="npwp" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.npwp ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="npwp" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. NPWP" name="npwp" v-model="form.field.npwp" />
+                                    <Field type="text" id="npwp" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. NPWP" name="npwp" v-model="form.field.npwp" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. NPWP</span>
                                 </label>
@@ -127,7 +127,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="pers_responsible" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.pers_responsible ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="pers_responsible" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Penanggung Jawab" name="pers_responsible" v-model="form.field.pers_responsible" />
+                                    <Field type="text" id="pers_responsible" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Penanggung Jawab" name="pers_responsible" v-model="form.field.pers_responsible" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Penanggung Jawab</span>
                                 </label>
@@ -136,7 +136,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="pos_pers_responsible" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.pos_pers_responsible ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="pos_pers_responsible" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan Penanggung Jawab" name="pos_pers_responsible" v-model="form.field.pos_pers_responsible" />
+                                    <Field type="text" id="pos_pers_responsible" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan Penanggung Jawab" name="pos_pers_responsible" v-model="form.field.pos_pers_responsible" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Jabatan Penanggung Jawab</span>
                                 </label>
@@ -145,7 +145,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="mou_sign_name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.mou_sign_name ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="mou_sign_name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Penandatanganan MOU" name="mou_sign_name" v-model="form.field.mou_sign_name" />
+                                    <Field type="text" id="mou_sign_name" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Penandatanganan MOU" name="mou_sign_name" v-model="form.field.mou_sign_name" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Penandatanganan MOU</span>
                                 </label>
@@ -154,7 +154,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="pos_sign_name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.pos_sign_name ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="pos_sign_name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan Penandatanganan MOU" name="pos_sign_name" v-model="form.field.pos_sign_name" />
+                                    <Field type="text" id="pos_sign_name" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan Penandatanganan MOU" name="pos_sign_name" v-model="form.field.pos_sign_name" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Jabatan Penandatanganan MOU</span>
                                 </label>
@@ -163,7 +163,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="administrator_name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.administrator_name ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="administrator_name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Pengelola (Admin)" name="administrator_name" v-model="form.field.administrator_name" />
+                                    <Field type="text" id="administrator_name" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Pengelola (Admin)" name="administrator_name" v-model="form.field.administrator_name" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Pengelola (Admin)</span>
                                 </label>
@@ -172,7 +172,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="administrator_phone" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.administrator_phone ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="administrator_phone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nomor HP/WA (Admin)" name="administrator_phone" v-model="form.field.administrator_phone" />
+                                    <Field type="text" id="administrator_phone" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nomor HP/WA (Admin)" name="administrator_phone" v-model="form.field.administrator_phone" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nomor HP/WA (Admin)</span>
                                 </label>
@@ -180,22 +180,26 @@
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <file-pond name="logo_big" ref="logo_big" label-idle="Upload Logo disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" v-on:init="handleFilePondInit" v-on:updatefiles="getFile" />
+                                <file-pond name="logo_big" ref="logo_big" label-idle="Upload Logo Besar disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" v-on:init="handleFilePondInit" credits="false" v-on:updatefiles="getFile" />
                                 <ErrorMessage name="logo_big" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
-                                <dt class="text-xs font-medium text-slate-500">Max. logo size: 1000 kb (227x76 pixels)</dt>
+                                <dt class="text-xs font-medium text-slate-500">Max. logo size: 1000 kb</dt>
+                                <img class="rounded-lg shadow-sm dark:shadow-gray-800" src="images/logo/logo.svg" alt="image description">
+                                <dt class="text-xs font-medium mt-2 text-slate-500">Contoh logo besar</dt>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <file-pond name="logo_small" ref="logo_small" label-idle="Upload Logo Kecil disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" v-on:init="handleFilePondInit" v-on:updatefiles="getFileSmall" />
+                                <file-pond name="logo_small" ref="logo_small" label-idle="Upload Logo Kecil disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" v-on:init="handleFilePondInit" credits="false" v-on:updatefiles="getFileSmall" />
                                 <ErrorMessage name="logo_small" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
-                                <dt class="text-xs font-medium text-slate-500">Max. logo size: 1000 kb (76x76 pixels)</dt>
+                                <dt class="text-xs font-medium text-slate-500">Max. logo size: 1000 kb</dt>
+                                <img class="w-[125px] h-[125px] rounded-lg shadow-sm dark:shadow-gray-800" src="images/logo/favicon.svg" alt="image description">
+                                <dt class="text-xs font-medium mt-2 text-slate-500">Contoh logo kecil</dt>
                             </div>
 
                             <div class="col-span-6">
                                 <label for="agreement" class="flex gap-4">
-                                    <input type="checkbox" id="agreement" name="agreement" v-model="form.field.agreement" class="size-5 rounded-md border-gray-200 bg-white shadow-sm" />
+                                    <input type="checkbox" id="agreement" name="agreement" v-model="form.field.agreement" class="size-5 rounded-md border-gray-200 bg-white shadow-sm" disabled />
 
-                                    <span class="text-sm text-red-700 underline"> Saya menyatakan bahwa saya adalah orang yang berhak mewakili perpustakaan yang saya daftarkan dan saya bertanggung jawab apabila kebenaran pernyataan ini salah di kemudian hari. Saya bertanggung jawab penuh atas pernyataan ini. </span>
+                                    <span class="text-sm text-red-700 underline"> Saya telah memahami dan menyetujui ketentuan dan persyaratan Pendaftaran Perpustakaan Digital Berbasis Website yang diajukan oleh pihak PT GINESIA DIGITAL INDONESIA. </span>
                                 </label>
                                 <ErrorMessage name="agreement" class="mt-1 block text-sm text-red-600 dark:text-red-500" />
                             </div>
@@ -212,7 +216,7 @@
 
     <!-- modal -->
     <TransitionRoot as="template" :show="open">
-        <Dialog class="relative z-10" @close="open = false">
+        <Dialog class="relative z-10" static>
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
             </TransitionChild>
@@ -227,28 +231,77 @@
                                         <ShieldExclamationIcon class="h-6 w-6 text-blue-600" aria-hidden="true" />
                                     </div>
                                     <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                        <DialogTitle as="h3" class="text-base font-semibold text-gray-900">Syarat dan Ketentuan Pendaftaran Perpustakaan Digital</DialogTitle>
-                                        <div class="mt-2">
+                                        <DialogTitle as="h3" class="text-base font-semibold text-gray-900">SYARAT DAN KETENTUAN</DialogTitle>
+                                        <DialogTitle as="h3" class="text-base font-semibold text-gray-900">PENDAFTARAN PERPUSTAKAAN DIGITAL GINESIA</DialogTitle>
+                                        <div class="mt-2 h-[62vh] overflow-scroll p-1">
                                             <div class="flow-root">
                                                 <dl class="my-1 text-sm">
                                                     <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
-                                                        <dd class="text-gray-700 sm:col-span-2">1. Perpustakaan Digital Platform berbasis Website.</dd>
+                                                        <dd class="text-gray-700 sm:col-span-2">1. Perpustakaan Digital GINESIA adalah platform aplikasi berbasis website.</dd>
                                                     </div>
 
                                                     <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
-                                                        <dd class="text-gray-700 sm:col-span-2">2. Perpustakaan Digital Platform berisi bukan hanya buku digital saja melainkan juga berita dan informasi mengenai Lembaga perpustakaan pemilik maupun pengumuman serta informasi kegiatan lembaga pemilik perpustakaan.</dd>
+                                                        <dd class="text-gray-700 sm:col-span-2">2. Platform ini tidak hanya menyediakan buku digital (ebook), tetapi juga berisi banner gambar, banner video, tajuk utama, frasa, wawasan, review buku, layer penulis, titik fokus, humoria, dan fitur-fitur lainnya yang akan terus dikembangkan.</dd>
                                                     </div>
 
                                                     <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
-                                                        <dd class="text-gray-700 sm:col-span-2">3. Perpustakaan Digital platform menggunakan nama Lembaga pemilik Perpustakaan dan ditetapkan oleh pemiliknya.</dd>
+                                                        <dd class="text-gray-700 sm:col-span-2">3. Nama Perpustakaan Digital pada Platform GINESIA akan menggunakan nama Lembaga Perpustakaan, sesuai dengan ketetapan dari pihak tersebut.</dd>
                                                     </div>
 
                                                     <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
-                                                        <dd class="text-gray-700 sm:col-span-2">4. Nama yang telah di pilih oleh sebuah Lembaga tidak akan diberikan lagi kepada pihak atau Lembaga lain (Nama Tunggal).</dd>
+                                                        <dd class="text-gray-700 sm:col-span-2">4. Nama yang dipilih bersifat eksklusif dan tidak akan diberikan kepada lembaga lain.</dd>
                                                     </div>
 
                                                     <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
-                                                        <dd class="text-gray-700 sm:col-span-2">Saya menyatakan bahwa saya adalah orang yang berhak mewakili perpustakaan yang saya daftarkan dan saya bertanggung jawab apabila kebenaran pernyataan ini salah di kemudian hari. Saya bertanggung jawab penuh atas pernyataan ini.</dd>
+                                                        <dd class="text-gray-700 sm:col-span-2">5. Penggantian nama perpustakaan diperbolehkan, tetapi harus disertai dengan penambahan koleksi perpustakaan sesuai ketentuan yang ditetapkan oleh pemilik platform setiap tahun.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">6. Apabila dua Lembaga Perpustakaan pengguna Platform GINESIA melakukan merger (penggabungan), perpustakaan digital masing-masing dapat digabung dengan syarat pengisian surat pernyataan merger dan penambahan koleksi senilai minimal Rp. 3.000.000,-.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">7. Koleksi perpustakaan yang dibeli bersifat hak milik, namun PT. Ginesia Digital Indonesia tidak berkewajiban melakukan pembaruan atau perbaikan kecuali jika Pihak Lembaga Perpustakaan telah melakukan penambahan koleksi selama tahun berjalan.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">8. Hak milik perpustakaan ini terbatas pada usia teknologi website. Jika teknologi website tidak lagi digunakan, maka hak milik juga berakhir.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">9. PT. Ginesia Digital Indonesia menyediakan versi offline dengan ketentuan minimal pembelian koleksi perpustakaan, sesuai dengan ketentuan terpisah.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">10. Koleksi perpustakaan dapat diperoleh melalui pembelian, hibah, atau donasi.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">11. Semua pembelian buku digital harus melalui Distributor yang dipilih oleh Pihak Pembeli (Lembaga Perpustakaan).</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">12. Setiap judul ebook yang dibeli minimal sebanyak 2 copy.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">13. Jika Distributor yang dipilih tidak memenuhi kewajiban pembayaran kepada PT. Ginesia Digital Indonesia, maka Pihak Ginesia berhak menurunkan koleksi terkait dari platform.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">14. PT. Ginesia Digital Indonesia akan meningkatkan versi perpustakaan digital setiap tahun. Fitur-fitur tertentu hanya dapat diakses pada versi terbaru, dan Lembaga Perpustakaan harus melakukan pembelian koleksi untuk menikmati pembaruan otomatis.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">15. Selain ebook, produk digital yang disediakan oleh PT. Ginesia Digital Indonesia di antaranya: ebook media interaktif, audiobook, videobook, video tutorial dan konten digital lainnya yang akan terus dikembangkan.</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">16. Pihak Lembaga Perpustakaan membayar Biaya Lisensi senilai Rp. 150.000,- dalam 1 tahun untuk tetap menikmati semua layanan fitur dan konten platform Ginesia, namun jika dalam 1 tahun ada pembelian koleksi minimal senilai Rp. 1.000.000,-, maka tidak ada biaya lisensi (gratis).</dd>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-1 gap-1 py-1 sm:grid-cols-1 sm:gap-1">
+                                                        <dd class="text-gray-700 sm:col-span-2">Saya telah memahami dan menyetujui ketentuan dan persyaratan Pendaftaran Perpustakaan Digital Berbasis Website yang diajukan oleh pihak PT GINESIA DIGITAL INDONESIA.</dd>
                                                     </div>
                                                 </dl>
                                             </div>

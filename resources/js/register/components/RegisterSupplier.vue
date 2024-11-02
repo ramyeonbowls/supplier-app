@@ -118,7 +118,7 @@
                             <template v-if="form.field.supplier || form.field.distributor || form.field.supp_distributor">
                                 <div class="col-span-6">
                                     <label for="name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.name ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Perusahaan" name="name" v-model="form.field.name" required autocomplete="name" autofocus />
+                                        <Field type="text" id="name" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Perusahaan" name="name" v-model="form.field.name" required autocomplete="name" autofocus />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Perusahaan</span>
                                     </label>
@@ -127,7 +127,7 @@
 
                                 <div class="col-span-6">
                                     <label for="email" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.email ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="email" id="email" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Email" name="email" v-model="form.field.email" required autocomplete="email" autofocus />
+                                        <Field type="email" id="email" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Email" name="email" v-model="form.field.email" required autocomplete="email" autofocus />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Email</span>
                                     </label>
@@ -136,7 +136,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="password" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.password ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="password" id="password" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Enter password" name="password" v-model="form.field.password" required autocomplete="current-password" />
+                                        <Field type="password" id="password" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Enter password" name="password" v-model="form.field.password" required autocomplete="current-password" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Password</span>
                                     </label>
@@ -145,7 +145,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="password_confirmation" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.password_confirmation ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="password" id="password_confirmation" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Konfirmasi Password" name="password_confirmation" v-model="form.field.password_confirmation" required autocomplete="new-password" />
+                                        <Field type="password" id="password_confirmation" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Konfirmasi Password" name="password_confirmation" v-model="form.field.password_confirmation" required autocomplete="new-password" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Konfirmasi Password</span>
                                     </label>
@@ -194,7 +194,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="postal_code" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.postal_code ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="postal_code" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Pos" name="postal_code" v-model="form.field.postal_code" />
+                                        <Field type="text" id="postal_code" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Pos" name="postal_code" v-model="form.field.postal_code" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kode Pos</span>
                                     </label>
@@ -208,7 +208,7 @@
 
                                 <div class="col-span-6 hidden sm:col-span-3">
                                     <label for="telephone" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.telephone ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="telephone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Telephone" name="telephone" v-model="form.field.telephone" />
+                                        <Field type="text" id="telephone" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Telephone" name="telephone" v-model="form.field.telephone" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Telephone</span>
                                     </label>
@@ -217,7 +217,7 @@
 
                                 <div class="col-span-6">
                                     <label for="handphone" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="handphone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone" name="handphone" v-model="form.field.handphone" />
+                                        <Field type="text" id="handphone" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone" name="handphone" v-model="form.field.handphone" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone</span>
                                     </label>
@@ -226,7 +226,7 @@
 
                                 <div class="col-span-6">
                                     <label for="director" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.director ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Direktur" name="director" v-model="form.field.director" />
+                                        <Field type="text" id="director" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Direktur" name="director" v-model="form.field.director" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Direktur</span>
                                     </label>
@@ -235,7 +235,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="position" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.position ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="position" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan" name="position" v-model="form.field.position" />
+                                        <Field type="text" id="position" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan" name="position" v-model="form.field.position" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Jabatan</span>
                                     </label>
@@ -244,7 +244,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="handphone_director" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone_director ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="handphone_director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Direktur" name="handphone_director" v-model="form.field.handphone_director" />
+                                        <Field type="text" id="handphone_director" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Direktur" name="handphone_director" v-model="form.field.handphone_director" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone Direktur</span>
                                     </label>
@@ -253,7 +253,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="person_in_charge" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.person_in_charge ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Penanggung Jawab" name="person_in_charge" v-model="form.field.person_in_charge" />
+                                        <Field type="text" id="person_in_charge" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Penanggung Jawab" name="person_in_charge" v-model="form.field.person_in_charge" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Penanggung Jawab</span>
                                     </label>
@@ -262,7 +262,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="handphone_person_in_charge" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone_person_in_charge ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="handphone_person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Penanggung Jawab" name="handphone_person_in_charge" v-model="form.field.handphone_person_in_charge" />
+                                        <Field type="text" id="handphone_person_in_charge" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Penanggung Jawab" name="handphone_person_in_charge" v-model="form.field.handphone_person_in_charge" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone Penanggung Jawab</span>
                                     </label>
@@ -418,7 +418,7 @@
 
                                 <div class="col-span-6">
                                     <label for="npwp" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.npwp ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="npwp" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. NPWP" name="npwp" v-model="form.field.npwp" />
+                                        <Field type="text" id="npwp" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. NPWP" name="npwp" v-model="form.field.npwp" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. NPWP</span>
                                     </label>
@@ -427,7 +427,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="account_bank" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.account_bank ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="account_bank" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Rekening" name="account_bank" v-model="form.field.account_bank" />
+                                        <Field type="text" id="account_bank" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Rekening" name="account_bank" v-model="form.field.account_bank" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Rekening</span>
                                     </label>
@@ -436,7 +436,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="account_name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.account_name ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="account_name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Rekening" name="account_name" v-model="form.field.account_name" />
+                                        <Field type="text" id="account_name" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Rekening" name="account_name" v-model="form.field.account_name" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Rekening</span>
                                     </label>
@@ -445,7 +445,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="bank" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.bank ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="bank" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Bank" name="bank" v-model="form.field.bank" />
+                                        <Field type="text" id="bank" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Bank" name="bank" v-model="form.field.bank" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Bank</span>
                                     </label>
@@ -454,7 +454,7 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="bank_city" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.bank_city ? 'border-red-500' : 'border-gray-200'">
-                                        <Field type="text" id="bank_city" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kota Bank" name="bank_city" v-model="form.field.bank_city" />
+                                        <Field type="text" id="bank_city" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kota Bank" name="bank_city" v-model="form.field.bank_city" />
 
                                         <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kota Bank</span>
                                     </label>
