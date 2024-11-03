@@ -458,7 +458,7 @@ export default {
                             return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-row="' + rowIndex + '">'
                         }
 
-                        return '<span></span>'
+                        return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 hidden" data-row="' + rowIndex + '">'
                     },
                 },
                 {
@@ -616,7 +616,7 @@ export default {
                 })
             })
 
-            const headerCheckbox = document.createElement('input')
+            /* const headerCheckbox = document.createElement('input')
             headerCheckbox.type = 'checkbox'
             headerCheckbox.id = 'select-all'
             headerCheckbox.classList.add('w-4', 'h-4', 'text-blue-600', 'bg-gray-100', 'border-gray-300', 'rounded', 'focus:ring-blue-500', 'dark:focus:ring-blue-600', 'dark:ring-offset-gray-800', 'dark:focus:ring-offset-gray-800', 'focus:ring-2', 'dark:bg-gray-700', 'dark:border-gray-600')
@@ -638,7 +638,7 @@ export default {
                         document.getElementById('select-all').checked = false
                     }
                 })
-            })
+            }) */
         },
 
         showImages(file) {
