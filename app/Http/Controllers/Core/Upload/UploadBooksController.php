@@ -80,11 +80,11 @@ class UploadBooksController extends Controller
                     'a.reason as reason', 
                     'a.createdate as createdate',
                 )
-                ->join('tcompany_category as b', function($join) {
+                ->leftJoin('tcompany_category as b', function($join) {
 					$join->on('a.supplier_id', '=', 'b.client_id') 
 						->on('a.category_id', '=', 'b.category_id') ;
 				})
-                ->join('tpublisher as c', function($join) {
+                ->leftJoin('tpublisher as c', function($join) {
 					$join->on('a.supplier_id', '=', 'c.client_id') 
 						->on('a.publisher_id', '=', 'c.id') ;
 				})
