@@ -13,6 +13,15 @@
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Upload Enkripsi Buku </span>
                         </button>
+                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-teal-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-teal-500" @click="selectedData">
+                            <span class="absolute -start-full transition-all group-hover:start-4">
+                                <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </span>
+
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Lengkapi Data Buku </span>
+                        </button>
                     </template>
                     <template v-else-if="form.encrypt">
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-indigo-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click.prevent="submit">
@@ -44,15 +53,17 @@
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Proses </span>
                         </button>
-                        <!-- <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelUpdate">
-                            <span class="absolute -start-full transition-all group-hover:start-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
-                                </svg>
-                            </span>
+                        <template v-if="form.cancel">
+                            <button class="group relative inline-flex items-center overflow-hidden rounded bg-red-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="cancelUpdateData">
+                                <span class="absolute -start-full transition-all group-hover:start-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+                                    </svg>
+                                </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Kembali </span>
-                        </button> -->
+                                <span class="text-sm font-medium transition-all group-hover:ms-4"> Kembali </span>
+                            </button>
+                        </template>
                     </template>
                     <template v-else-if="form.upload">
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-indigo-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click.prevent="submitUploadExcel">
@@ -376,6 +387,7 @@ export default {
             image_url: '',
             open_sinopsis: false,
             detail_sinopsis: '',
+            selectedRows: [],
 
             options: {
                 category: [],
@@ -389,6 +401,7 @@ export default {
                 update: false,
                 upload: false,
                 review: false,
+                cancel: false,
 
                 field: {
                     file_cover: '',
@@ -412,6 +425,7 @@ export default {
             sortable: true,
             data: {
                 headings: [
+                    { text: 'select', data: 'select' },
                     { text: 'cover', data: 'path_cover' },
                     { text: 'judul', data: 'title' },
                     { text: 'file enkripsi', data: 'filename' },
@@ -440,18 +454,29 @@ export default {
                     select: 0,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
+                        if (data.split('|')[1] == '1') {
+                            return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-row="' + rowIndex + '">'
+                        }
+
+                        return '<span></span>'
+                    },
+                },
+                {
+                    select: 1,
+                    type: 'string',
+                    render: function (data, td, rowIndex, cellIndex) {
                         return '<img src="' + data + '" class="thumbnail rounded-sm" data-image="' + data + '" alt="covers">'
                     },
                 },
                 {
-                    select: 2,
+                    select: 3,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
                         return '<div class="gap-1">' + '<p class="whitespace-nowrap mb-1 text-sm">' + data + '</p>' + '<a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" data-file="' + data + '">Download file enkripsi</a>' + '</div>'
                     },
                 },
                 {
-                    select: 3,
+                    select: 4,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
                         if (data == '1') {
@@ -517,10 +542,13 @@ export default {
                     },
                 },
                 {
-                    select: 13,
+                    select: 14,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
-                        return '<a href="javascript:void(0)" class="detail-sinopsis whitespace-nowrap" data-sinopsis="' + data + '">' + data.substring(0, 10) + '...</a>'
+                        if (data) {
+                            return '<a href="javascript:void(0)" class="detail-sinopsis whitespace-nowrap" data-sinopsis="' + data + '">' + data.substring(0, 10) + '...</a>'
+                        }
+                        return data
                     },
                 },
             ],
@@ -585,6 +613,30 @@ export default {
                 element.addEventListener('click', (event) => {
                     let file = event.target.closest('a').getAttribute('data-sinopsis')
                     this.showSinopsis(file)
+                })
+            })
+
+            const headerCheckbox = document.createElement('input')
+            headerCheckbox.type = 'checkbox'
+            headerCheckbox.id = 'select-all'
+            headerCheckbox.classList.add('w-4', 'h-4', 'text-blue-600', 'bg-gray-100', 'border-gray-300', 'rounded', 'focus:ring-blue-500', 'dark:focus:ring-blue-600', 'dark:ring-offset-gray-800', 'dark:focus:ring-offset-gray-800', 'focus:ring-2', 'dark:bg-gray-700', 'dark:border-gray-600')
+
+            headerCheckbox.addEventListener('change', function (e) {
+                const checkboxes = document.querySelectorAll('.row-checkbox')
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = e.target.checked
+                })
+            })
+
+            const firstHeader = document.querySelector('#default-table thead tr th:first-child')
+            firstHeader.innerHTML = ''
+            firstHeader.appendChild(headerCheckbox)
+
+            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    if (!this.checked) {
+                        document.getElementById('select-all').checked = false
+                    }
                 })
             })
         },
@@ -668,6 +720,22 @@ export default {
                 })
         },
 
+        getSelectedData(row) {
+            window.axios
+                .get('/upload/encrypt-books/x0y0z0', {
+                    params: {
+                        param: 'selected-data',
+                        data: row,
+                    },
+                })
+                .then((response) => {
+                    this.form.field.data_upl = response.data
+                })
+                .catch((e) => {
+                    console.error(e)
+                })
+        },
+
         async onChangePdf(e) {
             this.form.field.file_pdf = this.$refs.file_pdf.files[0]
         },
@@ -706,6 +774,23 @@ export default {
             return true
         },
 
+        selectedData() {
+            this.selectedRows = []
+            const checkboxes = document.querySelectorAll('.row-checkbox')
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    this.selectedRows.push(dataTable.data.data[index].cells[0].data.split('|')[0])
+                }
+            })
+            
+            if (this.selectedRows.length > 0) {
+                this.encryptUpdateData()
+                this.getSelectedData(this.selectedRows)
+            } else {
+                this.$notyf.error('Tidak ada data yang dipilih!')
+            }
+        },
+
         encrypt() {
             this.form.data = false
             this.form.encrypt = true
@@ -722,6 +807,19 @@ export default {
             this.form.update = true
             this.form.upload = false
             this.form.review = false
+
+            this.getCategory()
+            this.getPublisher()
+            this.getFormat()
+        },
+
+        encryptUpdateData() {
+            this.form.data = false
+            this.form.encrypt = false
+            this.form.update = true
+            this.form.upload = false
+            this.form.review = false
+            this.form.cancel = true
 
             this.getCategory()
             this.getPublisher()
@@ -765,6 +863,15 @@ export default {
             this.form.update = false
             this.form.upload = false
             this.form.review = false
+        },
+
+        cancelUpdateData() {
+            this.form.data = true
+            this.form.encrypt = false
+            this.form.update = false
+            this.form.upload = false
+            this.form.review = false
+            this.form.cancel = false
         },
 
         cancelUpload() {

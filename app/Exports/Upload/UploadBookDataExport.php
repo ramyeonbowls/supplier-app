@@ -118,7 +118,7 @@ class UploadBookDataExport implements WithCustomStartCell, WithHeadings, WithTit
 
                 $row_cell = 2;
                 if ($this->with_data) {
-                    $data = DB::table('tbook_tmp as a')->sharedLock()
+                    $data = DB::table('tbook_draft as a')->sharedLock()
                         ->select(
                             'a.book_id',
                             'a.supplier_id',
@@ -142,7 +142,7 @@ class UploadBookDataExport implements WithCustomStartCell, WithHeadings, WithTit
                             'a.filename',
                             'a.cover',
                             'a.age',
-                            'a.flag'
+                            'a.status'
                         )
                         ->whereIn('a.book_id', $this->with_data)
                         ->where('a.supplier_id', auth()->user()->client_id)
@@ -172,7 +172,7 @@ class UploadBookDataExport implements WithCustomStartCell, WithHeadings, WithTit
                             'filename' => $value->filename,
                             'cover' => $value->cover,
                             'age' => $value->age,
-                            'flag' => $value->flag,
+                            'status' => $value->status,
                         ];
                     });
 

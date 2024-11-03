@@ -104,11 +104,89 @@ class UploadBooksController extends Controller
 
         return DataTables::of($results)
             ->escapeColumns()
+            ->editColumn('book_id', function ($value) {
+                return $value->book_id ?? '';
+            })
+            ->editColumn('isbn', function ($value) {
+                return $value->isbn ?? '';
+            })
+            ->editColumn('eisbn', function ($value) {
+                return $value->eisbn ?? '';
+            })
+            ->editColumn('title', function ($value) {
+                return $value->title ?? '';
+            })
+            ->editColumn('writer', function ($value) {
+                return $value->writer ?? '';
+            })
+            ->editColumn('publisher_id', function ($value) {
+                return $value->publisher_id ?? '';
+            })
+            ->editColumn('publisher_desc', function ($value) {
+                return $value->publisher_desc ?? '';
+            })
+            ->editColumn('size', function ($value) {
+                return $value->size ?? '';
+            })
+            ->editColumn('year', function ($value) {
+                return $value->year ?? '';
+            })
+            ->editColumn('volume', function ($value) {
+                return $value->volume ?? '';
+            })
+            ->editColumn('edition', function ($value) {
+                return $value->edition ?? '';
+            })
+            ->editColumn('page', function ($value) {
+                return $value->page ?? '';
+            })
+            ->editColumn('sinopsis', function ($value) {
+                return $value->sinopsis ?? '';
+            })
+            ->editColumn('sellprice', function ($value) {
+                return $value->sellprice ?? '';
+            })
+            ->editColumn('rentprice', function ($value) {
+                return $value->rentprice ?? '';
+            })
+            ->editColumn('retailprice', function ($value) {
+                return $value->retailprice ?? '';
+            })
+            ->editColumn('city', function ($value) {
+                return $value->city ?? '';
+            })
+            ->editColumn('category_id', function ($value) {
+                return $value->category_id ?? '';
+            })
+            ->editColumn('category_desc', function ($value) {
+                return $value->category_desc ?? '';
+            })
+            ->editColumn('book_format_id', function ($value) {
+                return $value->book_format_id ?? '';
+            })
+            ->editColumn('filename', function ($value) {
+                return $value->filename ?? '';
+            })
+            ->editColumn('cover', function ($value) {
+                return $value->cover ?? '';
+            })
+            ->editColumn('age', function ($value) {
+                return $value->age ?? '';
+            })
+            ->editColumn('status', function ($value) {
+                return $value->status ?? '';
+            })
+            ->editColumn('reason', function ($value) {
+                return $value->reason ?? '';
+            })
             ->editColumn('createdate', function ($value) {
                 return Carbon::parse($value->createdate)->toDateTimeString();
             })
             ->addColumn('path_cover', function ($value) {
                 return file_exists(public_path('/storage/tmp/covers_tmp/'.$value->cover)) ? '/storage/tmp/covers_tmp/'.$value->cover : '';
+            })
+            ->addColumn('select', function ($value) {
+                return $value->book_id .'|'. $value->status;
             })
             ->addIndexColumn()
             ->toJson();
@@ -206,11 +284,11 @@ class UploadBooksController extends Controller
 
                             if ($encryptFile) {
                                 $books_id = Str::uuid();
-                                $upload = DB::table('tbook_tmp')->insert([
+                                $upload = DB::table('tbook_draft')->insert([
                                         'book_id' => $books_id,
                                         'filename' => $filename . '.gns',
                                         'cover' => basename($outputPath),
-                                        'flag' => '1',
+                                        'status' => '1',
                                         'supplier_id' => auth()->user()->client_id,
                                         'createdate' => Carbon::now('Asia/Jakarta'),
                                         'createby' => auth()->user()->email,
@@ -230,12 +308,13 @@ class UploadBooksController extends Controller
                     }
                 }
 
-                $data = DB::table('tbook_tmp as a')->sharedLock()
+                $data = DB::table('tbook_draft as a')->sharedLock()
                     ->select(
                         'a.book_id',
                         'a.filename',
                         'a.cover',
                         'a.category_id',
+                        'a.publisher_id',
                         'a.book_format_id'
                     )
                     ->whereIn('a.book_id', $books)
@@ -386,7 +465,7 @@ class UploadBooksController extends Controller
                         $books[] = $value['book_id'];
                     }
 
-                    $data = DB::table('tbook_tmp as a')->sharedLock()
+                    $data = DB::table('tbook_draft as a')->sharedLock()
                         ->select(
                             'a.book_id as book_id',
                             'a.supplier_id as supplier_id',
@@ -412,7 +491,7 @@ class UploadBooksController extends Controller
                             'a.filename as filename',
                             'a.cover as cover',
                             'a.age as age',
-                            'a.flag as flag'
+                            'a.status as status'
                         )
                         ->join('tcompany_category as b', function($join) {
                             $join->on('a.supplier_id', '=', 'b.client_id') 
@@ -461,7 +540,48 @@ class UploadBooksController extends Controller
                                 'filename' => $value->filename ?? '',
                                 'cover' => $value->cover ?? '',
                                 'age' => $value->age ?? '',
-                                'flag' => $value->flag ?? '',
+                                'status' => $value->status ?? '',
+                                'path_cover' => file_exists(public_path('/storage/tmp/covers_tmp/'.$value->cover)) ? '/storage/tmp/covers_tmp/'.$value->cover : ''
+                            ];
+                        });
+                    }
+
+                    return response()->json($results, 200);
+                break;
+
+                case 'selected-data':
+                    DB::enableQueryLog();
+
+                    $data = DB::table('tbook_draft as a')->sharedLock()
+                        ->select(
+                            'a.book_id',
+                            'a.filename',
+                            'a.cover',
+                            'a.category_id',
+                            'a.publisher_id',
+                            'a.book_format_id'
+                        )
+                        ->whereIn('a.book_id', request()->data)
+                        ->where('a.supplier_id', auth()->user()->client_id)
+                        ->get();
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results = [];
+                    if($data) {
+                        $results = $data->map(function($value, $key) {
+                            return [
+                                'book_id' => $value->book_id ?? '',
+                                'filename' => $value->filename ?? '',
+                                'cover' => $value->cover ?? '',
+                                'category_id' => $value->category_id ?? '',
+                                'publisher_id' => $value->publisher_id ?? '',
+                                'book_format_id' => $value->book_format_id ?? '',
                                 'path_cover' => file_exists(public_path('/storage/tmp/covers_tmp/'.$value->cover)) ? '/storage/tmp/covers_tmp/'.$value->cover : ''
                             ];
                         });
@@ -496,7 +616,7 @@ class UploadBooksController extends Controller
 
             foreach ($request->all() as $key => $value) {
                 if (is_array($value)) {
-                    $updated = DB::table('tbook_tmp')
+                    $updated = DB::table('tbook_draft')
                         ->where('supplier_id', auth()->user()->client_id)
                         ->where('book_id', $value['book_id'])
                         ->update([
@@ -561,33 +681,10 @@ class UploadBooksController extends Controller
             foreach ($request->all() as $key => $value) {
                 if (is_array($value)) {
                     $updated = DB::table('tbook_draft')
-                        ->insert([
-                            'book_id' => $value['book_id'],
-                            'supplier_id' => $value['supplier_id'],
-                            'isbn' => $value['isbn'],
-                            'eisbn' => $value['eisbn'],
-                            'title' => $value['title'],
-                            'writer' => $value['writer'],
-                            'publisher_id' => $value['publisher_id'],
-                            'size' => $value['size'],
-                            'year' => $value['year'],
-                            'volume' => $value['volume'],
-                            'edition' => $value['edition'],
-                            'page' => $value['page'],
-                            'sinopsis' => $value['sinopsis'],
-                            'sellprice' => $value['sellprice'],
-                            'rentprice' => $value['rentprice'],
-                            'retailprice' => $value['retailprice'],
-                            'city' => $value['city'],
-                            'category_id' => $value['category_id'],
-                            'book_format_id' => $value['book_format_id'],
-                            'filename' => $value['filename'],
-                            'cover' => $value['cover'],
-                            'age' => $value['age'],
+                    ->where('supplier_id', auth()->user()->client_id)
+                    ->where('book_id', $value['book_id'])
+                    ->update([
                             'status' => '2',
-                            'reason' => '',
-                            'createdate' => Carbon::now('Asia/Jakarta'),
-                            'createby' => auth()->user()->email,
                             'updatedate' => Carbon::now('Asia/Jakarta'),
                             'updateby' => auth()->user()->email,
                         ]);
@@ -730,7 +827,7 @@ class UploadBooksController extends Controller
             $collect_exists_data = collect($data_excel['exists'])->collapse()->all();
             $exists_count = 0;
             foreach ($collect_exists_data as $i => $value) {
-                $updated = DB::table('tbook_tmp')
+                $updated = DB::table('tbook_draft')
                     ->where('supplier_id', auth()->user()->client_id)
                     ->where('book_id', $value['book_id'])
                     ->update([
