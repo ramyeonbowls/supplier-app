@@ -183,16 +183,16 @@
                                 <file-pond name="logo_big" ref="logo_big" label-idle="Upload Logo Besar disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" v-on:init="handleFilePondInit" credits="false" v-on:updatefiles="getFile" />
                                 <ErrorMessage name="logo_big" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                                 <dt class="text-xs font-medium text-slate-500">Max. logo size: 1000 kb</dt>
-                                <img class="rounded-lg shadow-sm dark:shadow-gray-800" src="images/logo/logo.svg" alt="image description">
-                                <dt class="text-xs font-medium mt-2 text-slate-500">Contoh logo besar</dt>
+                                <img class="rounded-lg shadow-sm dark:shadow-gray-800" src="images/logo/logo.svg" alt="image description" />
+                                <dt class="mt-2 text-xs font-medium text-slate-500">Contoh logo besar</dt>
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
                                 <file-pond name="logo_small" ref="logo_small" label-idle="Upload Logo Kecil disini..." v-bind:allow-multiple="false" accepted-file-types="image/png" maxFileSize="1000KB" v-on:init="handleFilePondInit" credits="false" v-on:updatefiles="getFileSmall" />
                                 <ErrorMessage name="logo_small" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                                 <dt class="text-xs font-medium text-slate-500">Max. logo size: 1000 kb</dt>
-                                <img class="w-[125px] h-[125px] rounded-lg shadow-sm dark:shadow-gray-800" src="images/logo/favicon.svg" alt="image description">
-                                <dt class="text-xs font-medium mt-2 text-slate-500">Contoh logo kecil</dt>
+                                <img class="h-[125px] w-[125px] rounded-lg shadow-sm dark:shadow-gray-800" src="images/logo/favicon.svg" alt="image description" />
+                                <dt class="mt-2 text-xs font-medium text-slate-500">Contoh logo kecil</dt>
                             </div>
 
                             <div class="col-span-6">

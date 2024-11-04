@@ -354,6 +354,85 @@
             </div>
         </Dialog>
     </TransitionRoot>
+
+    <TransitionRoot as="template" :show="open_error">
+        <Dialog class="relative z-50" @close="open_error = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
+                                    </div>
+                                    <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Gagal Upload</DialogTitle>
+                                        <div class="mt-2 h-[40vh] w-[100vh] overflow-scroll p-1">
+                                            <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                                                <thead class="text-center">
+                                                    <tr>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Baris</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Buku ID</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">File</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Isbn</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Eisbn</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Judul</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Penulis</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Format</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Tahun</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Jilid</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Edisi</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Halaman</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Sinopsis</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Harga Jual</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Harga Pinjam</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Harga Retail</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Kota</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Umur</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody class="divide-y divide-gray-200">
+                                                    <tr v-for="(error, key) in form.field.data_error" :key="key">
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.row }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.book_id }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.filename }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.isbn }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.eisbn }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.title }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.writer }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.size }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.year }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.volume }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.edition }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.page }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.sinopsis }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.sellprice }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.rentprice }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.retailprice }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.city }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.age }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_error = false" ref="cancelButtonRef">Close</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
     <!-- modal -->
 </template>
 
@@ -384,8 +463,9 @@ export default {
     data() {
         return {
             open: false,
-            image_url: '',
             open_sinopsis: false,
+            open_error: false,
+            image_url: '',
             detail_sinopsis: '',
             selectedRows: [],
 
@@ -408,6 +488,7 @@ export default {
                     file_pdf: '',
                     data_upl: [],
                     data_view: [],
+                    data_error: [],
                     file_excel: null,
                 },
 
@@ -571,6 +652,7 @@ export default {
             this.form.field.file_excel = ''
             this.form.field.data_upl = []
             this.form.field.data_view = []
+            this.form.field.data_error = []
 
             this.$refs.file_pdf.value = ''
             this.$refs.file_excel.value = ''
@@ -782,7 +864,7 @@ export default {
                     this.selectedRows.push(dataTable.data.data[index].cells[0].data.split('|')[0])
                 }
             })
-            
+
             if (this.selectedRows.length > 0) {
                 this.encryptUpdateData()
                 this.getSelectedData(this.selectedRows)
@@ -995,12 +1077,15 @@ export default {
                             this.encryptReview()
                             loader.hide()
 
-                            this.$notyf.success(response.data)
+                            this.$notyf.success(response.data.message)
                         })
                         .catch((e) => {
                             this.form.submit_count = 0
+                            this.form.field.data_error = []
+                            this.form.field.data_error = e.response.data.data
                             loader.hide()
-                            console.log(e.response.data)
+                            this.open_error = true
+                            this.$notyf.error(e.response.data.message)
                         })
                 }
             } else {

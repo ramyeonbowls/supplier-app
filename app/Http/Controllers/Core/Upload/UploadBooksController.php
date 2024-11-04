@@ -736,7 +736,8 @@ class UploadBooksController extends Controller
         $logs->write(__FUNCTION__, "START");
 
         $result['status'] = 200;
-        $result['message']= '';
+        $results['message'] = '';
+        $results['data'] = [];
 
         $spreadsheet = IOFactory::load($request['file_master']);
         $sheetCount  = $spreadsheet->getSheetCount();
@@ -795,23 +796,24 @@ class UploadBooksController extends Controller
                     } else {
                         $tagging = 'failed';
 
+                        $data_excel[$tagging][$i][$ii]['row'] = $row;
                         $data_excel[$tagging][$i][$ii]['book_id'] = $book_id;
                         $data_excel[$tagging][$i][$ii]['filename'] = $filename;
-                        $data_excel[$tagging][$i][$ii]['isbn'] = $isbn;
-                        $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn;
-                        $data_excel[$tagging][$i][$ii]['title'] = $title;
-                        $data_excel[$tagging][$i][$ii]['writer'] = $writer;
-                        $data_excel[$tagging][$i][$ii]['size'] = $size;
-                        $data_excel[$tagging][$i][$ii]['year'] = $year;
-                        $data_excel[$tagging][$i][$ii]['volume'] = $volume;
-                        $data_excel[$tagging][$i][$ii]['edition'] = $edition;
-                        $data_excel[$tagging][$i][$ii]['page'] = $page;
-                        $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis;
-                        $data_excel[$tagging][$i][$ii]['sellprice'] = $sellprice;
-                        $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice;
-                        $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice;
-                        $data_excel[$tagging][$i][$ii]['city'] = $city;
-                        $data_excel[$tagging][$i][$ii]['age'] = $age;
+                        $data_excel[$tagging][$i][$ii]['isbn'] = $isbn != '' ? $isbn : 'Data ISBN Kosong!';
+                        $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn != '' ? $eisbn : 'Data EISBN Kosong!';
+                        $data_excel[$tagging][$i][$ii]['title'] = $title != '' ? $title : 'Data Judul Kosong!';
+                        $data_excel[$tagging][$i][$ii]['writer'] = $writer != '' ? $writer : 'Data Penulis Kosong!';
+                        $data_excel[$tagging][$i][$ii]['size'] = $size != '' ? $size : 'Data Format Kosong!';
+                        $data_excel[$tagging][$i][$ii]['year'] = $year != '' ? $year : 'Data Tahun Kosong!';
+                        $data_excel[$tagging][$i][$ii]['volume'] = $volume != '' ? $year : 'Data Jilid Kosong!';
+                        $data_excel[$tagging][$i][$ii]['edition'] = $edition != '' ? $edition : 'Data Edisi Kosong!';
+                        $data_excel[$tagging][$i][$ii]['page'] = $page != '' ? $page : 'Data Halaman Kosong!';
+                        $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis != '' ? $page : 'Data Sinopsis Kosong!';
+                        $data_excel[$tagging][$i][$ii]['sellprice'] = $sellprice != '' && is_numeric($sellprice) ? $sellprice : 'Data Harga Jual Kosong atau bukan angka!';
+                        $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice != '' && is_numeric($rentprice) ? $rentprice : 'Data Harga Pinjam Kosong atau bukan angka!';
+                        $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice != '' && is_numeric($retailprice) ? $retailprice : 'Data Harga Retail Kosong atau bukan angka!';
+                        $data_excel[$tagging][$i][$ii]['city'] = $city != '' ? $city : 'Data Kota Kosong!';
+                        $data_excel[$tagging][$i][$ii]['age'] = $age != '' ? $age : 'Data Umur Kosong!';
                     }
 
                     $ii++;
@@ -824,41 +826,48 @@ class UploadBooksController extends Controller
         try {
             DB::enableQueryLog();
 
-            $collect_exists_data = collect($data_excel['exists'])->collapse()->all();
-            $exists_count = 0;
-            foreach ($collect_exists_data as $i => $value) {
-                $updated = DB::table('tbook_draft')
-                    ->where('supplier_id', auth()->user()->client_id)
-                    ->where('book_id', $value['book_id'])
-                    ->update([
-                        'isbn' => $value['isbn'],
-                        'eisbn' => $value['eisbn'],
-                        'title' => $value['title'],
-                        'writer' => $value['writer'],
-                        'size' => $value['size'],
-                        'year' => $value['year'],
-                        'volume' => $value['volume'],
-                        'edition' => $value['edition'],
-                        'page' => $value['page'],
-                        'sinopsis' => $value['sinopsis'],
-                        'sellprice' => $value['sellprice'],
-                        'rentprice' => $value['rentprice'],
-                        'retailprice' => $value['retailprice'],
-                        'city' => $value['city'],
-                        'age' => $value['age'],
-                        'updatedate' => Carbon::now('Asia/Jakarta'),
-                        'updateby' => auth()->user()->email
-                    ]);
-                    
-                if ($updated) {
-                    $exists_count += 1;
-                }
-            }
-
             $collect_failed_data = collect($data_excel['failed'])->collapse()->all();
 
-            $result['status'] = 201;
-            $result['message'] .= "Successfully updated: ". $exists_count ." data";
+            if (!$collect_failed_data) {
+                $collect_exists_data = collect($data_excel['exists'])->collapse()->all();
+                $exists_count = 0;
+                foreach ($collect_exists_data as $i => $value) {
+                    $updated = DB::table('tbook_draft')
+                        ->where('supplier_id', auth()->user()->client_id)
+                        ->where('book_id', $value['book_id'])
+                        ->update([
+                            'isbn' => $value['isbn'],
+                            'eisbn' => $value['eisbn'],
+                            'title' => $value['title'],
+                            'writer' => $value['writer'],
+                            'size' => $value['size'],
+                            'year' => $value['year'],
+                            'volume' => $value['volume'],
+                            'edition' => $value['edition'],
+                            'page' => $value['page'],
+                            'sinopsis' => $value['sinopsis'],
+                            'sellprice' => $value['sellprice'],
+                            'rentprice' => $value['rentprice'],
+                            'retailprice' => $value['retailprice'],
+                            'city' => $value['city'],
+                            'age' => $value['age'],
+                            'updatedate' => Carbon::now('Asia/Jakarta'),
+                            'updateby' => auth()->user()->email
+                        ]);
+                        
+                    if ($updated) {
+                        $exists_count += 1;
+                    }
+                }
+
+                $result['status'] = 201;
+                $results['message'] .= "Successfully updated: ". $exists_count ." data";
+                $results['data'] = [];
+            } else {
+                $result['status'] = 500;
+                $results['message'] .= "Failed upload file: ". count($collect_failed_data) ." data";
+                $results['data'] = $collect_failed_data;
+            }
 
             $queries = DB::getQueryLog();
             for ($q = 0; $q < count($queries); $q++) {
@@ -869,11 +878,12 @@ class UploadBooksController extends Controller
         } catch (Throwable $th) {
             $logs->write("ERROR", $th->getMessage());
 
-            $result['message'] = "Failed upload file.<br>". $th->getMessage();
+            $results['message'] = "Failed upload file.<br>". $th->getMessage();
+            $results['data'] = [];
         }
         $logs->write(__FUNCTION__, "STOP\r\n");
 
-        return response()->json($result['message'], $result['status']);
+        return response()->json($results, $result['status']);
     }
 
     /**
