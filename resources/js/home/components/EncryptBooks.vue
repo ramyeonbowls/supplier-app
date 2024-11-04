@@ -546,7 +546,7 @@ export default {
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
                         if (data) {
-                            return '<a href="javascript:void(0)" class="detail-sinopsis whitespace-nowrap" data-sinopsis="' + data + '">' + data.substring(0, 10) + '...</a>'
+                            return '<a href="javascript:void(0)" class="detail-sinopsis whitespace-nowrap" data-sinopsis="' + encodeURIComponent(data) + '">' + data.substring(0, 10) + '...</a>'
                         }
                         return data
                     },
@@ -611,7 +611,7 @@ export default {
 
             document.querySelectorAll('.detail-sinopsis').forEach((element) => {
                 element.addEventListener('click', (event) => {
-                    let file = event.target.closest('a').getAttribute('data-sinopsis')
+                    let file = decodeURIComponent(event.target.closest('a').getAttribute('data-sinopsis'))
                     this.showSinopsis(file)
                 })
             })
