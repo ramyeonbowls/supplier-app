@@ -536,10 +536,10 @@ export default {
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
                         if (data.split('|')[1] == '1') {
-                            return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-row="' + rowIndex + '">'
+                            return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-row="' + data.split('|')[0] + '">'
                         }
 
-                        return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 hidden" data-row="' + rowIndex + '">'
+                        return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 hidden" data-row="' + data.split('|')[0] + '">'
                     },
                 },
                 {
@@ -696,6 +696,17 @@ export default {
                     let file = decodeURIComponent(event.target.closest('a').getAttribute('data-sinopsis'))
                     this.showSinopsis(file)
                 })
+            })
+
+            document.querySelectorAll('.row-checkbox').forEach((element) => {
+                element.addEventListener('click', (event) => {
+                    let file = event.target.closest('input').getAttribute('data-row')
+                    this.pushSelected(file)
+                })
+            })
+
+            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
             })
 
             /* const headerCheckbox = document.createElement('input')
@@ -856,15 +867,12 @@ export default {
             return true
         },
 
-        selectedData() {
-            this.selectedRows = []
-            const checkboxes = document.querySelectorAll('.row-checkbox')
-            checkboxes.forEach((checkbox, index) => {
-                if (checkbox.checked) {
-                    this.selectedRows.push(dataTable.data.data[index].cells[0].data.split('|')[0])
-                }
-            })
 
+        pushSelected(row) {
+            this.selectedRows.push(row)
+        },
+
+        selectedData() {
             if (this.selectedRows.length > 0) {
                 this.encryptUpdateData()
                 this.getSelectedData(this.selectedRows)
@@ -954,6 +962,10 @@ export default {
             this.form.upload = false
             this.form.review = false
             this.form.cancel = false
+
+            this.selectedRows = []
+            this.getData()
+            dataTable.refresh()
         },
 
         cancelUpload() {
