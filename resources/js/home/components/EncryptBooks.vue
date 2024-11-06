@@ -234,7 +234,7 @@
                                         <th class="px-4 py-2 font-semibold text-gray-900">HALAMAN</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">SINOPSIS</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">JILID</th>
-                                        <th class="px-4 py-2 font-semibold text-gray-900">FORMAT</th>
+                                        <th class="px-4 py-2 font-semibold text-gray-900">UKURAN BUKU</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">UMUR</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">HARGA JUAL</th>
                                         <th class="px-4 py-2 font-semibold text-gray-900">HARGA PINJAM</th>
@@ -301,19 +301,19 @@
             <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
                 <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                     <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" :style="{ width: 'auto', maxWidth: '100%' }">
                             <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                                <div class="sm:flex sm:items-start">
-                                    <div class="sm:ml-15 mt-3 text-center sm:mt-0 sm:text-left">
+                                <div class="sm:flex sm:items-center">
+                                    <div class="text-center sm:text-left">
                                         <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Cover Buku</DialogTitle>
-                                        <div class="mt-2 items-center">
-                                            <img :src="image_url" class="rounded-lg shadow-md" alt="Preview" />
+                                        <div class="mt-2 p-1 flex justify-center">
+                                            <img :src="image_url" class="rounded-lg shadow-md" :style="{ height: '450px', width: '300px' }" alt="Preview" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Close</button>
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false">Close</button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>
@@ -383,7 +383,7 @@
                                                         <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Eisbn</th>
                                                         <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Judul</th>
                                                         <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Penulis</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Format</th>
+                                                        <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Ukuran Buku</th>
                                                         <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Tahun</th>
                                                         <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Jilid</th>
                                                         <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">Edisi</th>
@@ -506,7 +506,7 @@ export default {
             sortable: true,
             data: {
                 headings: [
-                    { text: 'select', data: 'select' },
+                    { text: '#', data: 'select' },
                     { text: 'cover', data: 'path_cover' },
                     { text: 'judul', data: 'title' },
                     { text: 'file enkripsi', data: 'filename' },
@@ -521,7 +521,7 @@ export default {
                     { text: 'edisi', data: 'edition' },
                     { text: 'halaman', data: 'page' },
                     { text: 'sinopsis', data: 'sinopsis' },
-                    { text: 'format', data: 'size' },
+                    { text: 'ukuran buku', data: 'size' },
                     { text: 'jilid', data: 'volume' },
                     { text: 'umur', data: 'age' },
                     { text: 'harga jual', data: 'sellprice' },
@@ -705,8 +705,8 @@ export default {
                 })
             })
 
-            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
-                checkbox.checked = false;
+            document.querySelectorAll('.row-checkbox').forEach((checkbox) => {
+                checkbox.checked = false
             })
 
             /* const headerCheckbox = document.createElement('input')
@@ -866,7 +866,6 @@ export default {
 
             return true
         },
-
 
         pushSelected(row) {
             this.selectedRows.push(row)

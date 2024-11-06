@@ -56,7 +56,7 @@ class UploadBookDataExport implements WithCustomStartCell, WithHeadings, WithTit
             'EISBN',
             'JUDUL',
             'PENULIS',
-            'FORMAT',
+            'UKURAN BUKU',
             'TAHUN',
             'JILID',
             'EDISI',
