@@ -24,6 +24,22 @@ const router = createRouter({
     routes,
 })
 
+router.beforeEach(async (to, from, next) => {
+    try {
+        const response = await axios.get('/userinfo')
+        const userRole = response.data.role
+
+        if (to.meta.roles && !to.meta.roles.includes(userRole)) {
+            next('/forbidden')
+        } else {
+            next()
+        }
+    } catch (error) {
+        console.error('Failed to fetch user role:', error)
+        next('/forbidden')
+    }
+})
+
 const notyf = new Notyf({
     duration: 5000,
     position: {

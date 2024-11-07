@@ -67,6 +67,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::prefix('report')->namespace('Report')->group(function() {
                 Route::apiResource('category-books', CategoryBooksController::class);
             });
+
+            Route::prefix('transactions')->namespace('Transactions')->group(function() {
+                Route::apiResource('approval-books', ApprovalBooksController::class);
+                Route::prefix('approval-books-download')->group(function() {
+                    Route::get('download-file', 'ApprovalBooksController@downloadFile');
+                    Route::get('view-file', 'ApprovalBooksController@viewFile');
+                });
+            });
         });
     });
 

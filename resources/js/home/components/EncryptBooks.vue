@@ -306,7 +306,7 @@
                                 <div class="sm:flex sm:items-center">
                                     <div class="text-center sm:text-left">
                                         <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Cover Buku</DialogTitle>
-                                        <div class="mt-2 p-1 flex justify-center">
+                                        <div class="mt-2 flex justify-center p-1">
                                             <img :src="image_url" class="rounded-lg shadow-md" :style="{ height: '450px', width: '300px' }" alt="Preview" />
                                         </div>
                                     </div>
@@ -510,6 +510,7 @@ export default {
                     { text: 'cover', data: 'path_cover' },
                     { text: 'judul', data: 'title' },
                     { text: 'file enkripsi', data: 'filename' },
+                    { text: 'ukuran file', data: 'file_size' },
                     { text: 'status', data: 'status' },
                     { text: 'penulis', data: 'writer' },
                     { text: 'publisher', data: 'publisher_desc' },
@@ -557,7 +558,7 @@ export default {
                     },
                 },
                 {
-                    select: 4,
+                    select: 5,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
                         if (data == '1') {
@@ -623,7 +624,7 @@ export default {
                     },
                 },
                 {
-                    select: 14,
+                    select: 15,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
                         if (data) {

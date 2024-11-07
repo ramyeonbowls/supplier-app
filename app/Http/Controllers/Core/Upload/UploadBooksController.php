@@ -188,6 +188,12 @@ class UploadBooksController extends Controller
             ->addColumn('select', function ($value) {
                 return $value->book_id .'|'. $value->status;
             })
+            ->addColumn('file_size', function ($value) {
+                $fileSizeInBytes = Storage::size('tmp/books_tmp/'.$value->filename);
+                $fileSizeInMB = $fileSizeInBytes / 1048576;
+                $fileSizeInMB = number_format($fileSizeInMB, 2);
+                return $fileSizeInMB . ' MB';
+            })
             ->addIndexColumn()
             ->toJson();
     }
