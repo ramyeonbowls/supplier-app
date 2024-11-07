@@ -189,10 +189,16 @@ class UploadBooksController extends Controller
                 return $value->book_id .'|'. $value->status;
             })
             ->addColumn('file_size', function ($value) {
-                $fileSizeInBytes = Storage::size('tmp/books_tmp/'.$value->filename);
-                $fileSizeInMB = $fileSizeInBytes / 1048576;
-                $fileSizeInMB = number_format($fileSizeInMB, 2);
-                return $fileSizeInMB . ' MB';
+                $path = $value->status != '1' && $value->status != '2' ? 'books/' : 'tmp/books_tmp/';
+
+                if (Storage::exists($path.'/'.$value->filename)) {
+                    $fileSizeInBytes = Storage::size($path.'/'.$value->filename);
+                    $fileSizeInMB = $fileSizeInBytes / 1048576;
+                    $fileSizeInMB = number_format($fileSizeInMB, 2);
+                    return $fileSizeInMB . ' MB';
+                }
+
+                return '0 MB';
             })
             ->addIndexColumn()
             ->toJson();
