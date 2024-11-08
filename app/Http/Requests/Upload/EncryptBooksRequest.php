@@ -22,7 +22,7 @@ class EncryptBooksRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file_pdf' => 'required|mimes:zip',
+            'file_pdf' => 'required|mimes:zip|max:307200',
         ];
     }
 
@@ -48,6 +48,7 @@ class EncryptBooksRequest extends FormRequest
         return [
             'file_pdf.required' => ':attribute diperlukan.',
             'file_pdf.mimes' => ':attribute file bukan zip.',
+            'file_pdf.max' => 'Ukuran file :attribute lebih dari 300mb.',
         ];
     }
 }

@@ -270,7 +270,35 @@ class UploadBooksController extends Controller
                 }
             }
 
+            $validSize = true;
             if ($file_pdf != '') {
+                $path_pdf = $btmp_folder.'/'.pathinfo($file_pdf, PATHINFO_FILENAME);
+
+                $files = File::files($path_pdf);
+                
+                if (File::exists($path_pdf) && File::isDirectory($path_pdf)) {
+                    foreach ($files as $key => $file) {
+                        if (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+                            $fileContent = Storage::size('tmp/books_tmp/'.pathinfo($file_pdf, PATHINFO_FILENAME).'/'.basename($file));
+                            $logs->write('info', $fileContent);
+
+                            if ($fileContent > 20000000) {
+                                $validSize = false;
+                                $logs->write('failed', basename($file) . ' Ukuran File lebih dari 20mb.');
+                                $results['error'][] = "Failed upload " . basename($file) . " Ukuran File lebih dari 20mb.";
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!$validSize) {
+                        File::deleteDirectory($path_pdf);
+                        return response()->json($results, $result['status']);
+                    }
+                }
+            }
+
+            if ($validSize) {
                 $path_pdf = $btmp_folder.'/'.pathinfo($file_pdf, PATHINFO_FILENAME);
 
                 $files = File::files($path_pdf);
@@ -785,7 +813,7 @@ class UploadBooksController extends Controller
                     $city               = $worksheet->getCellByColumnAndRow(16, $row)->getFormattedValue();
                     $age                = $worksheet->getCellByColumnAndRow(17, $row)->getFormattedValue();
 
-                    if ($isbn != '' && $eisbn != '' && $title != '' && $writer != '' && $size != '' && $year != '' && $volume != '' && $edition != '' && $page != '' && $sinopsis != '' && $sellprice != '' && is_numeric($sellprice) && $rentprice != '' && is_numeric($rentprice) && $retailprice != '' && is_numeric($retailprice) && $city != '' && $age != '' && is_numeric($age)) {
+                    if ($isbn != '' && strlen($isbn) >= 9 && $eisbn != '' && $title != '' && $writer != '' && $size != '' && $year != '' && $volume != '' && $edition != '' && $page != '' && $sinopsis != '' && $sellprice != '' && is_numeric($sellprice) && $rentprice != '' && is_numeric($rentprice) && $retailprice != '' && is_numeric($retailprice) && $city != '' && $age != '' && is_numeric($age)) {
                         $tagging = 'exists';
 
                         $data_excel[$tagging][$i][$ii]['book_id'] = $book_id;
@@ -811,7 +839,7 @@ class UploadBooksController extends Controller
                         $data_excel[$tagging][$i][$ii]['row'] = $row;
                         $data_excel[$tagging][$i][$ii]['book_id'] = $book_id;
                         $data_excel[$tagging][$i][$ii]['filename'] = $filename;
-                        $data_excel[$tagging][$i][$ii]['isbn'] = $isbn != '' ? $isbn : 'Data ISBN Kosong!';
+                        $data_excel[$tagging][$i][$ii]['isbn'] = strlen($isbn) < 9 ? 'Data ISBN minimal 9 karakter!' : ($isbn != '' ? $isbn : 'Data ISBN Kosong!');
                         $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn != '' ? $eisbn : 'Data EISBN Kosong!';
                         $data_excel[$tagging][$i][$ii]['title'] = $title != '' ? $title : 'Data Judul Kosong!';
                         $data_excel[$tagging][$i][$ii]['writer'] = $writer != '' ? $writer : 'Data Penulis Kosong!';

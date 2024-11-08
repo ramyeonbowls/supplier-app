@@ -133,7 +133,7 @@
                                     <div class="h-32 font-[sans-serif]">
                                         <label class="mb-2 block text-base font-semibold text-red-500">UPLOAD FILE ZIP PDF BUKU UNTUK DI ENKRIPSI</label>
                                         <input type="file" class="w-full cursor-pointer rounded border bg-white text-sm font-semibold text-gray-400 file:mr-4 file:cursor-pointer file:border-0 file:bg-gray-100 file:px-4 file:py-3 file:text-gray-500 file:hover:bg-gray-200" aria-describedby="file_pdf" ref="file_pdf" id="file_pdf" name="file_pdf" @change="onChangePdf" accept=".zip" />
-                                        <p class="mt-2 text-xs text-gray-400">.ZIP yang di Izinkan.</p>
+                                        <p class="mt-2 text-xs text-gray-400">.Zip yang di Izinkan. Ukuran maksimal file Zip 300mb & Setiap file pdf maksimal 20mb.</p>
                                     </div>
                                 </div>
                             </form>
@@ -702,7 +702,11 @@ export default {
             document.querySelectorAll('.row-checkbox').forEach((element) => {
                 element.addEventListener('click', (event) => {
                     let file = event.target.closest('input').getAttribute('data-row')
-                    this.pushSelected(file)
+                    if (element.checked) {
+                        this.pushSelected(file)
+                    } else {
+                        this.removeSelected(file)
+                    }
                 })
             })
 
@@ -871,6 +875,9 @@ export default {
         pushSelected(row) {
             this.selectedRows.push(row)
         },
+        removeSelected(row) {
+            this.selectedRows.splice(this.selectedRows.indexOf(row), 1)
+        },
 
         selectedData() {
             if (this.selectedRows.length > 0) {
@@ -1002,16 +1009,16 @@ export default {
                             window.axios
                                 .post('/upload/encrypt-books?menu=' + this.$route.name, form_data)
                                 .then((response) => {
-                                    this.form.field.data_upl = response.data.data
-                                    this.$notyf.success('Successfully Encrypt file')
-
                                     if (response.data.error) {
                                         response.data.error.forEach((element) => {
                                             this.$notyf.error(element)
                                         })
+                                    } else {
+                                        this.form.field.data_upl = response.data.data
+                                        this.$notyf.success('Successfully Encrypt file')
+                                        this.encryptUpdate()
                                     }
 
-                                    this.encryptUpdate()
                                     loader.hide()
                                 })
                                 .catch((e) => {

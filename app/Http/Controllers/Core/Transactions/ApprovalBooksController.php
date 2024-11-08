@@ -83,7 +83,7 @@ class ApprovalBooksController extends Controller
 						->on('a.publisher_id', '=', 'c.id') ;
 				})
                 ->whereIn('a.supplier_id', $request->param)
-                ->where('a.status',  '2')
+                ->whereNotIn('a.status', [1])
                 ->get();
 
             $queries = DB::getQueryLog();
@@ -184,10 +184,16 @@ class ApprovalBooksController extends Controller
                 return $value->book_id .'|'. $value->status;
             })
             ->addColumn('file_size', function ($value) {
-                $fileSizeInBytes = Storage::size('tmp/books_tmp/'.$value->filename);
-                $fileSizeInMB = $fileSizeInBytes / 1048576;
-                $fileSizeInMB = number_format($fileSizeInMB, 2);
-                return $fileSizeInMB . ' MB';
+                $path = $value->status != '1' && $value->status != '2' ? 'books/' : 'tmp/books_tmp/';
+
+                if (Storage::exists($path.'/'.$value->filename)) {
+                    $fileSizeInBytes = Storage::size($path.'/'.$value->filename);
+                    $fileSizeInMB = $fileSizeInBytes / 1048576;
+                    $fileSizeInMB = number_format($fileSizeInMB, 2);
+                    return $fileSizeInMB . ' MB';
+                }
+
+                return '0 MB';
             })
             ->addIndexColumn()
             ->toJson();
@@ -210,7 +216,67 @@ class ApprovalBooksController extends Controller
             DB::enableQueryLog();
 
             foreach (request()->request->all() as $key => $value) {
-                $approve = DB::table('tbook_draft')
+                $draft = DB::table('tbook_draft as a')->sharedLock()
+                        ->select(
+                            'a.book_id as book_id',
+                            'a.supplier_id as supplier_id',
+                            'a.isbn as isbn',
+                            'a.eisbn as eisbn',
+                            'a.title as title',
+                            'a.writer as writer',
+                            'a.publisher_id as publisher_id',
+                            'a.size as size',
+                            'a.year as year',
+                            'a.volume as volume',
+                            'a.edition as edition',
+                            'a.page as page',
+                            'a.sinopsis as sinopsis',
+                            'a.sellprice as sellprice',
+                            'a.rentprice as rentprice',
+                            'a.retailprice as retailprice',
+                            'a.city as city',
+                            'a.category_id as category_id',
+                            'a.book_format_id as book_format_id',
+                            'a.filename as filename',
+                            'a.cover as cover',
+                            'a.age as age'
+                        )
+                        ->where('book_id', $value)
+                        ->first();
+
+                $insert = DB::table('tbook')
+                    ->updateOrInsert([
+                        'book_id' => $draft->book_id,
+                    ], [
+                        'supplier_id' => $draft->supplier_id,
+                        'isbn' => $draft->isbn,
+                        'eisbn' => $draft->eisbn,
+                        'title' => $draft->title,
+                        'writer' => $draft->writer,
+                        'publisher_id' => $draft->publisher_id,
+                        'size' => $draft->size,
+                        'year' => $draft->year,
+                        'volume' => $draft->volume,
+                        'edition' => $draft->edition,
+                        'page' => $draft->page,
+                        'sinopsis' => $draft->sinopsis,
+                        'sellprice' => $draft->sellprice,
+                        'rentprice' => $draft->rentprice,
+                        'retailprice' => $draft->retailprice,
+                        'city' => $draft->city,
+                        'category_id' => $draft->category_id,
+                        'book_format_id' => $draft->book_format_id,
+                        'filename' => $draft->filename,
+                        'cover' => $draft->cover,
+                        'age' => $draft->age,
+                        'createdate' => Carbon::now('Asia/Jakarta'),
+                        'createby' => auth()->user()->email,
+                        'updatedate' => Carbon::now('Asia/Jakarta'),
+                        'updateby' => auth()->user()->email,
+                    ]);
+
+                if ($insert) {
+                    $approve = DB::table('tbook_draft')
                     ->where('book_id', $value)
                     ->update([
                         'status' => '3',
@@ -218,7 +284,6 @@ class ApprovalBooksController extends Controller
                         'updateby' => auth()->user()->email
                     ]);
 
-                if ($approve) {
                     $data = DB::table('tbook_draft as a')->sharedLock()
                         ->select(
                             'a.filename as filename', 
@@ -319,7 +384,43 @@ class ApprovalBooksController extends Controller
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        return response()->json(['request' => $request, 'id' => $id], 200);
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $result['status'] = 200;
+        $result['message'] = '';
+        try {
+            DB::enableQueryLog();
+
+            foreach (request()->request->all() as $key => $value) {
+                $reject = DB::table('tbook_draft')
+                    ->where('book_id', $value)
+                    ->update([
+                        'status' => '5',
+                        'updatedate' => Carbon::now('Asia/Jakarta'),
+                        'updateby' => auth()->user()->email
+                    ]);
+            }
+            
+            if ($reject) {
+                $logs->write("INFO", "Successfully Reject");
+
+                $result['status'] = 201;
+                $result['message'] = "Successfully Reject.";
+            }
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $queries[$q]['query']);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+
+            $result['message'] = "Failed Reject.<br>" . $th->getMessage();
+        }
+
+        return response()->json($result['message'], $result['status']);
     }
 
     /**

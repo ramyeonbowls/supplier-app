@@ -10,7 +10,16 @@
                             </svg>
                         </span>
 
-                        <span class="text-sm font-medium transition-all group-hover:ms-4"> Approve Buku </span>
+                        <span class="text-sm font-medium transition-all group-hover:ms-4"> Publish Buku </span>
+                    </button>
+                    <button class="group relative inline-flex items-center overflow-hidden rounded bg-rose-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-rose-500" @click.prevent="reject">
+                        <span class="absolute -start-full transition-all group-hover:start-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </span>
+
+                        <span class="text-sm font-medium transition-all group-hover:ms-4"> Reject Buku </span>
                     </button>
                 </div>
             </div>
@@ -199,7 +208,11 @@ export default {
                     select: 0,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
-                        return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-row="' + data.split('|')[0] + '">'
+                        if (data.split('|')[1] == '2') {
+                            return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-row="' + data.split('|')[0] + '">'
+                        }
+
+                        return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 hidden" data-row="' + data.split('|')[0] + '">'
                     },
                 },
                 {
@@ -473,27 +486,63 @@ export default {
             if (!this.form.submitted) {
                 this.form.submitted = true
 
-                let loader = this.$loading.show()
+                if (this.selectedRows.length > 0) {
+                    let loader = this.$loading.show()
+                    window.axios
+                        .post('/transactions/approval-books?menu=' + this.$route.name, this.selectedRows)
+                        .then((response) => {
+                            this.form.submitted = false
+                            this.selectedRows = []
+                            this.getData()
+                            loader.hide()
+                            this.$notyf.success('Successfully Publish Books')
+                        })
+                        .catch((e) => {
+                            this.form.submitted = false
+                            loader.hide()
 
-                window.axios
-                    .post('/transactions/approval-books?menu=' + this.$route.name, this.selectedRows)
-                    .then((response) => {
-                        this.form.submitted = false
-                        this.selectedRows = []
-                        this.getData()
-                        loader.hide()
-                        this.$notyf.success('Successfully Approve Books')
-                    })
-                    .catch((e) => {
-                        this.form.submitted = false
-                        loader.hide()
+                            if (e.response && e.response.data && e.response.data.message) {
+                                this.$notyf.error(e.response.data.message)
+                            } else {
+                                this.$notyf.error(e.message || 'An error occurred.')
+                            }
+                        })
+                } else {
+                    this.form.submitted = false
+                    this.$notyf.error('Tidak ada data yang dipilih!')
+                }
+            }
+        },
 
-                        if (e.response && e.response.data && e.response.data.message) {
-                            this.$notyf.error(e.response.data.message)
-                        } else {
-                            this.$notyf.error(e.message || 'An error occurred.')
-                        }
-                    })
+        reject() {
+            if (!this.form.submitted) {
+                this.form.submitted = true
+
+                if (this.selectedRows.length > 0) {
+                    let loader = this.$loading.show()
+                    window.axios
+                        .put('/transactions/approval-books/x0y0z?menu=' + this.$route.name, this.selectedRows)
+                        .then((response) => {
+                            this.form.submitted = false
+                            this.selectedRows = []
+                            this.getData()
+                            loader.hide()
+                            this.$notyf.success('Successfully Reject Books')
+                        })
+                        .catch((e) => {
+                            this.form.submitted = false
+                            loader.hide()
+
+                            if (e.response && e.response.data && e.response.data.message) {
+                                this.$notyf.error(e.response.data.message)
+                            } else {
+                                this.$notyf.error(e.message || 'An error occurred.')
+                            }
+                        })
+                } else {
+                    this.form.submitted = false
+                    this.$notyf.error('Tidak ada data yang dipilih!')
+                }
             }
         },
     },
