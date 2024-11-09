@@ -1009,7 +1009,7 @@ export default {
                             window.axios
                                 .post('/upload/encrypt-books?menu=' + this.$route.name, form_data)
                                 .then((response) => {
-                                    if (response.data.error) {
+                                    if (response.data.error.length > 0) {
                                         response.data.error.forEach((element) => {
                                             this.$notyf.error(element)
                                         })
