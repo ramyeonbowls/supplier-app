@@ -46,7 +46,7 @@
                         <form class="grid grid-cols-6 gap-4" @submit.prevent="handleSubmit($event, submit)">
                             <div class="col-span-6">
                                 <label for="name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.name ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Perusahaan" name="name" v-model="form.field.name" readonly />
+                                    <Field type="text" id="name" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Perusahaan" name="name" v-model="form.field.name" readonly />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Perusahaan</span>
                                 </label>
@@ -55,7 +55,7 @@
 
                             <div class="col-span-6">
                                 <label for="email" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.email ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="email" id="email" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Email" name="email" v-model="form.field.email" readonly />
+                                    <Field type="email" id="email" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Email" name="email" v-model="form.field.email" readonly />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Email</span>
                                 </label>
@@ -63,7 +63,47 @@
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <Field as="select" name="country" id="country" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.country ? 'border-red-500' : 'border-gray-300'" v-model="form.field.country" disabled>
+                                <label for="password" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.password ? 'border-red-500' : 'border-gray-200'">
+                                    <Field :type="!showPass ? 'password' : 'text'" id="password" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Enter password" name="password" v-model="form.field.password" autocomplete="current-password" />
+
+                                    <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Password</span>
+
+                                    <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400" :class="{ block: !showPass, hidden: showPass }" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showPass = true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400" :class="{ block: showPass, hidden: !showPass }" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showPass = false">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                        </svg>
+                                    </span>
+                                </label>
+                                <ErrorMessage name="password" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <label for="password_confirmation" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.password_confirmation ? 'border-red-500' : 'border-gray-200'">
+                                    <Field :type="!showConfirm ? 'password' : 'text'" id="password_confirmation" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Konfirmasi Password" name="password_confirmation" v-model="form.field.password_confirmation" required autocomplete="new-password" />
+
+                                    <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Konfirmasi Password</span>
+
+                                    <span class="absolute inset-y-0 end-0 grid place-content-center px-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400" :class="{ block: !showConfirm, hidden: showConfirm }" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showConfirm = true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400" :class="{ block: showConfirm, hidden: !showConfirm }" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showConfirm = false">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                        </svg>
+                                    </span>
+                                </label>
+                                <ErrorMessage name="password_confirmation" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
+                            </div>
+
+                            <div class="col-span-6 sm:col-span-3">
+                                <Field as="select" name="country" id="country" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.country ? 'border-red-500' : 'border-gray-300'" v-model="form.field.country" @change="getProvinsi('')">
                                     <option value="">Silakan pilih Negara</option>
                                     <option value="IDN">Indonesia</option>
                                 </Field>
@@ -71,7 +111,7 @@
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <Field as="select" name="province" id="province" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.province ? 'border-red-500' : 'border-gray-300'" v-model="form.field.province" disabled>
+                                <Field as="select" name="province" id="province" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.province ? 'border-red-500' : 'border-gray-300'" v-model="form.field.province" @change="getKabupaten('')">
                                     <option value="">Silakan pilih Provinsi</option>
                                     <option v-for="(value, key) in option.province" :key="key" :value="value.id">{{ value.name }}</option>
                                 </Field>
@@ -79,15 +119,15 @@
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <Field as="select" name="regency" id="regency" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.regency ? 'border-red-500' : 'border-gray-300'" v-model="form.field.regency" disabled>
+                                <Field as="select" name="regency" id="regency" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.regency ? 'border-red-500' : 'border-gray-300'" v-model="form.field.regency" @change="getKecamatan('')">
                                     <option value="">Silakan pilih Kabupaten/Kota</option>
                                     <option v-for="(value, key) in option.regency" :key="key" :value="value.id">{{ value.name }}</option>
                                 </Field>
-                                <ErrorMessage name="regency" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
+                                <ErrorMessage name="regencyz" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <Field as="select" name="district" id="district" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.district ? 'border-red-500' : 'border-gray-300'" v-model="form.field.district" disabled>
+                                <Field as="select" name="district" id="district" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.district ? 'border-red-500' : 'border-gray-300'" v-model="form.field.district" @change="getKelurahan('')">
                                     <option value="">Silakan pilih Kecamatan</option>
                                     <option v-for="(value, key) in option.district" :key="key" :value="value.id">{{ value.name }}</option>
                                 </Field>
@@ -95,7 +135,7 @@
                             </div>
 
                             <div class="col-span-6 sm:col-span-3">
-                                <Field as="select" name="subdistrict" id="subdistrict" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.subdistrict ? 'border-red-500' : 'border-gray-300'" v-model="form.field.subdistrict" disabled>
+                                <Field as="select" name="subdistrict" id="subdistrict" class="relative w-full rounded-md text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" :class="errors.subdistrict ? 'border-red-500' : 'border-gray-300'" v-model="form.field.subdistrict">
                                     <option value="">Silakan pilih Kelurahan</option>
                                     <option v-for="(value, key) in option.subdistrict" :key="key" :value="value.id">{{ value.name }}</option>
                                 </Field>
@@ -104,7 +144,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="postal_code" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.postal_code ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="postal_code" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Pos" name="postal_code" v-model="form.field.postal_code" readonly />
+                                    <Field type="text" id="postal_code" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Pos" name="postal_code" v-model="form.field.postal_code" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kode Pos</span>
                                 </label>
@@ -112,13 +152,13 @@
                             </div>
 
                             <div class="col-span-6">
-                                <Field as="textarea" id="address" class="mt-2 w-full rounded-lg align-top shadow-sm" :class="errors.address ? 'border-red-500' : 'border-gray-200'" rows="3" placeholder="Masukkan alamat..." name="address" v-model="form.field.address" readonly />
+                                <Field as="textarea" id="address" class="mt-2 w-full rounded-lg align-top shadow-sm" :class="errors.address ? 'border-red-500' : 'border-gray-200'" rows="3" placeholder="Masukkan alamat..." name="address" v-model="form.field.address" />
                                 <ErrorMessage name="address" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
                             </div>
 
                             <div class="col-span-6 hidden sm:col-span-3">
                                 <label for="telephone" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.telephone ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="telephone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Telephone" name="telephone" v-model="form.field.telephone" readonly />
+                                    <Field type="text" id="telephone" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Telephone" name="telephone" v-model="form.field.telephone" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Telephone</span>
                                 </label>
@@ -127,7 +167,7 @@
 
                             <div class="col-span-6">
                                 <label for="handphone" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="handphone" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone" name="handphone" v-model="form.field.handphone" readonly />
+                                    <Field type="text" id="handphone" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone" name="handphone" v-model="form.field.handphone" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone</span>
                                 </label>
@@ -136,7 +176,7 @@
 
                             <div class="col-span-6">
                                 <label for="director" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.director ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Direktur" name="director" v-model="form.field.director" readonly />
+                                    <Field type="text" id="director" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Direktur" name="director" v-model="form.field.director" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Direktur</span>
                                 </label>
@@ -145,7 +185,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="position" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.position ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="position" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan" name="position" v-model="form.field.position" readonly />
+                                    <Field type="text" id="position" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Jabatan" name="position" v-model="form.field.position" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Jabatan</span>
                                 </label>
@@ -154,7 +194,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="handphone_director" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone_director ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="handphone_director" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Direktur" name="handphone_director" v-model="form.field.handphone_director" readonly />
+                                    <Field type="text" id="handphone_director" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Direktur" name="handphone_director" v-model="form.field.handphone_director" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone Direktur</span>
                                 </label>
@@ -163,7 +203,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="person_in_charge" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.person_in_charge ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Penanggung Jawab" name="person_in_charge" v-model="form.field.person_in_charge" readonly />
+                                    <Field type="text" id="person_in_charge" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Penanggung Jawab" name="person_in_charge" v-model="form.field.person_in_charge" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Penanggung Jawab</span>
                                 </label>
@@ -172,7 +212,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="handphone_person_in_charge" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.handphone_person_in_charge ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="handphone_person_in_charge" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Penanggung Jawab" name="handphone_person_in_charge" v-model="form.field.handphone_person_in_charge" readonly />
+                                    <Field type="text" id="handphone_person_in_charge" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Handphone Penanggung Jawab" name="handphone_person_in_charge" v-model="form.field.handphone_person_in_charge" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Handphone Penanggung Jawab</span>
                                 </label>
@@ -328,7 +368,7 @@
 
                             <div class="col-span-6">
                                 <label for="npwp" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.npwp ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="npwp" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. NPWP" name="npwp" v-model="form.field.npwp" readonly />
+                                    <Field type="text" id="npwp" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. NPWP" name="npwp" v-model="form.field.npwp" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. NPWP</span>
                                 </label>
@@ -337,7 +377,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="account_bank" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.account_bank ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="account_bank" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Rekening" name="account_bank" v-model="form.field.account_bank" readonly />
+                                    <Field type="text" id="account_bank" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="No. Rekening" name="account_bank" v-model="form.field.account_bank" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">No. Rekening</span>
                                 </label>
@@ -346,7 +386,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="account_name" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.account_name ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="account_name" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Rekening" name="account_name" v-model="form.field.account_name" readonly />
+                                    <Field type="text" id="account_name" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Rekening" name="account_name" v-model="form.field.account_name" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Rekening</span>
                                 </label>
@@ -355,7 +395,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="bank" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.bank ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="bank" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Bank" name="bank" v-model="form.field.bank" readonly />
+                                    <Field type="text" id="bank" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Nama Bank" name="bank" v-model="form.field.bank" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Nama Bank</span>
                                 </label>
@@ -364,7 +404,7 @@
 
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="bank_city" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.bank_city ? 'border-red-500' : 'border-gray-200'">
-                                    <Field type="text" id="bank_city" class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kota Bank" name="bank_city" v-model="form.field.bank_city" readonly />
+                                    <Field type="text" id="bank_city" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kota Bank" name="bank_city" v-model="form.field.bank_city" />
 
                                     <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kota Bank</span>
                                 </label>
@@ -450,6 +490,8 @@ export default {
         return {
             open: false,
             search: '',
+            showPass: false,
+            showConfirm: false,
 
             option: {
                 province: [],
@@ -502,13 +544,11 @@ export default {
 
     mounted() {
         this.getData()
-        this.getProvinsi()
     },
 
     methods: {
         loadData() {
             this.getData()
-            this.getProvinsi()
         },
 
         getData() {
@@ -540,6 +580,10 @@ export default {
                     this.getPublisher()
                     this.getCategory()
                     this.getAccount()
+                    this.getProvinsi(this.form.field.province)
+                    this.getKabupaten(this.form.field.regency)
+                    this.getKecamatan(this.form.field.district)
+                    this.getKelurahan(this.form.field.subdistrict)
 
                     loader.hide()
                 })
@@ -634,8 +678,14 @@ export default {
                 })
         },
 
-        getProvinsi() {
-            this.option.province = []
+        getProvinsi(data='') {
+            if (data == '') {
+                this.form.field.province = ''
+                this.form.field.regency = ''
+                this.form.field.district = ''
+                this.form.field.subdistrict = ''
+                this.option.province = []
+            }
 
             let loader = this.$loading.show()
             window.axios
@@ -647,15 +697,19 @@ export default {
                 .then((response) => {
                     loader.hide()
                     this.option.province = response.data
-                    this.getKabupaten()
                 })
                 .catch((e) => {
                     console.error(e)
                 })
         },
 
-        getKabupaten() {
-            this.option.regency = []
+        getKabupaten(data='') {
+            if (data == '') {
+                this.form.field.regency = ''
+                this.form.field.district = ''
+                this.form.field.subdistrict = ''
+                this.option.regency = []
+            }
 
             let loader = this.$loading.show()
             window.axios
@@ -668,15 +722,18 @@ export default {
                 .then((response) => {
                     loader.hide()
                     this.option.regency = response.data
-                    this.getKecamatan()
                 })
                 .catch((e) => {
                     console.error(e)
                 })
         },
 
-        getKecamatan() {
-            this.option.district = []
+        getKecamatan(data='') {
+            if (data == '') {
+                this.form.field.district = ''
+                this.form.field.subdistrict = ''
+                this.option.district = []
+            }
 
             let loader = this.$loading.show()
             window.axios
@@ -690,15 +747,17 @@ export default {
                 .then((response) => {
                     loader.hide()
                     this.option.district = response.data
-                    this.getKelurahan()
                 })
                 .catch((e) => {
                     console.error(e)
                 })
         },
 
-        getKelurahan() {
-            this.option.subdistrict = []
+        getKelurahan(data='') {
+            if (data == '') {
+                this.form.field.subdistrict = ''
+                this.option.subdistrict = []
+            }
 
             let loader = this.$loading.show()
             window.axios
@@ -771,6 +830,7 @@ export default {
                                 this.form.submitted = false
                                 loader.hide()
 
+                                this.$refs.form.setErrors(e.response.data.errors)
                                 if (e.response && e.response.data && e.response.data.message) {
                                     this.$notyf.error(e.response.data.message)
                                 } else {

@@ -7,10 +7,12 @@ use File;
 use Throwable;
 use App\Logs;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Profile\ProfileCompanyRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -459,12 +461,14 @@ class ProfileCompanyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param ProfileCompanyRequest $request
      * @param string $id
      * @return JsonResponse
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(ProfileCompanyRequest $request, string $id): JsonResponse
     {
+        $validated = $request->validated();
+
         $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
         $logs->write(__FUNCTION__, 'START');
 
@@ -473,56 +477,102 @@ class ProfileCompanyController extends Controller
         try {
             DB::enableQueryLog();
 
-            $imprint = request()->imprint;
-            if (count($imprint) > 0) {
-                $delete_imp = DB::table('tpublisher')->where('client_id', auth()->user()->client_id)->where('flag', 'I')->delete();
-                foreach ($imprint as $key => $value) {
-                    $updated = DB::table('tpublisher')
-                        ->insert([
-                            'client_id' => auth()->user()->client_id,
-                            'id' => $value['id'] != '' ? $value['id'] : Str::uuid(),
-                            'description' => $value['name'],
-                            'flag' => 'I',
-                            'created_at' => Carbon::now('Asia/Jakarta'),
-                            'updated_at' => Carbon::now('Asia/Jakarta'),
-                        ]);
-                }
-            }
-
-            $publisher = request()->publisher;
-            if (count($publisher) > 0) {
-                $delete_pub = DB::table('tpublisher')->where('client_id', auth()->user()->client_id)->where('flag', 'K')->delete();
-                foreach ($publisher as $key => $value) {
-                    $updated = DB::table('tpublisher')
-                        ->insert([
-                            'client_id' => auth()->user()->client_id,
-                            'id' => $value['id'] != '' ? $value['id'] : Str::uuid(),
-                            'description' => $value['name'],
-                            'flag' => 'K',
-                            'created_at' => Carbon::now('Asia/Jakarta'),
-                            'updated_at' => Carbon::now('Asia/Jakarta'),
-                        ]);
-                }
-            }
-
-            $category = request()->category;
-            if (count($category) > 0) {
-                $delete_cat = DB::table('tcompany_category')->where('client_id', auth()->user()->client_id)->delete();
-                foreach ($category as $key => $value) {
-                    $updated = DB::table('tcompany_category')
-                        ->insert([
-                            'client_id' => auth()->user()->client_id,
-                            'category_id' => $value['id'],
-                            'category_desc' => $value['desc'],
-                            'created_at' => Carbon::now('Asia/Jakarta'),
-                            'created_by' => auth()->user()->email,
-                            'updated_at' => Carbon::now('Asia/Jakarta'),
-                            'updated_by' => auth()->user()->email,
-                        ]);
-                }
-            }
+            $updated = DB::table('tcompany')
+                ->updateOrInsert([
+                    'id' => auth()->user()->client_id
+                ], [
+                    'name' => $request->name ?? '',
+                    'email' => $request->email ?? '',
+                    'country' => $request->country ?? '',
+                    'province' => $request->province ?? '',
+                    'regency' => $request->regency ?? '',
+                    'district' => $request->district ?? '',
+                    'subdistrict' => $request->subdistrict ?? '',
+                    'postal_code' => $request->postal_code ?? '',
+                    'address' => $request->address ?? '',
+                    'telephone' => $request->telephone ?? '',
+                    'handphone' => $request->handphone ?? '',
+                    'director' => $request->director ?? '',
+                    'position' => $request->position ?? '',
+                    'handphone_director' => $request->handphone_director ?? '',
+                    'pic' => $request->person_in_charge ?? '',
+                    'handphone_pic' => $request->handphone_person_in_charge ?? '',
+                    'file' => '',
+                    'type' => $request->type,
+                    'updated_at' => Carbon::now('Asia/Jakarta'),
+                    'updated_by' => $request->email ?? '',
+                ]);
             
             if ($updated) {
+                if ($request->password) {
+                    $user = Auth::user();
+                    $user->password = bcrypt($request->password);
+                    $user->updated_at = Carbon::now('Asia/Jakarta');
+                    $user->save();
+                }
+                
+                $bank = DB::table('tcompany_bank_account')
+                ->updateOrInsert([
+                    'client_id' => auth()->user()->client_id,
+                ], [
+                    'npwp' => $request->npwp,
+                    'account_bank' => $request->account_bank,
+                    'bank' => $request->bank,
+                    'account_name' => $request->account_name,
+                    'bank_city' => $request->bank_city,
+                    'updated_at' => Carbon::now('Asia/Jakarta'),
+                    'updated_by' => $request->email,
+                ]);
+    
+                $imprint = request()->imprint;
+                if (count($imprint) > 0) {
+                    $delete_imp = DB::table('tpublisher')->where('client_id', auth()->user()->client_id)->where('flag', 'I')->delete();
+                    foreach ($imprint as $key => $value) {
+                        $updated = DB::table('tpublisher')
+                            ->insert([
+                                'client_id' => auth()->user()->client_id,
+                                'id' => $value['id'] != '' ? $value['id'] : Str::uuid(),
+                                'description' => $value['name'],
+                                'flag' => 'I',
+                                'created_at' => Carbon::now('Asia/Jakarta'),
+                                'updated_at' => Carbon::now('Asia/Jakarta'),
+                            ]);
+                    }
+                }
+    
+                $publisher = request()->publisher;
+                if (count($publisher) > 0) {
+                    $delete_pub = DB::table('tpublisher')->where('client_id', auth()->user()->client_id)->where('flag', 'K')->delete();
+                    foreach ($publisher as $key => $value) {
+                        $updated = DB::table('tpublisher')
+                            ->insert([
+                                'client_id' => auth()->user()->client_id,
+                                'id' => $value['id'] != '' ? $value['id'] : Str::uuid(),
+                                'description' => $value['name'],
+                                'flag' => 'K',
+                                'created_at' => Carbon::now('Asia/Jakarta'),
+                                'updated_at' => Carbon::now('Asia/Jakarta'),
+                            ]);
+                    }
+                }
+    
+                $category = request()->category;
+                if (count($category) > 0) {
+                    $delete_cat = DB::table('tcompany_category')->where('client_id', auth()->user()->client_id)->delete();
+                    foreach ($category as $key => $value) {
+                        $updated = DB::table('tcompany_category')
+                            ->insert([
+                                'client_id' => auth()->user()->client_id,
+                                'category_id' => $value['id'],
+                                'category_desc' => $value['desc'],
+                                'created_at' => Carbon::now('Asia/Jakarta'),
+                                'created_by' => auth()->user()->email,
+                                'updated_at' => Carbon::now('Asia/Jakarta'),
+                                'updated_by' => auth()->user()->email,
+                            ]);
+                    }
+                }
+
                 $logs->write("INFO", "Successfully updated");
 
                 $result['status'] = 201;

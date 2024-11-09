@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-full mx-auto overflow-hidden rounded-lg bg-white shadow-md">
+    <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md flex flex-col">
         <div class="border-b border-gray-200 p-4">
             <div class="flex justify-between">
                 <div class="button-nav flex gap-2">
@@ -24,50 +24,50 @@
                 </div>
             </div>
         </div>
-        <div class="p-6">
-            <div class="mb-4 flex gap-8">
-                <div class="relative">
-                    <details id="filterDetails" class="group [&_summary::-webkit-details-marker]:hidden">
-                        <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
-                            <span class="text-sm font-medium"> Filter Supplier </span>
+        <div class="p-6 flex-grow flex flex-col">
+            <div class="relative mb-4 flex gap-8">
+                <details id="filterDetails" class="group [&_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
+                        <span class="text-sm font-medium"> Filter Supplier </span>
 
-                            <span class="transition group-open:-rotate-180">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                </svg>
-                            </span>
-                        </summary>
+                        <span class="transition group-open:-rotate-180">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
+                    </summary>
 
-                        <div class="group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
-                            <div class="w-96 rounded border border-gray-200 bg-white">
-                                <header class="flex items-center justify-between p-4">
-                                    <span class="text-sm text-gray-700"> {{ selected.length }} Selected </span>
+                    <div class="z-auto group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
+                        <div class="w-96 rounded border border-gray-200 bg-white">
+                            <header class="flex items-center justify-between p-4">
+                                <span class="text-sm text-gray-700"> {{ selected.length }} Selected </span>
 
-                                    <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="resetFilter">Reset</button>
-                                </header>
+                                <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="resetFilter">Reset</button>
+                            </header>
 
-                                <ul class="h-[30vh] overflow-scroll space-y-1 border-t border-gray-200 p-4">
-                                    <li v-for="(supplier, key) in options.supplier" :key="key">
-                                        <label :for="supplier.id" class="inline-flex items-center gap-2">
-                                            <input type="checkbox" :id="supplier.id" :name="supplier.id" :value="supplier.id" v-model="selected" class="size-5 rounded border-gray-300" />
-                                            <span class="text-sm font-medium text-gray-700"> {{ supplier.name }} </span>
-                                        </label>
-                                    </li>
-                                </ul>
+                            <ul class="h-[35vh] overflow-scroll space-y-1 border-t border-gray-200 p-4">
+                                <li v-for="(supplier, key) in options.supplier" :key="key">
+                                    <label :for="supplier.id" class="inline-flex items-center gap-2">
+                                        <input type="checkbox" :id="supplier.id" :name="supplier.id" :value="supplier.id" v-model="selected" class="size-5 rounded border-gray-300" />
+                                        <span class="text-sm font-medium text-gray-700"> {{ supplier.name }} </span>
+                                    </label>
+                                </li>
+                            </ul>
 
-                                <footer class="flex items-center justify-end border-t border-gray-200 p-4">
-                                    <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="getData">Tampilkan</button>
-                                </footer>
-                            </div>
+                            <footer class="flex items-center justify-end border-t border-gray-200 p-4">
+                                <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="getData">Tampilkan</button>
+                            </footer>
                         </div>
-                    </details>
-                </div>
+                    </div>
+                </details>
             </div>
 
-            <table id="default-table">
-                <thead></thead>
-                <tbody></tbody>
-            </table>
+            <div class="flex-grow min-h-[380px] overflow-auto">
+                <table id="default-table" class="h-full border-collapse">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
