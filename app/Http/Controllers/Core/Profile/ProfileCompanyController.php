@@ -498,7 +498,7 @@ class ProfileCompanyController extends Controller
                     'pic' => $request->person_in_charge ?? '',
                     'handphone_pic' => $request->handphone_person_in_charge ?? '',
                     'file' => '',
-                    'type' => $request->type,
+                    'type' => $request->type == 'Supplier' ? '1' : ($request->type == 'Distributor' ? '2' : '3'),
                     'updated_at' => Carbon::now('Asia/Jakarta'),
                     'updated_by' => $request->email ?? '',
                 ]);

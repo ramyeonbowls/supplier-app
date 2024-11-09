@@ -150,11 +150,13 @@
 <script>
 import MenuAdmin from './components/MenuAdmin.vue'
 import MenuSupplier from './components/MenuSupplier.vue'
+import EmptyMenu from './components/EmptyMenu.vue'
 
 export default {
     components: {
         MenuAdmin,
         MenuSupplier,
+        EmptyMenu,
     },
 
     data() {
