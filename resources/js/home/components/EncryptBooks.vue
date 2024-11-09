@@ -399,24 +399,24 @@
 
                                                 <tbody class="divide-y divide-gray-200">
                                                     <tr v-for="(error, key) in form.field.data_error" :key="key">
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.row }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.book_id }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.filename }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.isbn }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.eisbn }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.title }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.writer }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.size }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.year }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.volume }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.edition }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.page }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.sinopsis }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.sellprice }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.rentprice }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.retailprice }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.city }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ error.age }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-red-600">{{ error.row }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.book_id.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.book_id.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.filename.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.filename.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.isbn.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.isbn.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.eisbn.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.eisbn.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.title.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.title.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.writer.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.writer.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.size.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.size.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.year.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.year.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.volume.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.volume.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.edition.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.edition.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.page.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.page.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.sinopsis.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.sinopsis.split('|')[1].substring(0, 10) }} ...</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.sellprice.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.sellprice.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.rentprice.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.rentprice.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.retailprice.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.retailprice.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.city.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.city.split('|')[1] }}</td>
+                                                        <td class="whitespace-nowrap px-4 py-2 font-medium" :class="error.age.split('|')[0] == 'error' ? 'text-red-600' : 'text-gray-900'">{{ error.age.split('|')[1] }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -1093,6 +1093,8 @@ export default {
                         })
                         .then((response) => {
                             this.form.submit_count = 0
+                            this.form.field.file_excel = null
+                            this.$refs.file_excel.value = ''
                             this.encryptReview()
                             loader.hide()
 

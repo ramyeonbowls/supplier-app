@@ -837,23 +837,23 @@ class UploadBooksController extends Controller
                         $tagging = 'failed';
 
                         $data_excel[$tagging][$i][$ii]['row'] = $row;
-                        $data_excel[$tagging][$i][$ii]['book_id'] = $book_id;
-                        $data_excel[$tagging][$i][$ii]['filename'] = $filename;
-                        $data_excel[$tagging][$i][$ii]['isbn'] = strlen($isbn) < 9 ? 'Data ISBN minimal 9 karakter!' : ($isbn != '' ? $isbn : 'Data ISBN Kosong!');
-                        $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn != '' ? $eisbn : 'Data EISBN Kosong!';
-                        $data_excel[$tagging][$i][$ii]['title'] = $title != '' ? $title : 'Data Judul Kosong!';
-                        $data_excel[$tagging][$i][$ii]['writer'] = $writer != '' ? $writer : 'Data Penulis Kosong!';
-                        $data_excel[$tagging][$i][$ii]['size'] = $size != '' ? $size : 'Data Format Kosong!';
-                        $data_excel[$tagging][$i][$ii]['year'] = $year != '' ? $year : 'Data Tahun Kosong!';
-                        $data_excel[$tagging][$i][$ii]['volume'] = $volume != '' ? $year : 'Data Jilid Kosong!';
-                        $data_excel[$tagging][$i][$ii]['edition'] = $edition != '' ? $edition : 'Data Edisi Kosong!';
-                        $data_excel[$tagging][$i][$ii]['page'] = $page != '' ? $page : 'Data Halaman Kosong!';
-                        $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis != '' ? $page : 'Data Sinopsis Kosong!';
-                        $data_excel[$tagging][$i][$ii]['sellprice'] = $sellprice != '' && is_numeric($sellprice) ? $sellprice : 'Data Harga Jual Kosong atau bukan angka!';
-                        $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice != '' && is_numeric($rentprice) ? $rentprice : 'Data Harga Pinjam Kosong atau bukan angka!';
-                        $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice != '' && is_numeric($retailprice) ? $retailprice : 'Data Harga Retail Kosong atau bukan angka!';
-                        $data_excel[$tagging][$i][$ii]['city'] = $city != '' ? $city : 'Data Kota Kosong!';
-                        $data_excel[$tagging][$i][$ii]['age'] = $age != '' ? $age : 'Data Umur Kosong!';
+                        $data_excel[$tagging][$i][$ii]['book_id'] = 'success|'.$book_id;
+                        $data_excel[$tagging][$i][$ii]['filename'] = 'success|'.$filename;
+                        $data_excel[$tagging][$i][$ii]['isbn'] = strlen($isbn) < 9 ? 'error|Data ISBN minimal 9 karakter!' : ($isbn != '' ? 'success|'.$isbn : 'error|Data ISBN Kosong!');
+                        $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn != '' ? 'success|'.$eisbn : 'error|Data EISBN Kosong!';
+                        $data_excel[$tagging][$i][$ii]['title'] = $title != '' ? 'success|'.$title : 'error|Data Judul Kosong!';
+                        $data_excel[$tagging][$i][$ii]['writer'] = $writer != '' ? 'success|'.$writer : 'error|Data Penulis Kosong!';
+                        $data_excel[$tagging][$i][$ii]['size'] = $size != '' ? 'success|'.$size : 'error|Data Format Kosong!';
+                        $data_excel[$tagging][$i][$ii]['year'] = $year != '' ? 'success|'.$year : 'error|Data Tahun Kosong!';
+                        $data_excel[$tagging][$i][$ii]['volume'] = $volume != '' ? 'success|'.$year : 'error|Data Jilid Kosong!';
+                        $data_excel[$tagging][$i][$ii]['edition'] = $edition != '' ? 'success|'.$edition : 'error|Data Edisi Kosong!';
+                        $data_excel[$tagging][$i][$ii]['page'] = $page != '' ? 'success|'.$page : 'error|Data Halaman Kosong!';
+                        $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis != '' ? 'success|'.$sinopsis : 'error|Data Sinopsis Kosong!';
+                        $data_excel[$tagging][$i][$ii]['sellprice'] = $sellprice != '' && is_numeric($sellprice) ? 'success|'.$sellprice : 'error|Data Harga Jual Kosong atau bukan angka!';
+                        $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice != '' && is_numeric($rentprice) ? 'success|'.$rentprice : 'error|Data Harga Pinjam Kosong atau bukan angka!';
+                        $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice != '' && is_numeric($retailprice) ? 'success|'.$retailprice : 'error|Data Harga Retail Kosong atau bukan angka!';
+                        $data_excel[$tagging][$i][$ii]['city'] = $city != '' ? 'success|'.$city : 'error|Data Kota Kosong!';
+                        $data_excel[$tagging][$i][$ii]['age'] = $age != '' ? 'success|'.$age : 'error|Data Umur Kosong!';
                     }
 
                     $ii++;
