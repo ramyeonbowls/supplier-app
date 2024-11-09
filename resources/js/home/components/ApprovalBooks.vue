@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md">
+    <div class="w-full h-full mx-auto overflow-hidden rounded-lg bg-white shadow-md">
         <div class="border-b border-gray-200 p-4">
             <div class="flex justify-between">
                 <div class="button-nav flex gap-2">
@@ -26,7 +26,7 @@
         </div>
         <div class="p-6">
             <div class="mb-4 flex gap-8">
-                <div class="filter">
+                <div class="relative">
                     <details id="filterDetails" class="group [&_summary::-webkit-details-marker]:hidden">
                         <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
                             <span class="text-sm font-medium"> Filter Supplier </span>
@@ -38,7 +38,7 @@
                             </span>
                         </summary>
 
-                        <div class="translate-x-[312px] group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
+                        <div class="group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
                             <div class="w-96 rounded border border-gray-200 bg-white">
                                 <header class="flex items-center justify-between p-4">
                                     <span class="text-sm text-gray-700"> {{ selected.length }} Selected </span>
@@ -56,7 +56,7 @@
                                 </ul>
 
                                 <footer class="flex items-center justify-end border-t border-gray-200 p-4">
-                                    <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="getData">Search</button>
+                                    <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="getData">Tampilkan</button>
                                 </footer>
                             </div>
                         </div>

@@ -347,8 +347,11 @@ class ApprovalBooksController extends Controller
                     $supplier = DB::table('users as a')->sharedLock()
                         ->select(
                             'a.client_id as id',
-                            'a.name as name'
+                            'b.name as name'
                         )
+                        ->join('tcompany as b', function($join) {
+							$join->on('a.client_id', '=', 'b.id') ;
+						})
                         ->whereNotNull('email_verified_at')
                         ->get();
 
