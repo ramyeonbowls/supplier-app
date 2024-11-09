@@ -904,7 +904,7 @@ class UploadBooksController extends Controller
                 $results['message'] .= "Successfully updated: ". $exists_count ." data";
                 $results['data'] = [];
             } else {
-                $result['status'] = 500;
+                $result['status'] = 422;
                 $results['message'] .= "Failed upload file: ". count($collect_failed_data) ." data";
                 $results['data'] = $collect_failed_data;
             }
