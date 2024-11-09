@@ -1,6 +1,6 @@
 <template>
     <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md">
-        <div class="z-50 border-b border-gray-200 p-4">
+        <div class="border-b border-gray-200 p-4">
             <div class="flex justify-between">
                 <div class="button-nav flex gap-2">
                     <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click.prevent="submit">
@@ -26,7 +26,7 @@
         </div>
         <div class="p-6">
             <div class="mb-4 flex gap-8">
-                <div class="relative">
+                <div class="filter">
                     <details id="filterDetails" class="group [&_summary::-webkit-details-marker]:hidden">
                         <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
                             <span class="text-sm font-medium"> Filter Supplier </span>
@@ -38,7 +38,7 @@
                             </span>
                         </summary>
 
-                        <div class="z-50 group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
+                        <div class="translate-x-[312px] group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
                             <div class="w-96 rounded border border-gray-200 bg-white">
                                 <header class="flex items-center justify-between p-4">
                                     <span class="text-sm text-gray-700"> {{ selected.length }} Selected </span>
@@ -46,7 +46,7 @@
                                     <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="resetFilter">Reset</button>
                                 </header>
 
-                                <ul class="space-y-1 border-t border-gray-200 p-4">
+                                <ul class="h-[30vh] overflow-scroll space-y-1 border-t border-gray-200 p-4">
                                     <li v-for="(supplier, key) in options.supplier" :key="key">
                                         <label :for="supplier.id" class="inline-flex items-center gap-2">
                                             <input type="checkbox" :id="supplier.id" :name="supplier.id" :value="supplier.id" v-model="selected" class="size-5 rounded border-gray-300" />
