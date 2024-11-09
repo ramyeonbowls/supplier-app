@@ -1100,6 +1100,8 @@ export default {
                         })
                         .catch((e) => {
                             this.form.submit_count = 0
+                            this.form.field.file_excel = null
+                            this.$refs.file_excel.value = ''
                             this.form.field.data_error = []
                             this.form.field.data_error = e.response.data.data
                             loader.hide()
