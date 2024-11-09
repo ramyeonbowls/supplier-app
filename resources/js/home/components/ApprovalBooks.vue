@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md flex flex-col">
+    <div class="w-100 h-100 mx-auto flex flex-col overflow-hidden rounded-lg bg-white shadow-md">
         <div class="border-b border-gray-200 p-4">
             <div class="flex justify-between">
                 <div class="button-nav flex gap-2">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-6 flex-grow flex flex-col">
+        <div class="flex flex-grow flex-col p-6">
             <div class="relative mb-4 flex gap-8">
                 <details id="filterDetails" class="group [&_summary::-webkit-details-marker]:hidden">
                     <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
@@ -45,7 +45,7 @@
                                 <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="resetFilter">Reset</button>
                             </header>
 
-                            <ul class="h-[35vh] overflow-scroll space-y-1 border-t border-gray-200 p-4">
+                            <ul class="h-[35vh] space-y-1 overflow-scroll border-t border-gray-200 p-4">
                                 <li v-for="(supplier, key) in options.supplier" :key="key">
                                     <label :for="supplier.id" class="inline-flex items-center gap-2">
                                         <input type="checkbox" :id="supplier.id" :name="supplier.id" :value="supplier.id" v-model="selected" class="size-5 rounded border-gray-300" />
@@ -62,7 +62,7 @@
                 </details>
             </div>
 
-            <div class="flex-grow min-h-[380px] overflow-auto">
+            <div class="min-h-[380px] flex-grow overflow-auto">
                 <table id="default-table" class="h-full border-collapse">
                     <thead></thead>
                     <tbody></tbody>

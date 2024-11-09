@@ -678,7 +678,7 @@ export default {
                 })
         },
 
-        getProvinsi(data='') {
+        getProvinsi(data = '') {
             if (data == '') {
                 this.form.field.province = ''
                 this.form.field.regency = ''
@@ -703,7 +703,7 @@ export default {
                 })
         },
 
-        getKabupaten(data='') {
+        getKabupaten(data = '') {
             if (data == '') {
                 this.form.field.regency = ''
                 this.form.field.district = ''
@@ -728,7 +728,7 @@ export default {
                 })
         },
 
-        getKecamatan(data='') {
+        getKecamatan(data = '') {
             if (data == '') {
                 this.form.field.district = ''
                 this.form.field.subdistrict = ''
@@ -753,7 +753,7 @@ export default {
                 })
         },
 
-        getKelurahan(data='') {
+        getKelurahan(data = '') {
             if (data == '') {
                 this.form.field.subdistrict = ''
                 this.option.subdistrict = []

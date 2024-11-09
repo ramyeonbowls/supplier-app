@@ -2,16 +2,22 @@
     <div class="w-100 h-100 mx-auto overflow-hidden rounded-lg bg-white shadow-md">
         <div class="flex flex-col gap-4 p-6">
             <template v-if="loading">
-                <component :is="defaultComponent">
-                    <template v-slot></template>
-                </component>
+                <div role="status" class="max-w animate-pulse rounded border border-gray-200 p-4 shadow dark:border-gray-700 md:p-6">
+                    <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
+                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                    <span class="sr-only">Loading...</span>
+                </div>
             </template>
             <template v-else>
                 <template v-if="user.role === 0">
                     <a href="#" class="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
                         <div class="sm:flex sm:justify-between sm:gap-4">
                             <div class="flex justify-between gap-4">
-                                <div>
+                                <div class="text-center">
                                     <h3 class="text-lg font-bold text-gray-900 sm:text-xl">Welcome Admin Genesia</h3>
                                 </div>
                             </div>
@@ -113,19 +119,8 @@
 
 <script>
 import { DataTable } from 'simple-datatables'
-import EmptyHome from './EmptyHome.vue'
 
 export default {
-    components: {
-        EmptyHome,
-    },
-
-    computed: {
-        defaultComponent() {
-            return 'EmptyMenu'
-        },
-    },
-
     data() {
         return {
             loading: true,
