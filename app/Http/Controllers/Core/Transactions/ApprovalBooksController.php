@@ -292,8 +292,8 @@ class ApprovalBooksController extends Controller
                         ->where('book_id', $value)
                         ->first();
 
-                    $scoverPath = public_path('app/public/tmp/covers_tmp/'. $data->cover);
-                    $dcoverPath = public_path('app/public/covers/'. $data->cover);
+                    $scoverPath = public_path('storage/tmp/covers_tmp/'. $data->cover);
+                    $dcoverPath = public_path('storage/covers/'. $data->cover);
                     
                     if (File::exists($scoverPath)) {
                         File::move($scoverPath, $dcoverPath);
