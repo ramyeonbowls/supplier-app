@@ -183,13 +183,14 @@ class UploadBooksController extends Controller
                 return Carbon::parse($value->createdate)->toDateTimeString();
             })
             ->addColumn('path_cover', function ($value) {
-                return file_exists(public_path('/storage/tmp/covers_tmp/'.$value->cover)) ? '/storage/tmp/covers_tmp/'.$value->cover : '';
+                $path = $value->status != '1' && $value->status != '2' && $value->status != '5' ? 'storage/covers/' : 'storage/tmp/covers_tmp/';
+                return file_exists(public_path($path . $value->cover)) ? $path . $value->cover : '';
             })
             ->addColumn('select', function ($value) {
                 return $value->book_id .'|'. $value->status;
             })
             ->addColumn('file_size', function ($value) {
-                $path = $value->status != '1' && $value->status != '2' ? 'books/' : 'tmp/books_tmp/';
+                $path = $value->status != '1' && $value->status != '2' && $value->status != '5' ? 'books/' : 'tmp/books_tmp/';
 
                 if (Storage::exists($path.'/'.$value->filename)) {
                     $fileSizeInBytes = Storage::size($path.'/'.$value->filename);
@@ -932,10 +933,13 @@ class UploadBooksController extends Controller
      */
     public function downloadFile(Request $request)
     {
-        $path = $request->data == 'books' ? 'books_tmp' : 'covers_tmp';
-
-        $filePath = 'tmp/'.$path.'/'.$request->file;
-        $fileContent = Storage::get($filePath);
+        if (Storage::exists('books/'. str_replace('&amp;', '&', $request->file))) {
+            $filePath = 'books/'.$request->file;
+            $fileContent = Storage::get($filePath);
+        } else {
+            $filePath = 'tmp/books_tmp/'.$request->file;
+            $fileContent = Storage::get($filePath);
+        }
 
         return response()->make($fileContent, 200, [
             'Cache-Control'         => 'must-revalidate, post-check=0, pre-check=0',
