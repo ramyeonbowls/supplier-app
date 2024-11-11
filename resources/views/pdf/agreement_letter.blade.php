@@ -165,7 +165,6 @@
                     </tr>
                 </tbody>
             </table>
-            <div class='page_break'></div>
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
@@ -332,7 +331,6 @@
                     </tr>
                 </tbody>
             </table>
-            <div class='page_break'></div>
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
@@ -459,7 +457,6 @@
                     </tr>
                 </tbody>
             </table>
-            <div class='page_break'></div>
             <table class='table-sm table font-size-sm' cellspacing='0' style='width: 100%;'>
                 <thead>
                     <tr>
@@ -472,10 +469,6 @@
                     </tr>
                 </tbody>
             </table>";
-
-            if ($results->profile[0]->type == '3') {
-                $html .= "<div class='page_break'></div>";
-            }
     }
 
     if ($results->profile[0]->type == '2' || $results->profile[0]->type == '3') {
@@ -935,7 +928,7 @@
 
         $html .= "
             <div class='page_break'></div>
-            <div class='font-size-xxs font-w50 text-center'><h2>PENDAFTARAN SUPPLIER DAN ATAU DISTRIBUTOR GINESIA</h2></div>
+            <div class='font-size-xxs font-w50 text-center'><h2>PENDAFTARAN SUPPLIER GINESIA</h2></div>
             <div class='font-size-sm font-w50'>Yang bertanda tangan dibawah ini, saya :</div>
             <div class='font-size-sm font-w50'>&nbsp;</div>
             <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%;'>
@@ -1071,7 +1064,6 @@
 
     $html .= "
         </table>
-        <div class='page_break'></div>
         <div class='font-size-sm font-w50'>Saya dengan ini menyatakan bahwa seluruh data yang telah diisi adalah benar dan akurat. Apabila terdapat perubahan, saya akan mengisi ulang formulir ini untuk memperbarui informasi yang diperlukan. Saya bertanggung jawab sepenuhnya atas kebenaran data ini, dan saya memahami bahwa dokumen ini akan secara otomatis dilengkapi dengan tanda tangan elektronik sebagai bentuk persetujuan saya.</div>
         <table class='table-sm font-size-sm' cellspacing='0' style='width: 100%; margin-top: 1rem!important'>
             <thead>
