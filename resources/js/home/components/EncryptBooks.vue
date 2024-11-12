@@ -1158,7 +1158,7 @@ export default {
                     url: '/upload/encrypt-books-excel/export-tpl',
                     method: 'POST',
                     responseType: 'blob',
-                    params: {
+                    data: {
                         data: this.form.field.data_upl,
                     },
                 })
