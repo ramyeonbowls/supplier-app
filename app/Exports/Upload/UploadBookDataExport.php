@@ -193,7 +193,7 @@ class UploadBookDataExport implements WithCustomStartCell, WithHeadings, WithTit
                         $event->sheet->setCellValue('N'. $row_cell, $value['rentprice']);
                         $event->sheet->setCellValue('O'. $row_cell, $value['retailprice']);
                         $event->sheet->setCellValue('P'. $row_cell, $value['city']);
-                        $event->sheet->setCellValue('P'. $row_cell, $value['age']);
+                        $event->sheet->setCellValue('Q'. $row_cell, $value['age']);
 
                         $row_cell++;
                     }

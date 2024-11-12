@@ -547,7 +547,7 @@ export default {
                     select: 1,
                     type: 'string',
                     render: function (data, td, rowIndex, cellIndex) {
-                        return '<img src="' + data.replace('&amp;', '&') + '" class="thumbnail rounded-sm" data-image="' + data.replace('&amp;', '&') + '" alt="covers">'
+                        return '<img src="' + data + '" class="thumbnail rounded-sm" data-image="' + data + '" alt="covers">'
                     },
                 },
                 {
@@ -1156,7 +1156,7 @@ export default {
             await window
                 .axios({
                     url: '/upload/encrypt-books-excel/export-tpl',
-                    method: 'GET',
+                    method: 'POST',
                     responseType: 'blob',
                     params: {
                         data: this.form.field.data_upl,

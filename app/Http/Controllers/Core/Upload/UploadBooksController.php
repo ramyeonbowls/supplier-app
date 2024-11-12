@@ -103,7 +103,7 @@ class UploadBooksController extends Controller
         $logs->write(__FUNCTION__, "STOP\r\n");
 
         return DataTables::of($results)
-            ->escapeColumns()
+            ->escapeColumns([])
             ->editColumn('book_id', function ($value) {
                 return $value->book_id ?? '';
             })

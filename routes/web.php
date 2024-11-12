@@ -47,7 +47,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
                 Route::prefix('encrypt-books-excel')->group(function() {
                     Route::post('upload', 'UploadBooksController@uploadExcel');
-                    Route::get('export-tpl', 'UploadBooksController@exportTpl');
+                    Route::post('export-tpl', 'UploadBooksController@exportTpl');
                 });
 
                 Route::prefix('encrypt-books-submit')->group(function() {
