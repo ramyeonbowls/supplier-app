@@ -655,6 +655,7 @@ class UploadBooksController extends Controller
         try {
             DB::enableQueryLog();
 
+            $updated = true;
             foreach ($request->all() as $key => $value) {
                 if (is_array($value)) {
                     $updated = DB::table('tbook_draft')
