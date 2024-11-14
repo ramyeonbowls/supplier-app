@@ -121,10 +121,170 @@
 
                 <div class="tab-content mt-4">
                     <div class="tab-panel" :class="form.data ? '' : 'hidden'">
-                        <table id="default-table">
-                            <thead></thead>
-                            <tbody></tbody>
-                        </table>
+                        <div class="mb-4 flex items-center justify-between">
+                            <div class="relative">
+                                <input type="text" id="search" v-model="searchQuery" placeholder="Search for..." class="w-full rounded-md border-gray-200 py-2 pe-10 shadow-sm sm:text-sm" />
+                            </div>
+
+                            <div class="flex w-[20rem] items-center justify-end gap-2">
+                                <label for="HeadlineAct" class="block text-sm font-medium text-gray-900"> Rows per page : </label>
+                                <select v-model="rowsPerPage" class="w-1/4 rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm">
+                                    <option v-for="option in perPageOptions" :key="option" :value="option">
+                                        {{ option }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <div class="rounded-lg border border-gray-300">
+                                <div class="overflow-x-auto rounded-t-lg">
+                                    <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                                        <thead class="bg-slate-300 text-left">
+                                            <tr>
+                                                <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                                    <input type="checkbox" id="selectAll" :checked="isAllSelected" @change="toggleSelectAll" class="size-5 rounded border-gray-300" />
+                                                </th>
+                                                <th v-for="(header, index) in headers" :key="index" @click="sortBy(header)" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                                    {{ header.label }}
+                                                    <template v-if="sortKey === header.key">
+                                                        <span v-if="sortAsc" class="inline-flex items-center">
+                                                            <svg class="-me-0.5 ms-1 size-3.5 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path class="hs-datatable-ordering-asc:text-blue-600 dark:hs-datatable-ordering-asc:text-blue-500" d="m7 15 5 5 5-5"></path>
+                                                                <path class="hs-datatable-ordering-desc:text-blue-600 dark:hs-datatable-ordering-desc:text-blue-500" d="m7 9 5-5 5 5"></path>
+                                                            </svg>
+                                                        </span>
+                                                        <span v-else class="inline-flex items-center">
+                                                            <svg class="-me-0.5 ms-1 size-3.5 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path class="hs-datatable-ordering-asc:text-blue-600 dark:hs-datatable-ordering-asc:text-blue-500" d="m7 15 5 5 5-5"></path>
+                                                                <path class="hs-datatable-ordering-desc:text-blue-600 dark:hs-datatable-ordering-desc:text-blue-500" d="m7 9 5-5 5 5"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </template>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="divide-y divide-gray-200">
+                                            <template v-if="paginatedData.length > 0">
+                                                <tr v-for="row in paginatedData" :key="row.book_id" class="even:bg-gray-50 hover:bg-gray-100">
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                        <input v-if="row.status == '1'" type="checkbox" v-model="selectedRows" :value="row.book_id" class="size-5 rounded border-gray-300" />
+                                                    </td>
+                                                    <td v-for="header in headers" :key="header.key" class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                        <template v-if="header.key == 'path_cover'">
+                                                            <img :src="row[header.key]" class="thumbnail rounded-sm" alt="covers" @click="showImages(row[header.key])" />
+                                                        </template>
+                                                        <template v-else-if="header.key == 'filename'">
+                                                            <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', row[header.key])">Download file enkripsi</a>
+                                                        </template>
+                                                        <template v-else-if="header.key == 'sinopsis'">
+                                                            <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(row[header.key])">{{ row[header.key].substring(0, 10) + '...' }}</a>
+                                                        </template>
+                                                        <template v-else-if="header.key == 'sinopsis'">
+                                                            <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(row[header.key])">{{ row[header.key].substring(0, 10) + '...' }}</a>
+                                                        </template>
+                                                        <template v-else-if="header.key == 'status'">
+                                                            <span v-if="row[header.key] == '1'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Draft</p>
+                                                            </span>
+                                                            <span v-else-if="row[header.key] == '2'" class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Review</p>
+                                                            </span>
+                                                            <span v-else-if="row[header.key] == '3'" class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Publish</p>
+                                                            </span>
+                                                            <span v-else-if="row[header.key] == '4'" class="inline-flex items-center justify-center rounded-full bg-lime-100 px-2.5 py-0.5 text-lime-700">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Publish pending</p>
+                                                            </span>
+                                                            <span v-else-if="row[header.key] == '5'" class="inline-flex items-center justify-center rounded-full bg-rose-100 px-2.5 py-0.5 text-rose-700">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Reject</p>
+                                                            </span>
+                                                            <span v-else-if="row[header.key] == '5'" class="inline-flex items-center justify-center rounded-full bg-stone-100 px-2.5 py-0.5 text-stone-700">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Ditarik</p>
+                                                            </span>
+                                                        </template>
+                                                        <template v-else>
+                                                            {{ row[header.key] }}
+                                                        </template>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                            <template v-else>
+                                                <tr class="even:bg-gray-50 hover:bg-gray-100">
+                                                    <td :colspan="headers.length" class="border-b border-gray-200 px-4 py-2 text-center">No Data to Show !</td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="flex items-center justify-between border-t border-gray-200 px-4 py-2">
+                                    <div>
+                                        <p class="text-sm text-gray-600">Showing {{ startEntry }} to {{ endEntry }} of {{ filteredData.length }} entries</p>
+                                    </div>
+                                    <ol class="flex justify-end gap-1 text-xs font-medium">
+                                        <li>
+                                            <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 disabled:opacity-50 rtl:rotate-180">
+                                                <span class="sr-only">Prev Page</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </li>
+
+                                        <li v-if="currentPage > 3">
+                                            <button @click="goToPage(1)" class="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900">1</button>
+                                        </li>
+
+                                        <li v-if="currentPage > 4">
+                                            <span class="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900">...</span>
+                                        </li>
+
+                                        <li v-for="page in pagesToShow" :key="page">
+                                            <button @click="goToPage(page)" :class="page === currentPage ? 'block size-8 rounded border-blue-600 bg-blue-600 text-center leading-8 text-white' : 'block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900'">
+                                                {{ page }}
+                                            </button>
+                                        </li>
+
+                                        <li v-if="currentPage < totalPages - 3">
+                                            <span class="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900">...</span>
+                                        </li>
+
+                                        <li v-if="currentPage < totalPages - 2">
+                                            <button @click="goToPage(totalPages)" class="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900">{{ totalPages }}</button>
+                                        </li>
+
+                                        <li>
+                                            <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages" class="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 disabled:opacity-50 rtl:rotate-180">
+                                                <span class="sr-only">Next Page</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-panel" :class="form.encrypt ? '' : 'hidden'">
                         <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
@@ -167,7 +327,7 @@
 
                                         <tbody class="divide-y divide-gray-200">
                                             <tr v-for="(file, key) in form.field.data_upl" :key="key">
-                                                <td class="px-4 py-2 text-gray-700"><img :src="file.path_cover" class="h-[70%] w-[70%] rounded-sm shadow-md" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" /></td>
+                                                <td class="px-4 py-2 text-gray-700"><img :src="file.path_cover" class="thumbnail rounded-sm" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" /></td>
                                                 <td class="text-wrap px-4 py-2 text-gray-700">{{ file.book_id }}</td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.filename }}</td>
                                                 <td class="px-4 py-2 text-gray-700">{{ file.cover }}</td>
@@ -245,7 +405,7 @@
                                 <tbody class="divide-y divide-gray-200">
                                     <tr v-for="(file, key) in form.field.data_view" :key="key">
                                         <td class="px-4 py-2 text-gray-700">
-                                            <img :src="file.path_cover" class="h-4/5 w-9/12 rounded-sm shadow-md" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" />
+                                            <img :src="file.path_cover" class="thumbnail rounded-sm" :data-image="file.path_cover" alt="covers" @click="showImages(file.path_cover)" />
                                         </td>
                                         <td class="px-4 py-2 text-gray-700">{{ file.title }}</td>
                                         <td class="px-4 py-2 text-gray-700">
@@ -437,7 +597,6 @@
 </template>
 
 <script>
-import { DataTable } from 'simple-datatables'
 import { Form as VeeForm, Field, ErrorMessage, defineRule } from 'vee-validate'
 import { required } from '@vee-validate/rules'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -445,7 +604,6 @@ import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/vue/2
 
 defineRule('required', required)
 
-let dataTable
 export default {
     components: {
         VeeForm,
@@ -468,6 +626,38 @@ export default {
             image_url: '',
             detail_sinopsis: '',
             selectedRows: [],
+
+            headers: [
+                { label: 'cover', key: 'path_cover' },
+                { label: 'judul', key: 'title' },
+                { label: 'file', key: 'filename' },
+                { label: 'ukuran', key: 'file_size' },
+                { label: 'status', key: 'status' },
+                { label: 'penulis', key: 'writer' },
+                { label: 'publisher', key: 'publisher_desc' },
+                { label: 'isbn', key: 'isbn' },
+                { label: 'eisbn', key: 'eisbn' },
+                { label: 'kategori', key: 'category_desc' },
+                { label: 'kota', key: 'city' },
+                { label: 'tahun', key: 'year' },
+                { label: 'edisi', key: 'edition' },
+                { label: 'halaman', key: 'page' },
+                { label: 'sinopsis', key: 'sinopsis' },
+                { label: 'ukuran', key: 'size' },
+                { label: 'jilid', key: 'volume' },
+                { label: 'umur', key: 'age' },
+                { label: 'harga jual', key: 'sellprice' },
+                { label: 'harga pinjam', key: 'rentprice' },
+                { label: 'harga retail', key: 'retailprice' },
+                { label: 'tanggal upload', key: 'createdate' },
+            ],
+            data: [],
+            searchQuery: '',
+            rowsPerPage: 5,
+            currentPage: 1,
+            sortKey: '',
+            sortAsc: true,
+            perPageOptions: [5, 10, 15, 20, 25, 50],
 
             options: {
                 category: [],
@@ -500,150 +690,6 @@ export default {
 
     mounted() {
         this.getData()
-
-        let _row = this
-        dataTable = new DataTable('#default-table', {
-            sortable: true,
-            data: {
-                headings: [
-                    { text: '#', data: 'select' },
-                    { text: 'cover', data: 'path_cover' },
-                    { text: 'judul', data: 'title' },
-                    { text: 'file enkripsi', data: 'filename' },
-                    { text: 'ukuran file', data: 'file_size' },
-                    { text: 'status', data: 'status' },
-                    { text: 'penulis', data: 'writer' },
-                    { text: 'publisher', data: 'publisher_desc' },
-                    { text: 'isbn', data: 'isbn' },
-                    { text: 'eisbn', data: 'eisbn' },
-                    { text: 'kategori', data: 'category_desc' },
-                    { text: 'kota', data: 'city' },
-                    { text: 'tahun', data: 'year' },
-                    { text: 'edisi', data: 'edition' },
-                    { text: 'halaman', data: 'page' },
-                    { text: 'sinopsis', data: 'sinopsis' },
-                    { text: 'ukuran buku', data: 'size' },
-                    { text: 'jilid', data: 'volume' },
-                    { text: 'umur', data: 'age' },
-                    { text: 'harga jual', data: 'sellprice' },
-                    { text: 'harga pinjam', data: 'rentprice' },
-                    { text: 'harga retail', data: 'retailprice' },
-                    { text: 'tanggal upload', data: 'createdate' },
-                ],
-            },
-            columns: [
-                {
-                    select: 0,
-                    type: 'string',
-                    render: function (data, td, rowIndex, cellIndex) {
-                        if (data.split('|')[1] == '1') {
-                            return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-row="' + data.split('|')[0] + '">'
-                        }
-
-                        return '<input type="checkbox" class="row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 hidden" data-row="' + data.split('|')[0] + '">'
-                    },
-                },
-                {
-                    select: 1,
-                    type: 'string',
-                    render: function (data, td, rowIndex, cellIndex) {
-                        return '<img src="' + data + '" class="thumbnail rounded-sm" data-image="' + data + '" alt="covers">'
-                    },
-                },
-                {
-                    select: 3,
-                    type: 'string',
-                    render: function (data, td, rowIndex, cellIndex) {
-                        return '<div class="gap-1">' + '<p class="whitespace-nowrap mb-1 text-sm">' + data + '</p>' + '<a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" data-file="' + data + '">Download file enkripsi</a>' + '</div>'
-                    },
-                },
-                {
-                    select: 5,
-                    type: 'string',
-                    render: function (data, td, rowIndex, cellIndex) {
-                        if (data == '1') {
-                            return (
-                                '<span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
-                                '</svg>' +
-                                '<p class="whitespace-nowrap text-sm">Draft</p>' +
-                                '</span>'
-                            )
-                        }
-                        if (data == '2') {
-                            return (
-                                '<span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
-                                '</svg>' +
-                                '<p class="whitespace-nowrap text-sm">Review</p>' +
-                                '</span>'
-                            )
-                        }
-                        if (data == '3') {
-                            return (
-                                '<span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
-                                '</svg>' +
-                                '<p class="whitespace-nowrap text-sm">Publish</p>' +
-                                '</span>'
-                            )
-                        }
-                        if (data == '4') {
-                            return (
-                                '<span class="inline-flex items-center justify-center rounded-full bg-lime-100 px-2.5 py-0.5 text-lime-700">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
-                                '</svg>' +
-                                '<p class="whitespace-nowrap text-sm">Publish pending</p>' +
-                                '</span>'
-                            )
-                        }
-                        if (data == '5') {
-                            return (
-                                '<span class="inline-flex items-center justify-center rounded-full bg-rose-100 px-2.5 py-0.5 text-rose-700">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
-                                '</svg>' +
-                                '<p class="whitespace-nowrap text-sm">Reject</p>' +
-                                '</span>'
-                            )
-                        }
-                        if (data == '6') {
-                            return (
-                                '<span class="inline-flex items-center justify-center rounded-full bg-stone-100 px-2.5 py-0.5 text-stone-700">' +
-                                '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">' +
-                                '<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />' +
-                                '</svg>' +
-                                '<p class="whitespace-nowrap text-sm">Ditarik</p>' +
-                                '</span>'
-                            )
-                        }
-                    },
-                },
-                {
-                    select: 15,
-                    type: 'string',
-                    render: function (data, td, rowIndex, cellIndex) {
-                        if (data) {
-                            return '<a href="javascript:void(0)" class="detail-sinopsis whitespace-nowrap" data-sinopsis="' + encodeURIComponent(data) + '">' + data.substring(0, 10) + '...</a>'
-                        }
-                        return data
-                    },
-                },
-            ],
-        })
-        dataTable.on('datatable.page', function (page) {
-            _row.attachDownloadListeners()
-        })
-        dataTable.on('datatable.perpage', function (perpage) {
-            _row.attachDownloadListeners()
-        })
-        dataTable.on('datatable.search', function (query, matched) {
-            _row.attachDownloadListeners()
-        })
     },
 
     methods: {
@@ -659,84 +705,44 @@ export default {
             this.$refs.file_excel.value = ''
         },
 
+        toggleSelectAll() {
+            if (this.isAllSelected) {
+                this.selectedRows = []
+            } else {
+                this.selectedRows = this.paginatedData.map((row) => row.book_id)
+            }
+        },
+
+        goToPage(page) {
+            if (page >= 1 && page <= this.totalPages) {
+                this.currentPage = page
+            }
+        },
+
+        sortBy(header) {
+            if (this.sortKey === header.key) {
+                this.sortAsc = !this.sortAsc
+            } else {
+                this.sortKey = header.key
+                this.sortAsc = true
+            }
+        },
+
         getData() {
+            this.data = []
+
             let loader = this.$loading.show()
             window.axios
                 .get('/upload/encrypt-books')
                 .then((response) => {
-                    dataTable.data.data = []
-                    dataTable.insert(response.data.data)
+                    this.data = response.data.data
 
-                    this.attachDownloadListeners()
                     loader.hide()
                 })
                 .catch((e) => {
                     console.error(e)
                     loader.hide()
                 })
-        },
-
-        attachDownloadListeners() {
-            document.querySelectorAll('.download-link').forEach((element) => {
-                element.addEventListener('click', (event) => {
-                    let file = event.target.closest('a').getAttribute('data-file')
-                    this.downloadFile('books', file)
-                })
-            })
-
-            document.querySelectorAll('.thumbnail').forEach((element) => {
-                element.addEventListener('click', (event) => {
-                    let file = event.target.closest('img').getAttribute('data-image')
-                    this.image_url = file
-                    this.open = true
-                })
-            })
-
-            document.querySelectorAll('.detail-sinopsis').forEach((element) => {
-                element.addEventListener('click', (event) => {
-                    let file = decodeURIComponent(event.target.closest('a').getAttribute('data-sinopsis'))
-                    this.showSinopsis(file)
-                })
-            })
-
-            document.querySelectorAll('.row-checkbox').forEach((element) => {
-                element.addEventListener('click', (event) => {
-                    let file = event.target.closest('input').getAttribute('data-row')
-                    if (element.checked) {
-                        this.pushSelected(file)
-                    } else {
-                        this.removeSelected(file)
-                    }
-                })
-            })
-
-            document.querySelectorAll('.row-checkbox').forEach((checkbox) => {
-                checkbox.checked = false
-            })
-
-            /* const headerCheckbox = document.createElement('input')
-            headerCheckbox.type = 'checkbox'
-            headerCheckbox.id = 'select-all'
-            headerCheckbox.classList.add('w-4', 'h-4', 'text-blue-600', 'bg-gray-100', 'border-gray-300', 'rounded', 'focus:ring-blue-500', 'dark:focus:ring-blue-600', 'dark:ring-offset-gray-800', 'dark:focus:ring-offset-gray-800', 'focus:ring-2', 'dark:bg-gray-700', 'dark:border-gray-600')
-
-            headerCheckbox.addEventListener('change', function (e) {
-                const checkboxes = document.querySelectorAll('.row-checkbox')
-                checkboxes.forEach(checkbox => {
-                    checkbox.checked = e.target.checked
-                })
-            })
-
-            const firstHeader = document.querySelector('#default-table thead tr th:first-child')
-            firstHeader.innerHTML = ''
-            firstHeader.appendChild(headerCheckbox)
-
-            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
-                    if (!this.checked) {
-                        document.getElementById('select-all').checked = false
-                    }
-                })
-            }) */
         },
 
         showImages(file) {
@@ -951,7 +957,6 @@ export default {
             this.clearForm()
             this.$refs.form.resetForm()
             this.getData()
-            dataTable.refresh()
         },
 
         cancelUpdate() {
@@ -972,7 +977,6 @@ export default {
 
             this.selectedRows = []
             this.getData()
-            dataTable.refresh()
         },
 
         cancelUpload() {
@@ -1197,6 +1201,70 @@ export default {
                 .catch((e) => {
                     console.log(e.response.data)
                 })
+        },
+    },
+
+    computed: {
+        isAllSelected() {
+            return this.paginatedData.length > 0 && this.paginatedData.every((row) => this.selectedRows.includes(row.book_id))
+        },
+
+        filteredData() {
+            let data = this.data
+
+            if (this.searchQuery) {
+                data = data.filter((person) => Object.values(person).some((value) => String(value).toLowerCase().includes(this.searchQuery.toLowerCase())))
+            }
+
+            if (this.sortKey) {
+                data.sort((a, b) => {
+                    const result = a[this.sortKey] > b[this.sortKey] ? 1 : -1
+                    return this.sortAsc ? result : -result
+                })
+            }
+
+            return data
+        },
+
+        paginatedData() {
+            const start = (this.currentPage - 1) * this.rowsPerPage
+            const end = start + this.rowsPerPage
+            return this.filteredData.slice(start, end)
+        },
+
+        totalPages() {
+            return Math.ceil(this.filteredData.length / this.rowsPerPage) || 1
+        },
+
+        pagesToShow() {
+            const range = []
+            for (let i = Math.max(1, this.currentPage - 1); i <= Math.min(this.totalPages, this.currentPage + 1); i++) {
+                range.push(i)
+            }
+            return range
+        },
+
+        startEntry() {
+            return (this.currentPage - 1) * this.rowsPerPage + 1
+        },
+
+        endEntry() {
+            return Math.min(this.currentPage * this.rowsPerPage, this.filteredData.length)
+        },
+    },
+
+    watch: {
+        rowsPerPage() {
+            this.currentPage = 1
+            this.currentPage = Math.min(this.currentPage, this.totalPages)
+        },
+
+        searchQuery() {
+            this.currentPage = 1
+        },
+
+        filteredData() {
+            this.currentPage = Math.min(this.currentPage, this.totalPages)
         },
     },
 }

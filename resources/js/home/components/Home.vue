@@ -3,12 +3,12 @@
         <div class="flex flex-col gap-4 p-6">
             <template v-if="loading">
                 <div role="status" class="max-w animate-pulse rounded border border-gray-200 p-4 shadow dark:border-gray-700 md:p-6">
-                    <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 mb-4"></div>
-                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-                    <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                    <div class="mb-4 h-2.5 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
                     <span class="sr-only">Loading...</span>
                 </div>
             </template>
