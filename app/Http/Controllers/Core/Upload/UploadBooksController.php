@@ -902,7 +902,7 @@ class UploadBooksController extends Controller
                             $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice != '' && is_numeric($rentprice) ? 'success|'.$rentprice : 'error|Data Harga Pinjam Kosong atau bukan angka!';
                             $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice != '' && is_numeric($retailprice) ? 'success|'.$retailprice : 'error|Data Harga Retail Kosong atau bukan angka!';
                             $data_excel[$tagging][$i][$ii]['city'] = $city != '' ? 'success|'.$city : 'error|Data Kota Kosong!';
-                            $data_excel[$tagging][$i][$ii]['age'] = $age != '' ? 'success|'.$age : 'error|Data Umur Kosong!';
+                            $data_excel[$tagging][$i][$ii]['age'] = $age != '' && is_numeric($age) ? 'success|'.$age : 'error|Data Umur Kosong atau bukan angka!!';
                         }
 
                         $ii++;
