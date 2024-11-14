@@ -1088,6 +1088,7 @@ export default {
 
                     let form_data = new FormData()
                     form_data.append('file_master', this.form.field.file_excel)
+                    form_data.append('data', JSON.stringify(this.form.field.data_upl))
 
                     window.axios
                         .post('/upload/encrypt-books-excel/upload?menufn=' + this.$route.name, form_data, {

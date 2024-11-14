@@ -781,6 +781,13 @@ class UploadBooksController extends Controller
         $results['message'] = '';
         $results['data'] = [];
 
+        $dataUpload  = json_decode($request['data'], true);
+
+        $bookId = [];
+        foreach ($dataUpload as $key => $value) {
+            $bookId[$value['book_id']] = $value['book_id'];
+        }
+
         $spreadsheet = IOFactory::load($request['file_master']);
         $sheetCount  = $spreadsheet->getSheetCount();
 
@@ -815,7 +822,7 @@ class UploadBooksController extends Controller
                     $city               = $worksheet->getCellByColumnAndRow(16, $row)->getFormattedValue();
                     $age                = $worksheet->getCellByColumnAndRow(17, $row)->getFormattedValue();
 
-                    if ($isbn != '' && strlen($isbn) >= 9 && $eisbn != '' && $title != '' && $writer != '' && $size != '' && $year != '' && $volume != '' && $edition != '' && $page != '' && $sinopsis != '' && $sellprice != '' && is_numeric($sellprice) && $rentprice != '' && is_numeric($rentprice) && $retailprice != '' && is_numeric($retailprice) && $city != '' && $age != '' && is_numeric($age)) {
+                    if ($isbn != '' && strlen($isbn) >= 9 && $eisbn != '' && $title != '' && $writer != '' && $size != '' && $year != '' && $volume != '' && $edition != '' && $page != '' && $sinopsis != '' && $sellprice != '' && is_numeric($sellprice) && $rentprice != '' && is_numeric($rentprice) && $retailprice != '' && is_numeric($retailprice) && $city != '' && $age != '' && is_numeric($age) && array_key_exists($book_id, $bookId)) {
                         $tagging = 'exists';
 
                         $data_excel[$tagging][$i][$ii]['book_id'] = $book_id;
@@ -839,7 +846,7 @@ class UploadBooksController extends Controller
                         $tagging = 'failed';
 
                         $data_excel[$tagging][$i][$ii]['row'] = $row;
-                        $data_excel[$tagging][$i][$ii]['book_id'] = 'success|'.$book_id;
+                        $data_excel[$tagging][$i][$ii]['book_id'] = array_key_exists($book_id, $bookId) ? 'success|'.$book_id : 'error|Data Buku '.$book_id.' tidak ada list!';
                         $data_excel[$tagging][$i][$ii]['filename'] = 'success|'.$filename;
                         $data_excel[$tagging][$i][$ii]['isbn'] = strlen($isbn) < 9 ? 'error|Data ISBN minimal 9 karakter!' : ($isbn != '' ? 'success|'.$isbn : 'error|Data ISBN Kosong!');
                         $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn != '' ? 'success|'.$eisbn : 'error|Data EISBN Kosong!';
