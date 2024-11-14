@@ -803,69 +803,110 @@ class UploadBooksController extends Controller
 
             if($worksheetTitle_A[0] == 'DATA') {
                 $ii = 0;
+
+                $uploadID = [];
                 for($row = 2; $row <= $highestRow; $row++) {
-                    $book_id            = $worksheet->getCellByColumnAndRow(1, $row)->getFormattedValue();
-                    $filename           = $worksheet->getCellByColumnAndRow(2, $row)->getFormattedValue();
-                    $isbn               = $worksheet->getCellByColumnAndRow(3, $row)->getFormattedValue();
-                    $eisbn              = $worksheet->getCellByColumnAndRow(4, $row)->getFormattedValue();
-                    $title              = $worksheet->getCellByColumnAndRow(5, $row)->getFormattedValue();
-                    $writer             = $worksheet->getCellByColumnAndRow(6, $row)->getFormattedValue();
-                    $size               = $worksheet->getCellByColumnAndRow(7, $row)->getFormattedValue();
-                    $year               = $worksheet->getCellByColumnAndRow(8, $row)->getFormattedValue();
-                    $volume             = $worksheet->getCellByColumnAndRow(9, $row)->getFormattedValue();
-                    $edition            = $worksheet->getCellByColumnAndRow(10, $row)->getFormattedValue();
-                    $page               = $worksheet->getCellByColumnAndRow(11, $row)->getFormattedValue();
-                    $sinopsis           = $worksheet->getCellByColumnAndRow(12, $row)->getFormattedValue();
-                    $sellprice          = $worksheet->getCellByColumnAndRow(13, $row)->getFormattedValue();
-                    $rentprice          = $worksheet->getCellByColumnAndRow(14, $row)->getFormattedValue();
-                    $retailprice        = $worksheet->getCellByColumnAndRow(15, $row)->getFormattedValue();
-                    $city               = $worksheet->getCellByColumnAndRow(16, $row)->getFormattedValue();
-                    $age                = $worksheet->getCellByColumnAndRow(17, $row)->getFormattedValue();
+                    $book_uid = $worksheet->getCellByColumnAndRow(1, $row)->getFormattedValue();
+                    $uploadID[$book_uid] = $book_uid;
+                }
 
-                    if ($isbn != '' && strlen($isbn) >= 9 && $eisbn != '' && $title != '' && $writer != '' && $size != '' && $year != '' && $volume != '' && $edition != '' && $page != '' && $sinopsis != '' && $sellprice != '' && is_numeric($sellprice) && $rentprice != '' && is_numeric($rentprice) && $retailprice != '' && is_numeric($retailprice) && $city != '' && $age != '' && is_numeric($age) && array_key_exists($book_id, $bookId)) {
-                        $tagging = 'exists';
+                $missingIds = [];
+                foreach ($bookId as $id) {
+                    if (!array_key_exists($id, $uploadID)) {
+                        $missingIds[] = $id;
+                    }
+                }
 
-                        $data_excel[$tagging][$i][$ii]['book_id'] = $book_id;
-                        $data_excel[$tagging][$i][$ii]['filename'] = $filename;
-                        $data_excel[$tagging][$i][$ii]['isbn'] = $isbn;
-                        $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn;
-                        $data_excel[$tagging][$i][$ii]['title'] = $title;
-                        $data_excel[$tagging][$i][$ii]['writer'] = $writer;
-                        $data_excel[$tagging][$i][$ii]['size'] = $size;
-                        $data_excel[$tagging][$i][$ii]['year'] = $year;
-                        $data_excel[$tagging][$i][$ii]['volume'] = $volume;
-                        $data_excel[$tagging][$i][$ii]['edition'] = $edition;
-                        $data_excel[$tagging][$i][$ii]['page'] = $page;
-                        $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis;
-                        $data_excel[$tagging][$i][$ii]['sellprice'] = $sellprice;
-                        $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice;
-                        $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice;
-                        $data_excel[$tagging][$i][$ii]['city'] = $city;
-                        $data_excel[$tagging][$i][$ii]['age'] = $age;
-                    } else {
+                if (!empty($missingIds)) {
+                    foreach ($missingIds as $missingId) {
                         $tagging = 'failed';
 
-                        $data_excel[$tagging][$i][$ii]['row'] = $row;
-                        $data_excel[$tagging][$i][$ii]['book_id'] = array_key_exists($book_id, $bookId) ? 'success|'.$book_id : 'error|Data Buku '.$book_id.' tidak ada list!';
-                        $data_excel[$tagging][$i][$ii]['filename'] = 'success|'.$filename;
-                        $data_excel[$tagging][$i][$ii]['isbn'] = strlen($isbn) < 9 ? 'error|Data ISBN minimal 9 karakter!' : ($isbn != '' ? 'success|'.$isbn : 'error|Data ISBN Kosong!');
-                        $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn != '' ? 'success|'.$eisbn : 'error|Data EISBN Kosong!';
-                        $data_excel[$tagging][$i][$ii]['title'] = $title != '' ? 'success|'.$title : 'error|Data Judul Kosong!';
-                        $data_excel[$tagging][$i][$ii]['writer'] = $writer != '' ? 'success|'.$writer : 'error|Data Penulis Kosong!';
-                        $data_excel[$tagging][$i][$ii]['size'] = $size != '' ? 'success|'.$size : 'error|Data Format Kosong!';
-                        $data_excel[$tagging][$i][$ii]['year'] = $year != '' ? 'success|'.$year : 'error|Data Tahun Kosong!';
-                        $data_excel[$tagging][$i][$ii]['volume'] = $volume != '' ? 'success|'.$year : 'error|Data Jilid Kosong!';
-                        $data_excel[$tagging][$i][$ii]['edition'] = $edition != '' ? 'success|'.$edition : 'error|Data Edisi Kosong!';
-                        $data_excel[$tagging][$i][$ii]['page'] = $page != '' ? 'success|'.$page : 'error|Data Halaman Kosong!';
-                        $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis != '' ? 'success|'.$sinopsis : 'error|Data Sinopsis Kosong!';
-                        $data_excel[$tagging][$i][$ii]['sellprice'] = $sellprice != '' && is_numeric($sellprice) ? 'success|'.$sellprice : 'error|Data Harga Jual Kosong atau bukan angka!';
-                        $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice != '' && is_numeric($rentprice) ? 'success|'.$rentprice : 'error|Data Harga Pinjam Kosong atau bukan angka!';
-                        $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice != '' && is_numeric($retailprice) ? 'success|'.$retailprice : 'error|Data Harga Retail Kosong atau bukan angka!';
-                        $data_excel[$tagging][$i][$ii]['city'] = $city != '' ? 'success|'.$city : 'error|Data Kota Kosong!';
-                        $data_excel[$tagging][$i][$ii]['age'] = $age != '' ? 'success|'.$age : 'error|Data Umur Kosong!';
-                    }
+                        $data_excel[$tagging][$i][$ii]['row'] = 0;
+                        $data_excel[$tagging][$i][$ii]['book_id'] = 'error|Data Buku '.$missingId.' tidak ada di Excel!';
+                        $data_excel[$tagging][$i][$ii]['filename'] = '';
+                        $data_excel[$tagging][$i][$ii]['isbn'] = '';
+                        $data_excel[$tagging][$i][$ii]['eisbn'] = '';
+                        $data_excel[$tagging][$i][$ii]['title'] = '';
+                        $data_excel[$tagging][$i][$ii]['writer'] = '';
+                        $data_excel[$tagging][$i][$ii]['size'] = '';
+                        $data_excel[$tagging][$i][$ii]['year'] = '';
+                        $data_excel[$tagging][$i][$ii]['volume'] = '';
+                        $data_excel[$tagging][$i][$ii]['edition'] = '';
+                        $data_excel[$tagging][$i][$ii]['page'] = '';
+                        $data_excel[$tagging][$i][$ii]['sinopsis'] = '';
+                        $data_excel[$tagging][$i][$ii]['sellprice'] = '';
+                        $data_excel[$tagging][$i][$ii]['rentprice'] = '';
+                        $data_excel[$tagging][$i][$ii]['retailprice'] = '';
+                        $data_excel[$tagging][$i][$ii]['city'] = '';
+                        $data_excel[$tagging][$i][$ii]['age'] = '';
 
-                    $ii++;
+                        $ii++;
+                    }
+                } else {
+                    for($row = 2; $row <= $highestRow; $row++) {
+                        $book_id            = $worksheet->getCellByColumnAndRow(1, $row)->getFormattedValue();
+                        $filename           = $worksheet->getCellByColumnAndRow(2, $row)->getFormattedValue();
+                        $isbn               = $worksheet->getCellByColumnAndRow(3, $row)->getFormattedValue();
+                        $eisbn              = $worksheet->getCellByColumnAndRow(4, $row)->getFormattedValue();
+                        $title              = $worksheet->getCellByColumnAndRow(5, $row)->getFormattedValue();
+                        $writer             = $worksheet->getCellByColumnAndRow(6, $row)->getFormattedValue();
+                        $size               = $worksheet->getCellByColumnAndRow(7, $row)->getFormattedValue();
+                        $year               = $worksheet->getCellByColumnAndRow(8, $row)->getFormattedValue();
+                        $volume             = $worksheet->getCellByColumnAndRow(9, $row)->getFormattedValue();
+                        $edition            = $worksheet->getCellByColumnAndRow(10, $row)->getFormattedValue();
+                        $page               = $worksheet->getCellByColumnAndRow(11, $row)->getFormattedValue();
+                        $sinopsis           = $worksheet->getCellByColumnAndRow(12, $row)->getFormattedValue();
+                        $sellprice          = $worksheet->getCellByColumnAndRow(13, $row)->getFormattedValue();
+                        $rentprice          = $worksheet->getCellByColumnAndRow(14, $row)->getFormattedValue();
+                        $retailprice        = $worksheet->getCellByColumnAndRow(15, $row)->getFormattedValue();
+                        $city               = $worksheet->getCellByColumnAndRow(16, $row)->getFormattedValue();
+                        $age                = $worksheet->getCellByColumnAndRow(17, $row)->getFormattedValue();
+
+                        if ($isbn != '' && strlen($isbn) >= 9 && $eisbn != '' && $title != '' && $writer != '' && $size != '' && $year != '' && $volume != '' && $edition != '' && $page != '' && $sinopsis != '' && $sellprice != '' && is_numeric($sellprice) && $rentprice != '' && is_numeric($rentprice) && $retailprice != '' && is_numeric($retailprice) && $city != '' && $age != '' && is_numeric($age) && array_key_exists($book_id, $bookId)) {
+                            $tagging = 'exists';
+
+                            $data_excel[$tagging][$i][$ii]['book_id'] = $book_id;
+                            $data_excel[$tagging][$i][$ii]['filename'] = $filename;
+                            $data_excel[$tagging][$i][$ii]['isbn'] = $isbn;
+                            $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn;
+                            $data_excel[$tagging][$i][$ii]['title'] = $title;
+                            $data_excel[$tagging][$i][$ii]['writer'] = $writer;
+                            $data_excel[$tagging][$i][$ii]['size'] = $size;
+                            $data_excel[$tagging][$i][$ii]['year'] = $year;
+                            $data_excel[$tagging][$i][$ii]['volume'] = $volume;
+                            $data_excel[$tagging][$i][$ii]['edition'] = $edition;
+                            $data_excel[$tagging][$i][$ii]['page'] = $page;
+                            $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis;
+                            $data_excel[$tagging][$i][$ii]['sellprice'] = $sellprice;
+                            $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice;
+                            $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice;
+                            $data_excel[$tagging][$i][$ii]['city'] = $city;
+                            $data_excel[$tagging][$i][$ii]['age'] = $age;
+                        } else {
+                            $tagging = 'failed';
+
+                            $data_excel[$tagging][$i][$ii]['row'] = $row;
+                            $data_excel[$tagging][$i][$ii]['book_id'] = array_key_exists($book_id, $bookId) ? 'success|'.$book_id : 'error|Data Buku '.$book_id.' tidak ada list Update!';
+                            $data_excel[$tagging][$i][$ii]['filename'] = 'success|'.$filename;
+                            $data_excel[$tagging][$i][$ii]['isbn'] = strlen($isbn) < 9 ? 'error|Data ISBN minimal 9 karakter!' : ($isbn != '' ? 'success|'.$isbn : 'error|Data ISBN Kosong!');
+                            $data_excel[$tagging][$i][$ii]['eisbn'] = $eisbn != '' ? 'success|'.$eisbn : 'error|Data EISBN Kosong!';
+                            $data_excel[$tagging][$i][$ii]['title'] = $title != '' ? 'success|'.$title : 'error|Data Judul Kosong!';
+                            $data_excel[$tagging][$i][$ii]['writer'] = $writer != '' ? 'success|'.$writer : 'error|Data Penulis Kosong!';
+                            $data_excel[$tagging][$i][$ii]['size'] = $size != '' ? 'success|'.$size : 'error|Data Format Kosong!';
+                            $data_excel[$tagging][$i][$ii]['year'] = $year != '' ? 'success|'.$year : 'error|Data Tahun Kosong!';
+                            $data_excel[$tagging][$i][$ii]['volume'] = $volume != '' ? 'success|'.$year : 'error|Data Jilid Kosong!';
+                            $data_excel[$tagging][$i][$ii]['edition'] = $edition != '' ? 'success|'.$edition : 'error|Data Edisi Kosong!';
+                            $data_excel[$tagging][$i][$ii]['page'] = $page != '' ? 'success|'.$page : 'error|Data Halaman Kosong!';
+                            $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis != '' ? 'success|'.$sinopsis : 'error|Data Sinopsis Kosong!';
+                            $data_excel[$tagging][$i][$ii]['sellprice'] = $sellprice != '' && is_numeric($sellprice) ? 'success|'.$sellprice : 'error|Data Harga Jual Kosong atau bukan angka!';
+                            $data_excel[$tagging][$i][$ii]['rentprice'] = $rentprice != '' && is_numeric($rentprice) ? 'success|'.$rentprice : 'error|Data Harga Pinjam Kosong atau bukan angka!';
+                            $data_excel[$tagging][$i][$ii]['retailprice'] = $retailprice != '' && is_numeric($retailprice) ? 'success|'.$retailprice : 'error|Data Harga Retail Kosong atau bukan angka!';
+                            $data_excel[$tagging][$i][$ii]['city'] = $city != '' ? 'success|'.$city : 'error|Data Kota Kosong!';
+                            $data_excel[$tagging][$i][$ii]['age'] = $age != '' ? 'success|'.$age : 'error|Data Umur Kosong!';
+                        }
+
+                        $ii++;
+                    }
                 }
             }
 
