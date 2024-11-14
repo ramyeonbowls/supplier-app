@@ -184,26 +184,6 @@
                                                         <template v-else-if="header.key == 'sinopsis'">
                                                             <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(row[header.key])">{{ row[header.key].substring(0, 10) + '...' }}</a>
                                                         </template>
-                                                        <template v-else-if="header.key == 'status'">
-                                                            <span v-if="row[header.key] == '1'">
-                                                                <p class="whitespace-nowrap text-sm text-slate-700">Draft</p>
-                                                            </span>
-                                                            <span v-else-if="row[header.key] == '2'">
-                                                                <p class="whitespace-nowrap text-sm text-amber-700">Review</p>
-                                                            </span>
-                                                            <span v-else-if="row[header.key] == '3'">
-                                                                <p class="whitespace-nowrap text-sm text-emerald-700">Publish</p>
-                                                            </span>
-                                                            <span v-else-if="row[header.key] == '4'">
-                                                                <p class="whitespace-nowrap text-sm text-lime-700">Publish pending</p>
-                                                            </span>
-                                                            <span v-else-if="row[header.key] == '5'">
-                                                                <p class="whitespace-nowrap text-sm text-rose-700">Reject</p>
-                                                            </span>
-                                                            <span v-else-if="row[header.key] == '5'">
-                                                                <p class="whitespace-nowrap text-sm text-stone-700">Ditarik</p>
-                                                            </span>
-                                                        </template>
                                                         <template v-else>
                                                             {{ row[header.key] }}
                                                         </template>
@@ -635,11 +615,11 @@ export default {
             ],
             data: [],
             searchQuery: '',
-            rowsPerPage: 5,
+            rowsPerPage: 20,
             currentPage: 1,
             sortKey: '',
             sortAsc: true,
-            perPageOptions: [5, 10, 15, 20, 25, 50],
+            perPageOptions: [20, 25, 50],
 
             options: {
                 category: [],

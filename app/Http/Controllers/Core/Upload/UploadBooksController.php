@@ -174,7 +174,21 @@ class UploadBooksController extends Controller
                 return $value->age ?? '';
             })
             ->editColumn('status', function ($value) {
-                return $value->status ?? '';
+                if ($value->status == '1') {
+                    return 'Draft';
+                } elseif ($value->status == '2') {
+                    return 'Review';
+                } elseif ($value->status == '3') {
+                    return 'Publish';
+                } elseif ($value->status == '4') {
+                    return 'Publish pending';
+                } elseif ($value->status == '5') {
+                    return 'Reject';
+                } elseif ($value->status == '5') {
+                    return 'Ditarik';
+                }
+
+                return '';
             })
             ->editColumn('reason', function ($value) {
                 return $value->reason ?? '';
