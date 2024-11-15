@@ -616,7 +616,7 @@ export default {
             currentPage: 1,
             sortKey: '',
             sortAsc: true,
-            perPageOptions: [20, 25, 50],
+            perPageOptions: [20, 30, 40, 50],
 
             options: {
                 category: [],
