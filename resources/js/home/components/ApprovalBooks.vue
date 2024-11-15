@@ -118,7 +118,11 @@
                                                     <img :src="row[header.key]" class="thumbnail rounded-sm" alt="covers" @click="showImages(row[header.key])" />
                                                 </template>
                                                 <template v-else-if="header.key == 'filename'">
-                                                    <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', row[header.key])">Download file enkripsi</a>
+                                                    <div class="flex gap-2">
+                                                        <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', row[header.key])">Download file enkripsi</a>
+
+                                                        <a href="javascript:void(0);" class="download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="viewFile(row[header.key])">Lihat Buku</a>
+                                                    </div>
                                                 </template>
                                                 <template v-else-if="header.key == 'sinopsis'">
                                                     <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(row[header.key])">{{ row[header.key].substring(0, 10) + '...' }}</a>
