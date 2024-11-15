@@ -169,7 +169,7 @@
                                             <template v-if="paginatedData.length > 0">
                                                 <tr v-for="row in paginatedData" :key="row.book_id" class="even:bg-gray-50 hover:bg-gray-100">
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                        <input v-if="row.status == '1'" type="checkbox" v-model="selectedRows" :value="row.book_id" class="size-5 rounded border-gray-300" />
+                                                        <input v-if="row.status == 'Draft'" type="checkbox" v-model="selectedRows" :value="row.book_id" class="size-5 rounded border-gray-300" />
                                                     </td>
                                                     <td v-for="header in headers" :key="header.key" class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                         <template v-if="header.key == 'path_cover'">
