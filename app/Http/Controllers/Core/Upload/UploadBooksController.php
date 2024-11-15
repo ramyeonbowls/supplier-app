@@ -47,6 +47,8 @@ class UploadBooksController extends Controller
         $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
         $logs->write(__FUNCTION__, 'START');
 
+        $status = $request->status;
+
         $results = [];
         try {
             DB::enableQueryLog();
@@ -89,6 +91,9 @@ class UploadBooksController extends Controller
 						->on('a.publisher_id', '=', 'c.id') ;
 				})
                 ->where('a.supplier_id', auth()->user()->client_id)
+                ->when(isset($status) && count($status) > 0, function($query) use ($status) {
+                    $query->whereIn('a.status', $status);
+                })
                 ->get();
 
             $queries = DB::getQueryLog();
@@ -174,21 +179,7 @@ class UploadBooksController extends Controller
                 return $value->age ?? '';
             })
             ->editColumn('status', function ($value) {
-                if ($value->status == '1') {
-                    return 'Draft';
-                } elseif ($value->status == '2') {
-                    return 'Review';
-                } elseif ($value->status == '3') {
-                    return 'Publish';
-                } elseif ($value->status == '4') {
-                    return 'Publish pending';
-                } elseif ($value->status == '5') {
-                    return 'Reject';
-                } elseif ($value->status == '5') {
-                    return 'Ditarik';
-                }
-
-                return '';
+                return $value->status ?? '';
             })
             ->editColumn('reason', function ($value) {
                 return $value->reason ?? '';

@@ -567,7 +567,9 @@ export default {
             let data = this.data
 
             if (this.searchQuery) {
-                data = data.filter((person) => Object.values(person).some((value) => String(value).toLowerCase().includes(this.searchQuery.toLowerCase())))
+                data = data.filter((item) => {
+                    return item.isbn.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.eisbn.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.writer.toLowerCase().includes(this.searchQuery.toLowerCase())
+                })
             }
 
             if (this.sortKey) {
