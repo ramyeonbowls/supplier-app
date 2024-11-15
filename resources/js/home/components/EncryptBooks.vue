@@ -1215,12 +1215,16 @@ export default {
         },
 
         sortedData() {
-            if (!this.sortKey) return this.paginatedData;
-            
+            if (!this.sortKey) return this.paginatedData
+
             return [...this.paginatedData].sort((a, b) => {
-                let result = a[this.sortKey] > b[this.sortKey] ? 1 : -1;
-                return this.sortAsc ? result : -result;
-            });
+                // Primary sorting comparison
+                if (a[this.sortKey] > b[this.sortKey]) return this.sortAsc ? 1 : -1
+                if (a[this.sortKey] < b[this.sortKey]) return this.sortAsc ? -1 : 1
+
+                // Stable sort by retaining original order when values are the same
+                return 0
+            })
         },
         
         paginatedData() {
