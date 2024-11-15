@@ -477,22 +477,27 @@ export default {
             this.hideFilter()
             this.hideFilterSts()
 
-            window.axios
-                .get('/transactions/approval-books', {
-                    params: {
-                        param: this.selected,
-                        status: this.selectedSts,
-                    },
-                })
-                .then((response) => {
-                    this.data = response.data.data
+            if (this.selected.length > 0) {
+                window.axios
+                    .get('/transactions/approval-books', {
+                        params: {
+                            param: this.selected,
+                            status: this.selectedSts,
+                        },
+                    })
+                    .then((response) => {
+                        this.data = response.data.data
 
-                    loader.hide()
-                })
-                .catch((e) => {
-                    console.error(e)
-                    loader.hide()
-                })
+                        loader.hide()
+                    })
+                    .catch((e) => {
+                        console.error(e)
+                        loader.hide()
+                    })
+            } else {
+                loader.hide()
+                this.$notyf.error('Filter Supplier Kosong!')   
+            }
         },
 
         getSupplier() {
