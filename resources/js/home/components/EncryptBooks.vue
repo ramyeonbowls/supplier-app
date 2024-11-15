@@ -169,9 +169,37 @@
                                             <template v-if="paginatedData.length > 0">
                                                 <tr v-for="row in paginatedData" :key="row.book_id" class="even:bg-gray-50 hover:bg-gray-100">
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                        <input v-if="row.status == '1'" type="checkbox" v-model="selectedRows" :value="row.book_id" class="size-5 rounded border-gray-300" />
+                                                        <input v-if="row.status == 'Draft'" type="checkbox" v-model="selectedRows" :value="row.book_id" class="size-5 rounded border-gray-300" />
                                                     </td>
-                                                    <td v-for="header in headers" :key="header.key" class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                        <img :src="row.path_cover" class="thumbnail rounded-sm" alt="covers" @click="showImages(row.path_cover)" />
+                                                    </td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.title }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                        <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', row.filename)">Download file enkripsi</a>
+                                                    </td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.file_size }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.status }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.writer }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.publisher_desc }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.isbn }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.eisbn }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.category_desc }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.city }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.year }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.edition }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.page }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                        <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(row.sinopsis)">{{ row.sinopsis.substring(0, 10) + '...' }}</a>
+                                                    </td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.size }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.volume }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.age }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.sellprice }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.rentprice }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.retailprice }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.createdate }}</td>
+                                                    <!-- <td v-for="header in headers" :key="header.key" class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                         <template v-if="header.key == 'path_cover'">
                                                             <img :src="row[header.key]" class="thumbnail rounded-sm" alt="covers" @click="showImages(row[header.key])" />
                                                         </template>
@@ -181,13 +209,10 @@
                                                         <template v-else-if="header.key == 'sinopsis'">
                                                             <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(row[header.key])">{{ row[header.key].substring(0, 10) + '...' }}</a>
                                                         </template>
-                                                        <template v-else-if="header.key == 'sinopsis'">
-                                                            <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(row[header.key])">{{ row[header.key].substring(0, 10) + '...' }}</a>
-                                                        </template>
                                                         <template v-else>
                                                             {{ row[header.key] }}
                                                         </template>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
                                             </template>
                                             <template v-else>
@@ -615,11 +640,11 @@ export default {
             ],
             data: [],
             searchQuery: '',
-            rowsPerPage: 20,
+            rowsPerPage: 10,
             currentPage: 1,
             sortKey: '',
             sortAsc: true,
-            perPageOptions: [20, 25, 50],
+            perPageOptions: [10, 15, 20, 25, 50],
 
             options: {
                 category: [],
