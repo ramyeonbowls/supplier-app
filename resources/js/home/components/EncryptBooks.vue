@@ -1218,12 +1218,11 @@ export default {
             if (!this.sortKey) return this.paginatedData
 
             return [...this.paginatedData].sort((a, b) => {
-                // Primary sorting comparison
-                if (a[this.sortKey] > b[this.sortKey]) return this.sortAsc ? 1 : -1
-                if (a[this.sortKey] < b[this.sortKey]) return this.sortAsc ? -1 : 1
+                const comparison = typeof a[this.sortKey] === 'string'
+                    ? a[this.sortKey].localeCompare(b[this.sortKey])
+                    : a[this.sortKey] - b[this.sortKey]
 
-                // Stable sort by retaining original order when values are the same
-                return 0
+                return this.sortAsc ? comparison : -comparison
             })
         },
         
