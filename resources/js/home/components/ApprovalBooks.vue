@@ -62,7 +62,7 @@
                 </details>
             </div>
 
-            <div class="min-h-[380px] flex-grow overflow-auto">
+            <div class="min-h-[23.75rem] flex-grow overflow-auto">
                 <div class="z-50 mb-4 flex items-center justify-between">
                     <div class="relative">
                         <input type="text" id="search" v-model="searchQuery" placeholder="Search for..." class="w-full rounded-md border-gray-200 py-2 pe-10 shadow-sm sm:text-sm" />

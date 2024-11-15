@@ -109,7 +109,7 @@
                 <div class="bread-nav"></div>
             </div>
         </div>
-        <div class="p-6">
+        <div class="flex flex-grow flex-col p-6">
             <div class="tabs-container">
                 <div class="tabs flex w-48 gap-2">
                     <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.data ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Data</button>
@@ -119,7 +119,7 @@
                     <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.review ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Draft Review</button>
                 </div>
 
-                <div class="tab-content mt-4">
+                <div class="tab-content mt-4 min-h-[23.75rem] flex-grow overflow-auto">
                     <div class="relative mb-4 flex gap-8">
                         <details id="filterDetails" class="group [&_summary::-webkit-details-marker]:hidden">
                             <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
