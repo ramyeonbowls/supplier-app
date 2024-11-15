@@ -166,8 +166,8 @@
                                         </thead>
 
                                         <tbody class="divide-y divide-gray-200">
-                                            <template v-if="paginatedData.length > 0">
-                                                <tr v-for="row in paginatedData" :key="row.book_id" class="even:bg-gray-50 hover:bg-gray-100">
+                                            <template v-if="sortedData.length > 0">
+                                                <tr v-for="row in sortedData" :key="row.book_id" class="even:bg-gray-50 hover:bg-gray-100">
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                         <input v-if="row.status == 'Draft'" type="checkbox" v-model="selectedRows" :value="row.book_id" class="size-5 rounded border-gray-300" />
                                                     </td>
@@ -1214,10 +1214,18 @@ export default {
             return data
         },
 
+        sortedData() {
+            if (!this.sortKey) return this.paginatedData;
+            
+            return [...this.paginatedData].sort((a, b) => {
+                let result = a[this.sortKey] > b[this.sortKey] ? 1 : -1;
+                return this.sortAsc ? result : -result;
+            });
+        },
+        
         paginatedData() {
-            const start = (this.currentPage - 1) * this.rowsPerPage
-            const end = start + this.rowsPerPage
-            return this.filteredData.slice(start, end)
+            const start = (this.currentPage - 1) * this.rowsPerPage;
+            return this.data.slice(start, start + this.rowsPerPage);
         },
 
         totalPages() {
