@@ -27,7 +27,7 @@
         <div class="flex flex-grow flex-col p-6">
             <div class="relative mb-4 flex gap-8">
                 <details id="filterDetails" class="group [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
+                    <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600" @click="hideFilterSts">
                         <span class="text-sm font-medium"> Filter Supplier </span>
 
                         <span class="transition group-open:-rotate-180">
@@ -60,6 +60,70 @@
                         </div>
                     </div>
                 </details>
+
+                <div class="relative mb-4 flex gap-8">
+                    <details id="filterDetailsSts" class="group [&_summary::-webkit-details-marker]:hidden">
+                        <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600" @click="hideFilter">
+                            <span class="text-sm font-medium"> Filter Status </span>
+
+                            <span class="transition group-open:-rotate-180">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </span>
+                        </summary>
+
+                        <div class="z-20 group-open:absolute group-open:start-0 group-open:top-auto group-open:mt-2">
+                            <div class="w-96 rounded border border-gray-200 bg-white">
+                                <header class="flex items-center justify-between p-4">
+                                    <span class="text-sm text-gray-700"> {{ selectedSts.length }} Selected </span>
+
+                                    <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="resetFilterSts">Reset</button>
+                                </header>
+
+                                <ul class="h-[35vh] space-y-1 overflow-scroll border-t border-gray-200 p-4">
+                                    <li>
+                                        <label class="inline-flex items-center gap-2">
+                                            <input type="checkbox" id="review" name="review" value="2" v-model="selectedSts" class="size-5 rounded border-gray-300" />
+                                            <span class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                </svg>
+                                                <p class="whitespace-nowrap text-sm">Review</p>
+                                            </span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="inline-flex items-center gap-2">
+                                            <input type="checkbox" id="publish" name="publish" value="3" v-model="selectedSts" class="size-5 rounded border-gray-300" />
+                                            <span class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                </svg>
+                                                <p class="whitespace-nowrap text-sm">Publish</p>
+                                            </span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="inline-flex items-center gap-2">
+                                            <input type="checkbox" id="reject" name="reject" value="5" v-model="selectedSts" class="size-5 rounded border-gray-300" />
+                                            <span class="inline-flex items-center justify-center rounded-full bg-rose-100 px-2.5 py-0.5 text-rose-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                </svg>
+                                                <p class="whitespace-nowrap text-sm">Reject</p>
+                                            </span>
+                                        </label>
+                                    </li>
+                                </ul>
+
+                                <footer class="flex items-center justify-end border-t border-gray-200 p-4">
+                                    <button type="button" class="text-sm text-gray-900 underline underline-offset-4" @click="getData">Tampilkan</button>
+                                </footer>
+                            </div>
+                        </div>
+                    </details>
+                </div>
             </div>
 
             <div class="min-h-[23.75rem] flex-grow overflow-auto">
@@ -356,6 +420,7 @@ export default {
             },
 
             selected: [],
+            selectedSts: [],
             selectedRows: [],
             form: {
                 submitted: false,
@@ -372,6 +437,14 @@ export default {
         },
 
         resetFilter() {
+            this.selected = []
+        },
+
+        hideFilterSts() {
+            document.getElementById('filterDetailsSts').removeAttribute('open')
+        },
+
+        resetFilterSts() {
             this.selected = []
         },
 
@@ -402,11 +475,13 @@ export default {
             let loader = this.$loading.show()
 
             this.hideFilter()
+            this.hideFilterSts()
 
             window.axios
                 .get('/transactions/approval-books', {
                     params: {
                         param: this.selected,
+                        status: this.selectedSts,
                     },
                 })
                 .then((response) => {

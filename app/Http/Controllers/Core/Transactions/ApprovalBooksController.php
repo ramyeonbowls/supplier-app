@@ -41,6 +41,8 @@ class ApprovalBooksController extends Controller
         $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
         $logs->write(__FUNCTION__, 'START');
 
+        $status = $request->status;
+
         $results = [];
         try {
             DB::enableQueryLog();
@@ -83,6 +85,9 @@ class ApprovalBooksController extends Controller
 						->on('a.publisher_id', '=', 'c.id') ;
 				})
                 ->whereIn('a.supplier_id', $request->param)
+                ->when(isset($status) && count($status) > 0, function($query) use ($status) {
+                    $query->whereIn('a.status', $status);
+                })
                 ->whereNotIn('a.status', [1])
                 ->get();
 
