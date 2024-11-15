@@ -445,7 +445,7 @@ export default {
         },
 
         resetFilterSts() {
-            this.selected = []
+            this.selectedSts = []
         },
 
         toggleSelectAll() {
