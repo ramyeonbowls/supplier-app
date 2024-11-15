@@ -145,7 +145,7 @@
                                                 <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
                                                     <input type="checkbox" id="selectAll" :checked="isAllSelected" @change="toggleSelectAll" class="size-5 rounded border-gray-300" />
                                                 </th>
-                                                <th v-for="(header, index) in headers" :key="index" @click="sortBy(header)" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                                <th v-for="(header, index) in headers" :key="index" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
                                                     {{ header.label }}
                                                     <template v-if="sortKey === header.key">
                                                         <span v-if="sortAsc" class="inline-flex items-center">
