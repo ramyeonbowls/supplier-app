@@ -7,6 +7,7 @@ use File;
 use Throwable;
 use App\Logs;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Transaction\ApprovalBooksUpdateRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -49,6 +50,7 @@ class ApprovalBooksController extends Controller
 
             $results = DB::table('tbook_draft as a')->sharedLock()
                 ->select(
+                    'a.supplier_id as supplier_id',
                     'a.book_id as book_id', 
                     'a.isbn as isbn', 
                     'a.eisbn as eisbn', 
@@ -380,6 +382,70 @@ class ApprovalBooksController extends Controller
 
                     return response()->json($results, 200);
                 break;
+
+                case 'category-mst':
+                    DB::enableQueryLog();
+
+                    $client_id = request()->client ?? '';
+                    $ketegori = DB::table('tcompany_category as a')->sharedLock()
+                        ->select(
+                            'a.category_id as id',
+                            'a.category_desc as name'
+                        )
+                        ->where('client_id', $client_id)
+                        ->get();
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results = [];
+                    if($ketegori) {
+                        $results = $ketegori->map(function($value, $key) {
+                            return [
+                                'id' => $value->id,
+                                'name' => $value->name
+                            ];
+                        });
+                    }
+
+                    return response()->json($results, 200);
+                break;
+
+                case 'publisher-mst':
+                    DB::enableQueryLog();
+
+                    $client_id = request()->client ?? '';
+                    $publisher = DB::table('tpublisher as a')->sharedLock()
+                        ->select(
+                            'a.id as id',
+                            'a.description as name'
+                        )
+                        ->where('client_id', $client_id)
+                        ->get();
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results = [];
+                    if($publisher) {
+                        $results = $publisher->map(function($value, $key) {
+                            return [
+                                'id' => $value->id,
+                                'name' => $value->name
+                            ];
+                        });
+                    }
+
+                    return response()->json($results, 200);
+                break;
             }
         }
     }
@@ -387,12 +453,14 @@ class ApprovalBooksController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param ApprovalBooksUpdateRequest $request
      * @param string $id
      * @return JsonResponse
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(ApprovalBooksUpdateRequest $request, string $id): JsonResponse
     {
+        $validated = $request->validated();
+        
         $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
         $logs->write(__FUNCTION__, 'START');
 
@@ -401,21 +469,35 @@ class ApprovalBooksController extends Controller
         try {
             DB::enableQueryLog();
 
-            foreach (request()->request->all() as $key => $value) {
-                $reject = DB::table('tbook_draft')
-                    ->where('book_id', $value)
-                    ->update([
-                        'status' => '5',
-                        'updatedate' => Carbon::now('Asia/Jakarta'),
-                        'updateby' => auth()->user()->email
-                    ]);
-            }
+            $update = DB::table('tbook_draft')
+                ->where('book_id', $request->book_id)
+                ->update([
+                    'isbn' => $request->isbn,
+                    'eisbn' => $request->eisbn,
+                    'title' => $request->title,
+                    'writer' => $request->writer,
+                    'publisher_id' => $request->publisher_id,
+                    'size' => $request->size,
+                    'year' => $request->year,
+                    'volume' => $request->volume,
+                    'edition' => $request->edition,
+                    'page' => $request->page,
+                    'sinopsis' => $request->sinopsis,
+                    'sellprice' => $request->sellprice,
+                    'rentprice' => $request->rentprice,
+                    'retailprice' => $request->retailprice,
+                    'city' => $request->city,
+                    'category_id' => $request->category_id,
+                    'age' => $request->age,
+                    'updatedate' => Carbon::now('Asia/Jakarta'),
+                    'updateby' => auth()->user()->email
+                ]);
             
-            if ($reject) {
-                $logs->write("INFO", "Successfully Reject");
+            if ($update) {
+                $logs->write("INFO", "Successfully Update");
 
                 $result['status'] = 201;
-                $result['message'] = "Successfully Reject.";
+                $result['message'] = "Successfully Update.";
             }
 
             $queries = DB::getQueryLog();
@@ -426,7 +508,7 @@ class ApprovalBooksController extends Controller
         } catch (Throwable $th) {
             $logs->write("ERROR", $th->getMessage());
 
-            $result['message'] = "Failed Reject.<br>" . $th->getMessage();
+            $result['message'] = "Failed Update.<br>" . $th->getMessage();
         }
 
         return response()->json($result['message'], $result['status']);
@@ -487,5 +569,52 @@ class ApprovalBooksController extends Controller
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="'. $filename .'.pdf"'
         ]);
+    }
+
+    /**
+     * reject a newly created resource in storage.
+     *
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function reject(Request $request): JsonResponse
+    {
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $result['status'] = 200;
+        $result['message'] = '';
+        try {
+            DB::enableQueryLog();
+
+            foreach (request()->request->all() as $key => $value) {
+                $reject = DB::table('tbook_draft')
+                    ->where('book_id', $value)
+                    ->update([
+                        'status' => '5',
+                        'updatedate' => Carbon::now('Asia/Jakarta'),
+                        'updateby' => auth()->user()->email
+                    ]);
+            }
+            
+            if ($reject) {
+                $logs->write("INFO", "Successfully Reject");
+
+                $result['status'] = 201;
+                $result['message'] = "Successfully Reject.";
+            }
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $queries[$q]['query']);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+
+            $result['message'] = "Failed Reject.<br>" . $th->getMessage();
+        }
+
+        return response()->json($result['message'], $result['status']);
     }
 }

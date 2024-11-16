@@ -70,6 +70,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::prefix('transactions')->namespace('Transactions')->group(function() {
                 Route::apiResource('approval-books', ApprovalBooksController::class);
+                Route::prefix('approval-books')->group(function() {
+                    Route::post('reject', 'ApprovalBooksController@reject');
+                });
                 Route::prefix('approval-books-download')->group(function() {
                     Route::get('download-file', 'ApprovalBooksController@downloadFile');
                     Route::get('view-file', 'ApprovalBooksController@viewFile');
