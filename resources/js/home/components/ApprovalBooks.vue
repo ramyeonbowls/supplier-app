@@ -728,7 +728,7 @@ export default {
             this.options.category = []
 
             window.axios
-                .get('/upload/encrypt-books/x0y0z0', {
+                .get('/transactions/approval-books/x0y0z0', {
                     params: {
                         param: 'category-mst',
                         client: id,
@@ -746,7 +746,7 @@ export default {
             this.options.publisher = []
 
             window.axios
-                .get('/upload/encrypt-books/x0y0z0', {
+                .get('/transactions/approval-books/x0y0z0', {
                     params: {
                         param: 'publisher-mst',
                         client: id,
