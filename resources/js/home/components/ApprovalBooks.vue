@@ -824,6 +824,7 @@ export default {
 
         async viewFile(file) {
             try {
+                let loader = this.$loading.show()
                 // Fetch the PDF file as a Blob
                 const response = await axios.get('transactions/approval-books-download/view-file', {
                     responseType: 'blob',
@@ -839,12 +840,14 @@ export default {
 
                 // Optionally, revoke the object URL after some time
                 setTimeout(() => URL.revokeObjectURL(pdfUrl), 1000 * 60)
+                loader.hide()
             } catch (error) {
                 console.error('Error loading PDF:', error)
             }
         },
 
         async downloadFile(param, file) {
+            let loader = this.$loading.show()
             await window
                 .axios({
                     url: '/transactions/approval-books-download/download-file',
@@ -862,8 +865,10 @@ export default {
                     link.setAttribute('download', file)
                     document.body.appendChild(link)
                     link.click()
+                    loader.hide()
                 })
                 .catch((e) => {
+                    loader.hide()
                     console.log(e.response.data)
                 })
         },
