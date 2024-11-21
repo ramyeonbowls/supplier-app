@@ -947,7 +947,7 @@ export default {
                 .get('/upload/encrypt-books/x0y0z0', {
                     params: {
                         param: 'selected-data',
-                        data: row.map(item => item.book_id),
+                        data: row.map((item) => item.book_id),
                     },
                 })
                 .then((response) => {
@@ -1297,8 +1297,7 @@ export default {
                                     .catch((e) => {
                                         this.form.submitted = false
 
-                                        console.log(e.response.data.data);
-                                        
+                                        console.log(e.response.data.data)
 
                                         this.form.field.data_error = []
                                         this.form.field.data_error = e.response.data.data

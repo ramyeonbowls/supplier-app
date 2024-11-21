@@ -330,7 +330,7 @@
                     </div>
 
                     <div class="tab-panel" :class="form.edit ? '' : 'hidden'">
-                        <div class="p-2 mt-2 grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8">
+                        <div class="mt-2 grid grid-cols-1 gap-4 p-2 lg:grid-cols-3 lg:gap-8">
                             <div class="lg:col-span-2">
                                 <VeeForm ref="form" v-slot="{ handleSubmit, errors }" as="div">
                                     <form class="grid grid-cols-6 gap-4" @submit.prevent="handleSubmit($event, submitUpdate)">
@@ -630,7 +630,6 @@ export default {
                     category_id: '',
                     age: '',
                 },
-                
             },
         }
     },
