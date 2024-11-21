@@ -32,30 +32,36 @@
                     <div class="overflow-x-auto rounded-t-lg">
                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                             <thead class="bg-slate-300 text-left">
-                                <th v-for="(header, index) in headers" :key="index" @click="sortBy(header)" class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
-                                    {{ header.label }}
-                                    <template v-if="sortKey === header.key">
-                                        <span v-if="sortAsc" class="inline-flex items-center">
-                                            <svg class="-me-0.5 ms-1 size-3.5 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path class="hs-datatable-ordering-asc:text-blue-600 dark:hs-datatable-ordering-asc:text-blue-500" d="m7 15 5 5 5-5"></path>
-                                                <path class="hs-datatable-ordering-desc:text-blue-600 dark:hs-datatable-ordering-desc:text-blue-500" d="m7 9 5-5 5 5"></path>
-                                            </svg>
-                                        </span>
-                                        <span v-else class="inline-flex items-center">
-                                            <svg class="-me-0.5 ms-1 size-3.5 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path class="hs-datatable-ordering-asc:text-blue-600 dark:hs-datatable-ordering-asc:text-blue-500" d="m7 15 5 5 5-5"></path>
-                                                <path class="hs-datatable-ordering-desc:text-blue-600 dark:hs-datatable-ordering-desc:text-blue-500" d="m7 9 5-5 5 5"></path>
-                                            </svg>
-                                        </span>
-                                    </template>
-                                </th>
+                                <tr>
+                                    <th v-for="(header, index) in headers" :key="index" @click="sortBy(header)" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                        {{ header.label }}
+                                        <template v-if="sortKey === header.key">
+                                            <span v-if="sortAsc" class="inline-flex items-center">
+                                                <svg class="-me-0.5 ms-1 size-3.5 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path class="hs-datatable-ordering-asc:text-blue-600 dark:hs-datatable-ordering-asc:text-blue-500" d="m7 15 5 5 5-5"></path>
+                                                    <path class="hs-datatable-ordering-desc:text-blue-600 dark:hs-datatable-ordering-desc:text-blue-500" d="m7 9 5-5 5 5"></path>
+                                                </svg>
+                                            </span>
+                                            <span v-else class="inline-flex items-center">
+                                                <svg class="-me-0.5 ms-1 size-3.5 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path class="hs-datatable-ordering-asc:text-blue-600 dark:hs-datatable-ordering-asc:text-blue-500" d="m7 15 5 5 5-5"></path>
+                                                    <path class="hs-datatable-ordering-desc:text-blue-600 dark:hs-datatable-ordering-desc:text-blue-500" d="m7 9 5-5 5 5"></path>
+                                                </svg>
+                                            </span>
+                                        </template>
+                                    </th>
+                                    <th class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">Dokumen & Surat Perjanjian</th>
+                                </tr>
                             </thead>
 
                             <tbody class="divide-y divide-gray-200">
                                 <template v-if="paginatedData.length > 0">
-                                    <tr v-for="row in paginatedData" :key="row.id" class="whitespace-nowrap even:bg-gray-50 hover:bg-gray-100">
+                                    <tr v-for="row in paginatedData" :key="row.Id" class="whitespace-nowrap even:bg-gray-50 hover:bg-gray-100">
                                         <td v-for="header in headers" :key="header.key" class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                             {{ row[header.key] }}
+                                        </td>
+                                        <td class="flex justify-center whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                            <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="printDoc(row.Id)">Print Document</a>
                                         </td>
                                     </tr>
                                 </template>
@@ -249,6 +255,10 @@ export default {
                 .catch((e) => {
                     console.log(e.response.data)
                 })
+        },
+
+        printDoc(id) {
+            window.open('profile/profile-document/agreement?id=' + id + '_blank')
         },
     },
 
