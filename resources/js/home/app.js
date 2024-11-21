@@ -41,12 +41,13 @@ router.beforeEach(async (to, from, next) => {
 })
 
 const notyf = new Notyf({
-    duration: 5000,
+    duration: 500000,
     position: {
         x: 'right',
         y: 'top',
     },
-    ripple: true,
+    ripple: false,
+    dismissible: true,
 })
 
 const loader = {

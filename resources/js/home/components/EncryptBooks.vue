@@ -22,6 +22,15 @@
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Lengkapi Data Buku </span>
                         </button>
+                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="submitBooks">
+                            <span class="absolute -start-full transition-all group-hover:start-4">
+                                <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </span>
+
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Ajukan Buku </span>
+                        </button>
                     </template>
                     <template v-else-if="form.encrypt">
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-indigo-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click.prevent="submit">
@@ -121,7 +130,7 @@
 
                 <div class="tab-content mt-4 min-h-[23.75rem] flex-grow overflow-auto">
                     <div class="tab-panel" :class="form.data ? '' : 'hidden'">
-                        <div class="relative mb-1 flex gap-8">
+                        <div class="relative mb-2 flex gap-8">
                             <details id="filterDetails" class="group [&_summary::-webkit-details-marker]:hidden">
                                 <summary class="flex cursor-pointer items-center gap-2 border-b border-gray-400 pb-1 text-gray-900 transition hover:border-gray-600">
                                     <span class="text-sm font-medium"> Filter Status </span>
@@ -266,7 +275,7 @@
                                             <template v-if="paginatedData.length > 0">
                                                 <tr v-for="row in paginatedData" :key="row.book_id" class="even:bg-gray-50 hover:bg-gray-100">
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                        <input v-if="row.status == '1'" type="checkbox" v-model="selectedRows" :value="row.book_id" class="size-5 rounded border-gray-300" />
+                                                        <input v-if="row.status == '1'" type="checkbox" v-model="selectedRows" :value="row" class="size-5 rounded border-gray-300" />
                                                     </td>
                                                     <td v-for="header in headers" :key="header.key" class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                         <template v-if="header.key == 'path_cover'">
@@ -812,7 +821,7 @@ export default {
             if (this.isAllSelected) {
                 this.selectedRows = []
             } else {
-                this.selectedRows = this.paginatedData.map((row) => row.book_id)
+                this.selectedRows = this.paginatedData.map((row) => row)
             }
         },
 
@@ -938,7 +947,7 @@ export default {
                 .get('/upload/encrypt-books/x0y0z0', {
                     params: {
                         param: 'selected-data',
-                        data: row,
+                        data: row.map(item => item.book_id),
                     },
                 })
                 .then((response) => {
@@ -1266,6 +1275,55 @@ export default {
             }
         },
 
+        submitBooks() {
+            if (this.selectedRows.length > 0) {
+                if (!this.form.submitted) {
+                    this.form.submitted = true
+
+                    this.$refs.form.validate().then((result) => {
+                        if (result.valid) {
+                            this.form.submitted = false
+
+                            if (this.form.data) {
+                                let loader = this.$loading.show()
+
+                                window.axios
+                                    .post('/upload/encrypt-books-submit/submit-review', this.selectedRows)
+                                    .then((response) => {
+                                        this.cancelEncrypt()
+                                        loader.hide()
+                                        this.$notyf.success(response.data)
+                                    })
+                                    .catch((e) => {
+                                        this.form.submitted = false
+
+                                        console.log(e.response.data.data);
+                                        
+
+                                        this.form.field.data_error = []
+                                        this.form.field.data_error = e.response.data.data
+
+                                        loader.hide()
+
+                                        this.open_error = true
+
+                                        if (e.response && e.response.data && e.response.data.message) {
+                                            this.$notyf.error(e.response.data.message)
+                                        } else {
+                                            this.$notyf.error(e.message || 'An error occurred.')
+                                        }
+                                    })
+                            }
+                        } else {
+                            this.form.submitted = false
+                        }
+                    })
+                }
+            } else {
+                this.$notyf.error('No file selected')
+            }
+        },
+
         async exportTpl() {
             await window
                 .axios({
@@ -1316,7 +1374,7 @@ export default {
 
     computed: {
         isAllSelected() {
-            return this.paginatedData.length > 0 && this.paginatedData.every((row) => this.selectedRows.includes(row.book_id))
+            return this.paginatedData.length > 0 && this.paginatedData.every((row) => this.selectedRows.includes(row))
         },
 
         filteredData() {

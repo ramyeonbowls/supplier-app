@@ -52,6 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
                 Route::prefix('encrypt-books-submit')->group(function() {
                     Route::post('submit-draft', 'UploadBooksController@submitDraft');
+                    Route::post('submit-review', 'UploadBooksController@submitReview');
                 });
 
                 Route::prefix('encrypt-books-download')->group(function() {

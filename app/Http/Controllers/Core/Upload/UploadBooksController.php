@@ -94,6 +94,7 @@ class UploadBooksController extends Controller
                 ->when(isset($status) && count($status) > 0, function($query) use ($status) {
                     $query->whereIn('a.status', $status);
                 })
+                ->orderBy('a.status', 'asc')
                 ->get();
 
             $queries = DB::getQueryLog();
@@ -760,6 +761,109 @@ class UploadBooksController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function submitReview(Request $request): JsonResponse
+    {
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $result['status'] = 200;
+        $result['message'] = '';
+        $result['data'] = [];
+        try {
+            DB::enableQueryLog();
+            
+            $data['exists'] = $data['failed'] = [];
+            $ii = 0;
+            foreach ($request->all() as $key => $value) {
+                if ( $value['book_id'] != '' && $value['filename'] != '' && $value['isbn'] != '' && $value['eisbn'] != '' && $value['title'] != '' && $value['writer'] != '' && $value['size'] != '' && $value['year'] != '' && $value['volume'] != '' && $value['edition'] != '' && $value['page'] != '' && $value['sinopsis'] != '' && $value['sellprice'] != '' && $value['rentprice'] != '' && $value['retailprice'] != '' && $value['city'] != '' && $value['age'] != '') {
+                    $data['exists'][$key][$ii]['book_id'] = $value['book_id'];
+                    $data['exists'][$key][$ii]['filename'] = $value['filename'];
+                    $data['exists'][$key][$ii]['isbn'] = $value['isbn'];
+                    $data['exists'][$key][$ii]['eisbn'] = $value['eisbn'];
+                    $data['exists'][$key][$ii]['title'] = $value['title'];
+                    $data['exists'][$key][$ii]['writer'] = $value['writer'];
+                    $data['exists'][$key][$ii]['size'] = $value['size'];
+                    $data['exists'][$key][$ii]['year'] = $value['year'];
+                    $data['exists'][$key][$ii]['volume'] = $value['volume'];
+                    $data['exists'][$key][$ii]['edition'] = $value['edition'];
+                    $data['exists'][$key][$ii]['page'] = $value['page'];
+                    $data['exists'][$key][$ii]['sinopsis'] = $value['sinopsis'];
+                    $data['exists'][$key][$ii]['sellprice'] = $value['sellprice'];
+                    $data['exists'][$key][$ii]['rentprice'] = $value['rentprice'];
+                    $data['exists'][$key][$ii]['retailprice'] = $value['retailprice'];
+                    $data['exists'][$key][$ii]['city'] = $value['city'];
+                    $data['exists'][$key][$ii]['age'] = $value['age'];
+                } else {
+                    $data['failed'][$key][$ii]['row'] = $value['DT_RowIndex'];
+                    $data['failed'][$key][$ii]['book_id'] = 'success|'.$value['book_id'];
+                    $data['failed'][$key][$ii]['filename'] = 'success|'.$value['filename'];
+                    $data['failed'][$key][$ii]['isbn'] = strlen($value['isbn']) < 9 ? 'error|Data ISBN minimal 9 karakter!' : ($value['isbn'] != '' ? 'success|'.$value['isbn'] : 'error|Data ISBN Kosong!');
+                    $data['failed'][$key][$ii]['eisbn'] = $value['eisbn'] != '' ? 'success|'.$value['eisbn'] : 'error|Data EISBN Kosong!';
+                    $data['failed'][$key][$ii]['title'] = $value['title'] != '' ? 'success|'.$value['title'] : 'error|Data Judul Kosong!';
+                    $data['failed'][$key][$ii]['writer'] = $value['writer'] != '' ? 'success|'.$value['writer'] : 'error|Data Penulis Kosong!';
+                    $data['failed'][$key][$ii]['size'] = $value['size'] != '' ? 'success|'.$value['size'] : 'error|Data Format Kosong!';
+                    $data['failed'][$key][$ii]['year'] = $value['year'] != '' ? 'success|'.$value['year'] : 'error|Data Tahun Kosong!';
+                    $data['failed'][$key][$ii]['volume'] = $value['volume'] != '' ? 'success|'.$value['volume'] : 'error|Data Jilid Kosong!';
+                    $data['failed'][$key][$ii]['edition'] = $value['edition'] != '' ? 'success|'.$value['edition'] : 'error|Data Edisi Kosong!';
+                    $data['failed'][$key][$ii]['page'] = $value['page'] != '' ? 'success|'.$value['page'] : 'error|Data Halaman Kosong!';
+                    $data['failed'][$key][$ii]['sinopsis'] = $value['sinopsis'] != '' ? 'success|'.$value['sinopsis'] : 'error|Data Sinopsis Kosong!';
+                    $data['failed'][$key][$ii]['sellprice'] = $value['sellprice'] != '' && is_numeric($value['sellprice']) ? 'success|'.$value['sellprice'] : 'error|Data Harga Jual Kosong atau bukan angka!';
+                    $data['failed'][$key][$ii]['rentprice'] = $value['rentprice'] != '' && is_numeric($value['rentprice']) ? 'success|'.$value['rentprice'] : 'error|Data Harga Pinjam Kosong atau bukan angka!';
+                    $data['failed'][$key][$ii]['retailprice'] = $value['retailprice'] != '' && is_numeric($value['retailprice']) ? 'success|'.$value['retailprice'] : 'error|Data Harga Retail Kosong atau bukan angka!';
+                    $data['failed'][$key][$ii]['city'] = $value['city'] != '' ? 'success|'.$value['city'] : 'error|Data Kota Kosong!';
+                    $data['failed'][$key][$ii]['age'] = $value['age'] != '' && is_numeric($value['age']) ? 'success|'.$value['age'] : 'error|Data Umur Kosong atau bukan angka!!';
+                }
+
+                $ii++;
+            }
+
+            $collect_failed_data = collect($data['failed'])->collapse()->all();
+
+            if (!$collect_failed_data) {
+                foreach ($request->all() as $key => $value) {
+                    $updated = DB::table('tbook_draft')
+                        ->where('supplier_id', auth()->user()->client_id)
+                        ->where('book_id', $value['book_id'])
+                        ->update([
+                                'status' => '2',
+                                'updatedate' => Carbon::now('Asia/Jakarta'),
+                                'updateby' => auth()->user()->email,
+                            ]);
+                }
+
+                if ($updated) {
+                    $logs->write("INFO", "Successfully listing to Review");
+    
+                    $result['status'] = 201;
+                    $result['message'] = "Successfully listing to Review.";
+                }
+            } else {
+                $result['status'] = 422;
+                $result['message'] = "Failed listing to Review : ". count($collect_failed_data) ." data";
+                $result['data'] = $collect_failed_data;
+            }
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $queries[$q]['query']);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+
+            $result['message'] = "Failed listing to Review.<br>" . $th->getMessage();
+        }
+
+        return response()->json(['message' => $result['message'], 'data' => $result['data']], $result['status']);
+    }
+
+    /**
      * @param Request $request
      * @return BinaryFileResponse
      */
@@ -899,7 +1003,7 @@ class UploadBooksController extends Controller
                             $data_excel[$tagging][$i][$ii]['writer'] = $writer != '' ? 'success|'.$writer : 'error|Data Penulis Kosong!';
                             $data_excel[$tagging][$i][$ii]['size'] = $size != '' ? 'success|'.$size : 'error|Data Format Kosong!';
                             $data_excel[$tagging][$i][$ii]['year'] = $year != '' ? 'success|'.$year : 'error|Data Tahun Kosong!';
-                            $data_excel[$tagging][$i][$ii]['volume'] = $volume != '' ? 'success|'.$year : 'error|Data Jilid Kosong!';
+                            $data_excel[$tagging][$i][$ii]['volume'] = $volume != '' ? 'success|'.$volume : 'error|Data Jilid Kosong!';
                             $data_excel[$tagging][$i][$ii]['edition'] = $edition != '' ? 'success|'.$edition : 'error|Data Edisi Kosong!';
                             $data_excel[$tagging][$i][$ii]['page'] = $page != '' ? 'success|'.$page : 'error|Data Halaman Kosong!';
                             $data_excel[$tagging][$i][$ii]['sinopsis'] = $sinopsis != '' ? 'success|'.$sinopsis : 'error|Data Sinopsis Kosong!';
