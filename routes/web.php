@@ -74,6 +74,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::prefix('supplier-report-excel')->group(function() {
                     Route::get('export-tpl', 'ReportSupplierController@exportTpl');
                 });
+
+                Route::apiResource('distributor-report', ReportDistributorController::class);
+                Route::prefix('distributor-report-excel')->group(function() {
+                    Route::get('export-tpl', 'ReportDistributorController@exportTpl');
+                });
             });
 
             Route::prefix('transactions')->namespace('Transactions')->group(function() {

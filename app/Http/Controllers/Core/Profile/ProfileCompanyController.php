@@ -609,6 +609,8 @@ class ProfileCompanyController extends Controller
         $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
         $logs->write(__FUNCTION__, 'START');
 
+        $filter['id'] = explode('_', $request->id)[0];
+
         $results = [];
         try {
             DB::enableQueryLog();
@@ -663,7 +665,11 @@ class ProfileCompanyController extends Controller
                         ->on('a.district', '=', 'e.kecamatan_id')
                         ->on('a.subdistrict', '=', 'e.kelurahan_id');
                 })
-                ->where('a.id', auth()->user()->client_id)
+                ->when($filter['id'] != '', function ($query) use ($filter) {
+                    $query->where('a.id', $filter['id']);
+                }, function($query) use ($filter) {
+                    $query->where('a.id', auth()->user()->client_id);
+                })
                 ->get();
 
             $results['imprint'] = DB::table('tpublisher as a')->sharedLock()
@@ -671,7 +677,11 @@ class ProfileCompanyController extends Controller
                     'a.id as id',
                     'a.description as name'
                 )
-                ->where('a.client_id', auth()->user()->client_id)
+                ->when($filter['id'] != '', function ($query) use ($filter) {
+                    $query->where('a.client_id', $filter['id']);
+                }, function($query) use ($filter) {
+                    $query->where('a.client_id', auth()->user()->client_id);
+                })
                 ->where('a.flag', 'I')
                 ->get();
 
@@ -680,7 +690,11 @@ class ProfileCompanyController extends Controller
                     'a.id as id',
                     'a.description as name'
                 )
-                ->where('a.client_id', auth()->user()->client_id)
+                ->when($filter['id'] != '', function ($query) use ($filter) {
+                    $query->where('a.client_id', $filter['id']);
+                }, function($query) use ($filter) {
+                    $query->where('a.client_id', auth()->user()->client_id);
+                })
                 ->where('a.flag', 'K')
                 ->get();
 
@@ -689,7 +703,11 @@ class ProfileCompanyController extends Controller
                     'a.category_id as id',
                     'a.category_desc as name'
                 )
-                ->where('client_id', auth()->user()->client_id)
+                ->when($filter['id'] != '', function ($query) use ($filter) {
+                    $query->where('a.client_id', $filter['id']);
+                }, function($query) use ($filter) {
+                    $query->where('a.client_id', auth()->user()->client_id);
+                })
                 ->get();
 
             $results['account'] = DB::table('tcompany_bank_account as a')->sharedLock()
@@ -700,7 +718,11 @@ class ProfileCompanyController extends Controller
                     'a.account_name as account_name',
                     'a.bank_city as bank_city'
                 )
-                ->where('client_id', auth()->user()->client_id)
+                ->when($filter['id'] != '', function ($query) use ($filter) {
+                    $query->where('a.client_id', $filter['id']);
+                }, function($query) use ($filter) {
+                    $query->where('a.client_id', auth()->user()->client_id);
+                })
                 ->get();
 
             $queries = DB::getQueryLog();

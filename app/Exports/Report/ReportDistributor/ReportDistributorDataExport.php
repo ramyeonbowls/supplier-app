@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exports\Report\ReportSupplier;
+namespace App\Exports\Report\ReportDistributor;
 
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Sheet;
 
-class ReportSupplierDataExport implements WithCustomStartCell, WithHeadings, WithTitle, WithEvents
+class ReportDistributorDataExport implements WithCustomStartCell, WithHeadings, WithTitle, WithEvents
 {
     protected array $with_data;
 
@@ -144,7 +144,7 @@ class ReportSupplierDataExport implements WithCustomStartCell, WithHeadings, Wit
                     ->join('tkelurahan as f', function($join) {
                         $join->on('a.subdistrict', '=', 'f.kelurahan_id');
                     })
-                    ->where('a.type', '1')
+                    ->where('a.type', '2')
                     ->get();
 
                 $rslt = $data->map(function($value, $key) {

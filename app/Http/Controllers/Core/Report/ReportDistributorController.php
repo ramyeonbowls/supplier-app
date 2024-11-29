@@ -6,7 +6,7 @@ use Exception;
 use File;
 use Throwable;
 use App\Logs;
-use App\Exports\Report\ReportSupplier\ReportSupplierExport;
+use App\Exports\Report\ReportDistributor\ReportDistributorExport;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Yajra\DataTables\Facades\DataTables;
 
-class ReportSupplierController extends Controller
+class ReportDistributorController extends Controller
 {
     /**
      * Instantiate a new controller instance.
@@ -80,7 +80,7 @@ class ReportSupplierController extends Controller
                 ->join('tkelurahan as f', function($join) {
 					$join->on('a.subdistrict', '=', 'f.kelurahan_id');
 				})
-                ->where('a.type', '1')
+                ->where('a.type', '2')
                 ->get();
 
             $queries = DB::getQueryLog();
@@ -151,6 +151,6 @@ class ReportSupplierController extends Controller
      */
     public function exportTpl(Request $request): BinaryFileResponse
     {
-        return Excel::download(new ReportSupplierExport([]), 'report_supplier.xlsx');
+        return Excel::download(new ReportDistributorExport([]), 'report_distributor.xlsx');
     }
 }

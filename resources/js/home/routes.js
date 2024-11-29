@@ -53,6 +53,12 @@ const routes = [
         component: () => import(/* webpackChunkName: "report_supplier" */ './components/ReportSupplier.vue'),
         meta: { roles: [0] },
     },
+    {
+        path: '/report-distributor',
+        name: 'report_distributor',
+        component: () => import(/* webpackChunkName: "report_distributor" */ './components/ReportDistributor.vue'),
+        meta: { roles: [0] },
+    },
 ]
 
 export default routes
