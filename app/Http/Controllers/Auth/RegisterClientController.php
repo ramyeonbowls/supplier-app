@@ -100,6 +100,7 @@ class RegisterClientController extends Controller
             'logo_big' => ['required', 'mimes:png', 'max:1000'],
             'logo_small' => ['required', 'mimes:png', 'max:1000'],
             'agreement' => ['required'],
+            'noref' => ['nullable', 'exists:tcompany'],
         ]);
     }
 
@@ -146,6 +147,16 @@ class RegisterClientController extends Controller
 
         $logs->write(__FUNCTION__, "STOP\r\n");
 
+        $noref = 'a0d9e27e-a3ab-49b2-96d7-031c95a31191';
+        if ($request->noref) {
+            $ref = DB::table('tcompany as a')->sharedLock()
+                ->select('a.id')
+                ->where('a.noref', $request->noref)
+                ->first('a.id');
+
+            $noref = $ref->id;
+        }
+
         return DB::table('tclient')
             ->insert([
                 'client_id' => $client_id,
@@ -167,7 +178,7 @@ class RegisterClientController extends Controller
                 'administrator_phone' => $request->administrator_phone,
                 'logo' => $logoBigName,
                 'logo_small' => $logoSmallName,
-                'company_id' => 'a0d9e27e-a3ab-49b2-96d7-031c95a31191',
+                'company_id' => $noref,
                 'web_add' => $request->web_add,
                 'agreement' => $request->agreement ? 'Y' : 'N',
                 'created_at' => Carbon::now('Asia/Jakarta'),

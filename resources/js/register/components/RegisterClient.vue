@@ -196,6 +196,15 @@
                             </div>
 
                             <div class="col-span-6">
+                                <label for="noref" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.noref ? 'border-red-500' : 'border-gray-200'">
+                                    <Field type="text" id="noref" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Referensi" name="noref" v-model="form.field.noref" />
+
+                                    <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kode Referensi</span>
+                                </label>
+                                <ErrorMessage name="noref" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
+                            </div>
+
+                            <div class="col-span-6">
                                 <label for="agreement" class="flex gap-4">
                                     <input type="checkbox" id="agreement" name="agreement" v-model="form.field.agreement" class="size-5 rounded-md border-gray-200 bg-white shadow-sm" disabled />
 
@@ -328,7 +337,7 @@
     </TransitionRoot>
 
     <TransitionRoot as="template" :show="open_finish">
-        <Dialog class="relative z-10" @close="open_finish = false">
+        <Dialog class="relative z-10" @close="open_finish = false, open = true">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
             </TransitionChild>
@@ -351,7 +360,7 @@
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_finish = false" ref="cancelButtonRef">Tutup</button>
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_finish = false, open = true" ref="cancelButtonRef">Tutup</button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>
@@ -417,6 +426,7 @@ export default {
                     logo_big: '',
                     logo_small: '',
                     agreement: false,
+                    noref: '',
                 },
             },
         }
@@ -448,6 +458,7 @@ export default {
             this.form.field.logo_big = ''
             this.form.field.logo_small = ''
             this.form.field.agreement = false
+            this.form.field.noref = ''
 
             this.$refs.logo_big.removeFiles()
             this.$refs.logo_small.removeFiles()
