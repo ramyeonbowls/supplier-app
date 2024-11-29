@@ -13,6 +13,8 @@ Route::get('pendaftaran-supplier', [App\Http\Controllers\Auth\RegisterController
 Route::post('pendaftaran-supplier', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
 Route::get('pendaftaran-client', [App\Http\Controllers\Auth\RegisterClientController::class, 'showRegistrationForm'])->name('register-client');
 Route::post('pendaftaran-client', [App\Http\Controllers\Auth\RegisterClientController::class, 'register']);
+Route::get('pendaftaran-distributor', [App\Http\Controllers\Auth\RegisterDistributorController::class, 'showRegistrationForm'])->name('register-distributor');
+Route::post('pendaftaran-distributor', [App\Http\Controllers\Auth\RegisterDistributorController::class, 'register']);
 
 Route::get('signature', [App\Http\Controllers\Web\OptionsController::class, 'signature'])->name('signature');
 Route::get('download-file', [App\Http\Controllers\Web\OptionsController::class, 'downloadFile'])->name('downloadFile');

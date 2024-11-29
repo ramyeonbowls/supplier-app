@@ -14,6 +14,11 @@ const routes = [
         name: 'pendaftaran_client',
         component: () => import(/* webpackChunkName: "pendaftaran_client" */ './components/RegisterClient.vue'),
     },
+    {
+        path: '/pendaftaran-distributor',
+        name: 'pendaftaran_distributor',
+        component: () => import(/* webpackChunkName: "pendaftaran_distributor" */ './components/RegisterDistributor.vue'),
+    },
 ]
 
 export default routes
