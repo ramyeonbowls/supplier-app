@@ -86,6 +86,7 @@ class RegisterDistributorController extends Controller
             'distributor' => ['nullable'],
             'supp_distributor' => ['nullable'],
             'agreement' => ['required'],
+            'noref' => ['required', 'string', 'min:6', 'max:20', 'unique:tcompany'],
         ]);
     }
 
@@ -120,6 +121,7 @@ class RegisterDistributorController extends Controller
             'handphone_pic' => $data['handphone_person_in_charge'] ?? '',
             'file' => '',
             'type' => $type,
+            'noref' => $data['noref'],
             'agreement' => $data['agreement'] ? 'Y' : 'N',
             'created_at' => Carbon::now('Asia/Jakarta'),
             'created_by' => $data['email'] ?? '',

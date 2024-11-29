@@ -12,7 +12,7 @@
 
                     <h2 class="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">Formulir Pendaftaran</h2>
 
-                    <p class="mt-4 font-bold leading-relaxed text-white/90">Supplier</p>
+                    <p class="mt-4 font-bold leading-relaxed text-white/90">Distributor</p>
                 </div>
             </section>
 
@@ -35,7 +35,7 @@
                                 <div class="sm:flex sm:justify-between sm:gap-4">
                                     <div class="flex justify-between gap-4">
                                         <div>
-                                            <h3 class="text-lg font-bold text-gray-900 sm:text-xl">Manual Guide Daftar & Upload Buku Supplier</h3>
+                                            <h3 class="text-lg font-bold text-gray-900 sm:text-xl">Manual Guide Daftar & Upload Buku Distributor</h3>
                                         </div>
 
                                         <div>
@@ -462,6 +462,15 @@
                                 </div>
 
                                 <div class="col-span-6">
+                                    <label for="noref" class="relative block rounded-md border shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600" :class="errors.noref ? 'border-red-500' : 'border-gray-200'">
+                                        <Field type="text" id="noref" class="peer w-full border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0" placeholder="Kode Referensi" name="noref" v-model="form.field.noref" />
+
+                                        <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">Kode Referensi</span>
+                                    </label>
+                                    <ErrorMessage name="noref" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
+                                </div>
+
+                                <div class="col-span-6">
                                     <label for="agreement" class="flex gap-4">
                                         <input type="checkbox" id="agreement" name="agreement" v-model="form.field.agreement" class="size-5 rounded-md border-gray-200 bg-white shadow-sm" />
 
@@ -600,6 +609,7 @@ export default {
                     distributor: true,
                     supp_distributor: false,
                     agreement: false,
+                    noref: '',
                 },
             },
         }
@@ -748,7 +758,7 @@ export default {
         async submit() {
             let loader = this.$loading.show()
             try {
-                const response = await window.axios.post('/pendaftaran-supplier', this.form.field)
+                const response = await window.axios.post('/pendaftaran-distributor', this.form.field)
                 this.$notyf.success(response.data.message || 'Register successful!')
                 window.location.href = '/'
                 loader.hide()
