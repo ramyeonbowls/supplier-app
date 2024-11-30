@@ -658,7 +658,7 @@ export default {
             if (this.isAllSelected) {
                 this.selectedRows = []
             } else {
-                this.selectedRows = this.paginatedData.map((row) => row.book_id)
+                this.selectedRows = this.paginatedData.filter((row) => row.status === '2').map((row) => row.book_id)
             }
         },
 

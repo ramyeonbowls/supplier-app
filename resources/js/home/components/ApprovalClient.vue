@@ -287,7 +287,7 @@ export default {
             if (this.isAllSelected) {
                 this.selectedRows = []
             } else {
-                this.selectedRows = this.paginatedData.map((row) => row.client_id)
+                this.selectedRows = this.paginatedData.filter((row) => row.flag_appr === 'N').map((row) => row.client_id)
             }
         },
 
