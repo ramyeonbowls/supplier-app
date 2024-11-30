@@ -90,6 +90,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     Route::get('download-file', 'ApprovalBooksController@downloadFile');
                     Route::get('view-file', 'ApprovalBooksController@viewFile');
                 });
+
+                Route::apiResource('approval-client', ApprovalClientController::class);
+                Route::prefix('approval-client')->group(function() {
+                    Route::post('reject', 'ApprovalClientController@reject');
+                });
             });
         });
     });

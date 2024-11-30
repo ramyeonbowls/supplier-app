@@ -20,7 +20,7 @@ import { LoadingPlugin } from 'vue-loading-overlay'
 
 const router = createRouter({
     history: createWebHistory(),
-    linkActiveClass: 'rounded-md bg-yellow-300 active:bg-yellow-300',
+    linkActiveClass: 'rounded-md bg-amber-300 active:bg-amber-300',
     routes,
 })
 
