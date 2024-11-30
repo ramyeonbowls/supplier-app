@@ -337,7 +337,7 @@
     </TransitionRoot>
 
     <TransitionRoot as="template" :show="open_finish">
-        <Dialog class="relative z-10" @close="open_finish = false, open = true">
+        <Dialog class="relative z-10" @close="(open_finish = false), (open = true)">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
             </TransitionChild>
@@ -360,7 +360,7 @@
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_finish = false, open = true" ref="cancelButtonRef">Tutup</button>
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="(open_finish = false), (open = true)" ref="cancelButtonRef">Tutup</button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>

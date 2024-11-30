@@ -451,6 +451,29 @@ class ProfileCompanyController extends Controller
                     return response()->json($results, 200);
                 break;
 
+                case 'dashboard-admin':
+                    DB::enableQueryLog();
+
+                    $books = DB::table('tbook as a')->count();
+                    $client = DB::table('tclient as a')->count();
+                    $supplier = DB::table('tcompany as a')->where('a.type', '1')->count();
+                    $distributor = DB::table('tcompany as a')->where('a.type', '2')->count();
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results['books'] = $books;
+                    $results['client'] = $client;
+                    $results['supplier'] = $supplier;
+                    $results['distributor'] = $distributor;
+
+                    return response()->json($results, 200);
+                break;
+
                 default:
                     return response()->json(request()->param, 200);
                 break;
