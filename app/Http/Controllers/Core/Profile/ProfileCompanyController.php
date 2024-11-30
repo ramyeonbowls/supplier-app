@@ -455,7 +455,7 @@ class ProfileCompanyController extends Controller
                     DB::enableQueryLog();
 
                     $books = DB::table('tbook as a')->count();
-                    $client = DB::table('tclient as a')->count();
+                    $client = DB::table('tclient as a')->where('a.flag_appr', 'Y')->count();
                     $supplier = DB::table('tcompany as a')->where('a.type', '1')->count();
                     $distributor = DB::table('tcompany as a')->where('a.type', '2')->count();
 
