@@ -26,7 +26,7 @@
                                 <div>
                                     <p class="text-2xl font-medium text-gray-900">{{ dashboard.books }}</p>
 
-                                    <p class="text-sm text-gray-500">Total Books</p>
+                                    <p class="text-sm text-gray-500">Total Buku</p>
                                 </div>
                             </article>
                         </div>
@@ -219,7 +219,7 @@ export default {
                 client: 0,
                 supplier: 0,
                 distributor: 0,
-            }
+            },
         }
     },
 
