@@ -98,7 +98,7 @@ class ApprovalClientController extends Controller
 				})
                 ->leftJoin('tcompany as g', function($join) {
 					$join->on('a.company_id', '=', 'g.id')
-                        ->on('g.type', '=', '2');
+                        ->on('g.type', '=', DB::raw("'2'"));
 				})
                 ->orderBy('a.flag_appr', 'asc')
                 ->get();
