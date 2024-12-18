@@ -39,7 +39,7 @@ const routes = [
         path: '/encrypt-file',
         name: 'encrypt_file',
         component: () => import(/* webpackChunkName: "encrypt_file" */ './components/EncryptFiles.vue'),
-        meta: { roles: [5] },
+        meta: { roles: [0] },
     },
     {
         path: '/approval-book',
