@@ -8,6 +8,8 @@ import 'notyf/notyf.min.css'
 import 'flowbite'
 import 'flowbite/dist/flowbite.min.css'
 import 'vue-loading-overlay/dist/css/index.css'
+import 'filepond/dist/filepond.min.css'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 
 import axios from 'axios'
 window.axios = axios

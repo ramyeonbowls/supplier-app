@@ -150,13 +150,13 @@ class UploadBooksController extends Controller
                 return $value->sinopsis ?? '';
             })
             ->editColumn('sellprice', function ($value) {
-                return $value->sellprice ?? '';
+                return number_format($value->sellprice, 0, 2) ?? '';
             })
             ->editColumn('rentprice', function ($value) {
-                return $value->rentprice ?? '';
+                return number_format($value->rentprice, 0, 2) ?? '';
             })
             ->editColumn('retailprice', function ($value) {
-                return $value->retailprice ?? '';
+                return number_format($value->retailprice, 0, 2) ?? '';
             })
             ->editColumn('city', function ($value) {
                 return $value->city ?? '';

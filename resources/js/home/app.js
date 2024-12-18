@@ -11,6 +11,11 @@ import routes from './routes'
 import { createRouter, createWebHistory } from 'vue-router'
 import { Notyf } from 'notyf'
 import { LoadingPlugin } from 'vue-loading-overlay'
+import vueFilePond from 'vue-filepond'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
+import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size'
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -61,6 +66,8 @@ const loader = {
     opacity: 0.4,
     zIndex: 1999,
 }
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview, FilePondPluginFileValidateSize, FilePondPluginImageValidateSize)
 
 const app = createApp(App)
 
@@ -118,5 +125,6 @@ app.use(
             ]),
     }
 )
+app.component('file-pond', FilePond)
 app.use(router)
 app.mount('#app-container')

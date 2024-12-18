@@ -64,7 +64,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::apiResource('encrypt-files', EncryptFileController::class);
                 Route::prefix('encrypt-files-download')->group(function() {
                     Route::get('download-file', 'EncryptFileController@downloadFile');
+                    Route::post('export-tpl', 'EncryptFileController@exportTpl');
                 });
+
+                Route::apiResource('data-books', UploadBooksController::class);
             });
 
             Route::prefix('report')->namespace('Report')->group(function() {
@@ -79,6 +82,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::prefix('distributor-report-excel')->group(function() {
                     Route::get('export-tpl', 'ReportDistributorController@exportTpl');
                 });
+
+                Route::apiResource('po-report', ReportPOController::class);
             });
 
             Route::prefix('transactions')->namespace('Transactions')->group(function() {
@@ -94,6 +99,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::apiResource('approval-client', ApprovalClientController::class);
                 Route::prefix('approval-client')->group(function() {
                     Route::post('reject', 'ApprovalClientController@reject');
+                });
+
+                Route::apiResource('po-upload', UploadPurchaseOrderController::class);
+                Route::prefix('po-upload-excel')->group(function() {
+                    Route::post('upload', 'UploadPurchaseOrderController@uploadExcel');
+                    Route::post('export-tpl', 'UploadPurchaseOrderController@exportTpl');
                 });
             });
         });

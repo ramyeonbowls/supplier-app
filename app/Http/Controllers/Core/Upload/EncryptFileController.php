@@ -6,7 +6,7 @@ use Exception;
 use File;
 use Throwable;
 use App\Logs;
-use App\Exports\Upload\UploadBookExport;
+use App\Exports\Upload\UploadEncryptExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Upload\EncryptBooksRequest;
 use Carbon\Carbon;
@@ -62,7 +62,8 @@ class EncryptFileController extends Controller
 
         $result['status'] = 200;
         $result['message'] = '';
-        $result['file'] = '';
+        $result['file'] = [];
+        $result['filename'] = [];
         try {
             $zip_folder = storage_path('app/private/files');
 
@@ -95,6 +96,35 @@ class EncryptFileController extends Controller
                 }
             }
 
+            $validSize = true;
+            if ($file_pdf != '') {
+                $path_pdf = $zip_folder.'/'.pathinfo($file_pdf, PATHINFO_FILENAME);
+
+                $files = File::files($path_pdf);
+                
+                if (File::exists($path_pdf) && File::isDirectory($path_pdf)) {
+                    foreach ($files as $key => $file) {
+                        if (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+                            $fileContent = Storage::size('files/'.pathinfo($file_pdf, PATHINFO_FILENAME).'/'.basename($file));
+                            $logs->write('info', $fileContent);
+
+                            if ($fileContent > 20000000) {
+                                $validSize = false;
+                                $logs->write('failed', basename($file) . ' Ukuran File lebih dari 20mb.');
+                                $result['status'] = 500;
+                                $result['message'] = "Failed upload " . basename($file) . " Ukuran File lebih dari 20mb.";
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!$validSize) {
+                        File::deleteDirectory($path_pdf);
+                        return response()->json($result, $result['status']);
+                    }
+                }
+            }
+
             if ($file_pdf != '') {
                 $path_pdf = $zip_folder.'/'.pathinfo($file_pdf, PATHINFO_FILENAME);
                 $zipFileName = pathinfo($file_pdf, PATHINFO_FILENAME).'.zip';
@@ -120,25 +150,53 @@ class EncryptFileController extends Controller
 
                             Storage::delete('files/'.pathinfo($file_pdf, PATHINFO_FILENAME).'/'.basename($file));
                         } else {
+                            $result['status'] = 500;
                             $result['message'] = "Failed upload " . basename($file) . " Not PDF Extension.";
                         }
                     }
 
                     $zip = new \ZipArchive;
-                    $zipPath = $zip_folder.'/'.$zipFileName;
+                    $fname = 'file_'.$zipFileName;
+                    $zipPath = $zip_folder.'/'.$fname;
 
                     if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === TRUE) {
                         $filesToZip = File::allFiles($path_pdf);
 
                         foreach ($filesToZip as $file) {
                             $relativeName = basename($file);
-                            $zip->addFile($file, $relativeName);
+                            if (pathinfo($relativeName, PATHINFO_EXTENSION) == 'gns') {
+                                $result['filename'][] = basename($file);
+                                $zip->addFile($file, $relativeName);
+                            }
                         }
 
                         $zip->close();
 
-                        $result['file'] = $zipFileName;
+                        $result['file'][] = $fname;
                     } else {
+                        $result['status'] = 500;
+                        $result['message'] = "Failed to create zip file.";
+                    }
+
+                    $zip = new \ZipArchive;
+                    $fname = 'cover_'.$zipFileName;
+                    $zipPath = $zip_folder.'/'.$fname;
+
+                    if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === TRUE) {
+                        $filesToZip = File::allFiles($path_pdf);
+
+                        foreach ($filesToZip as $file) {
+                            $relativeName = basename($file);
+                            if (pathinfo($relativeName, PATHINFO_EXTENSION) != 'gns') {
+                                $zip->addFile($file, $relativeName);
+                            }
+                        }
+
+                        $zip->close();
+
+                        $result['file'][] = $fname;
+                    } else {
+                        $result['status'] = 500;
                         $result['message'] = "Failed to create zip file.";
                     }
                 }
@@ -148,6 +206,7 @@ class EncryptFileController extends Controller
         } catch (Throwable $th) {
             $logs->write("ERROR", $th->getMessage());
 
+            $result['status'] = 500;
             $result['message'] = "Failed upload.<br>" . $th->getMessage();
         }
 
@@ -204,5 +263,14 @@ class EncryptFileController extends Controller
             'Content-Disposition'   => 'attachment; filename="' . basename($filePath) . '"',
             'Pragma'                => 'public',
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return BinaryFileResponse
+     */
+    public function exportTpl(Request $request): BinaryFileResponse
+    {
+        return Excel::download(new UploadEncryptExport($request->data), 'detail_data.xlsx');
     }
 }
