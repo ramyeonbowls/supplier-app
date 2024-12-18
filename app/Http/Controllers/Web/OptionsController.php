@@ -265,7 +265,7 @@ class OptionsController extends Controller
         $client_id = $request->id ?? '';
 
         if ($client_id != '') {
-            $id = DB::table('tclient as a')->sharedLock()
+            $id = DB::table('tcompany as a')->sharedLock()
                 ->select(
                     'a.name as name',
                     'a.country as country',
