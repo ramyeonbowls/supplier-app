@@ -276,7 +276,7 @@ class UploadPurchaseOrderController extends Controller
         $sheetCount  = $spreadsheet->getSheetCount();
 
         $logs->write('INFO', 'sheetCount:'. $sheetCount);
-        $data_excel['new'] = $data_excel['exists'] = [];
+        $data_excel['new'] = $data_excel['exists'] = $data_excel['notexists'] = [];
         foreach ($spreadsheet->getWorksheetIterator() as $i => $worksheet) {
             $worksheetTitle     = $worksheet->getTitle();
             $highestRow         = $worksheet->getHighestRow(); // e.g. 10
