@@ -72,7 +72,7 @@ class ApprovalClientController extends Controller
                     'a.logo as logo',
                     'a.logo_small as logo_small',
                     'a.company_id as company_id',
-                    'e.name as company_name',
+                    'g.name as company_name',
                     'a.web_add as web_add',
                     'a.agreement as agreement',
                     'a.client_category as client_category',
