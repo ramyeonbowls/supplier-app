@@ -64,7 +64,9 @@ class UploadPurchaseOrderController extends Controller
 					$join->on('a.client_id', '=', 'b.client_id');
 				})
                 ->join('tpo_detail as c', function($join) {
-					$join->on('a.client_id', '=', 'b.client_id');
+					$join->on('a.client_id', '=', 'c.client_id')
+                        ->on('a.po_number', '=', 'c.po_number')
+                        ->on('a.po_date', '=', 'c.po_date');
 				})
                 ->groupBy(
                     'a.client_id',
