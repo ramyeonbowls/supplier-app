@@ -96,9 +96,9 @@ class ApprovalClientController extends Controller
                 ->join('tkelurahan as f', function($join) {
 					$join->on('a.kelurahan_id', '=', 'f.kelurahan_id');
 				})
-                ->leftJoin('tcompany as e', function($join) {
-					$join->on('a.company_id', '=', 'e.id')
-                        ->on('e.type', '=', '2');
+                ->leftJoin('tcompany as g', function($join) {
+					$join->on('a.company_id', '=', 'g.id')
+                        ->on('g.type', '=', '2');
 				})
                 ->orderBy('a.flag_appr', 'asc')
                 ->get();
