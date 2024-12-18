@@ -51,7 +51,7 @@ class ApprovalClientController extends Controller
                     'a.instansi_name as instansi_name',
                     'a.application_name as application_name',
                     'a.address as address',
-                    'a.negara_id as negara_id',
+                    'a.country_id as negara_id',
                     'b.country_name as negara_name',
                     'a.provinsi_id as provinsi_id',
                     'c.provinsi_name as provinsi_name',
@@ -82,7 +82,7 @@ class ApprovalClientController extends Controller
                     'a.updated_at as updated_at',
                 )
                 ->join('tcountry as b', function($join) {
-					$join->on('a.negara_id', '=', 'b.country_id');
+					$join->on('a.country_id', '=', 'b.country_id');
 				})
                 ->join('tprovinsi as c', function($join) {
 					$join->on('a.provinsi_id', '=', 'c.provinsi_id');

@@ -163,7 +163,7 @@ class RegisterClientController extends Controller
                 'instansi_name' => $request->name_apps,
                 'application_name' => $request->name_apps,
                 'address' => $request->address,
-                'negara_id' => $request->country,
+                'country_id' => $request->country,
                 'provinsi_id' => $request->province,
                 'kabupaten_id' => $request->regency,
                 'kecamatan_id' => $request->district,
