@@ -93,8 +93,6 @@ class ReportPODetailDataExport implements WithCustomStartCell, WithEvents
                 $event->sheet->setCellValue('B10', ': '.$bank_city);
                 $event->sheet->setCellValue('A11', 'NPWP');
                 $event->sheet->setCellValue('B11', ': '.$npwp);
-                $event->sheet->setCellValue('A12', 'Total Penerimaan');
-                $event->sheet->setCellValue('B12', ': '.$filter->po_nett);
                 $event->sheet->setCellValue('A13', 'Status');
                 $event->sheet->setCellValue('B13', ': '.($filter->status == '4' ? 'Lunas' : 'Belum Lunas'));
                     
@@ -278,6 +276,9 @@ class ReportPODetailDataExport implements WithCustomStartCell, WithEvents
                             ],
                         ],
                     ]);
+
+                $event->sheet->setCellValue('A12', 'Total Penerimaan');
+                $event->sheet->setCellValue('B12', ': '.number_format($total_nett, 2, ",", "."));
 
                 $footer_row = $last_row + 1;
 
