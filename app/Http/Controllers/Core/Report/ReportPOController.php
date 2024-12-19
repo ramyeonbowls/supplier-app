@@ -96,8 +96,8 @@ class ReportPOController extends Controller
                         ->on('a.po_number', '=', 'c.po_number')
                         ->on('a.po_date', '=', 'c.po_date');
 				})
-                // ->where('c.supplier_id', auth()->user()->client_id)
-                // ->whereIn('a.status', ['3', '4'])
+                ->where('c.supplier_id', auth()->user()->client_id)
+                ->whereIn('a.status', ['3', '4'])
                 ->groupBy(
                     'a.client_id',
                     'b.instansi_name',
