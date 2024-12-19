@@ -258,13 +258,53 @@ class UploadPurchaseOrderController extends Controller
                 ->where('po_number', $request->po_number)
                 ->where('po_date', $request->po_date)
                 ->update([
-                    'status' => '3'
+                    'status' => $id
                 ]);
 
-            $logs->write("INFO", "Successfully updated");
+            if ($updated) {
+                $logs->write("INFO", "Successfully updated");
+                $result['status'] = 201;
+                $result['message'] = "Successfully updated.";
 
-            $result['status'] = 201;
-            $result['message'] = "Successfully updated.";
+                if ($id == '3') {
+                    $tbook = DB::table('tbook as a')->sharedLock()
+                        ->select(
+                            'a.*',
+                            'b.name'
+                        )
+                        ->join('tcompany as b', function($join) {
+                            $join->on('a.supplier_id', '=', 'b.id')
+                                ->on('b.type', '=', DB::raw("'1'"));
+                        });
+
+                    $detail = DB::table('tpo_detail as a')->sharedLock()
+                        ->select(
+                            'b.supplier_id as supplier_id',
+                        )
+                        ->joinSub($tbook, 'b', function($join) {
+                            $join->on('a.book_id', '=', 'b.book_id');
+                        })
+                        ->where('a.client_id', $request->client_id)
+                        ->where('a.po_number', $request->po_number)
+                        ->where('a.po_date', $request->po_date)
+                        ->distinct()
+                        ->get();
+
+                    foreach ($detail as $i => $value) {
+                        $paid = DB::table('tpo_paid_off')->insert([
+                            'supplier_id' => $value->supplier_id,
+                            'client_id' => $request->client_id,
+                            'po_number' => $request->po_number,
+                            'po_date' => $request->po_date,
+                            'created_at' => Carbon::now('Asia/Jakarta'),
+                            'created_by' => auth()->user()->email,
+                        ]);
+                    }
+                }
+            } else {
+                $result['status'] = 500;
+                $result['message'] = "Failed updated.";
+            }
 
             $queries = DB::getQueryLog();
             for ($q = 0; $q < count($queries); $q++) {
@@ -274,6 +314,7 @@ class UploadPurchaseOrderController extends Controller
         } catch (Throwable $th) {
             $logs->write("ERROR", $th->getMessage());
 
+            $result['status'] = 500;
             $result['message'] = "Failed updated.<br>" . $th->getMessage();
         }
 

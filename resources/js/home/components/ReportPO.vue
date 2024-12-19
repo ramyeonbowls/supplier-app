@@ -140,13 +140,19 @@
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                 </svg>
-                                                <p class="whitespace-nowrap text-sm">On Process</p>
+                                                <p class="whitespace-nowrap text-sm">Approved</p>
                                             </span>
-                                            <span v-if="row['status'] == '3'" class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                                            <span v-if="row['status'] == '3'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                 </svg>
-                                                <p class="whitespace-nowrap text-sm">Finish</p>
+                                                <p class="whitespace-nowrap text-sm">Belum Lunas</p>
+                                            </span>
+                                            <span v-if="row['status'] == '4'" class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                </svg>
+                                                <p class="whitespace-nowrap text-sm">Lunas</p>
                                             </span>
                                         </td>
                                         <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_amount'] }}</td>
@@ -254,12 +260,12 @@
                                                 <tbody class="divide-y divide-gray-200">
                                                     <tr v-for="(row, key) in detail" :key="key" class="odd:bg-gray-50">
                                                         <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                                            <img :src="row.cover" class="thumbnail rounded-sm" alt="covers" />
+                                                            <img :src="row.cover" class="thumbnail rounded-sm w-10 h-13" alt="covers" />
                                                         </td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ row.book_name }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ row.isbn }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ row.writer }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ row.publisher_desc }}</td>
+                                                        <td class="text-left px-4 py-2 text-gray-700">{{ row.book_name }}</td>
+                                                        <td class="text-left px-4 py-2 text-gray-700">{{ row.isbn }}</td>
+                                                        <td class="text-left px-4 py-2 text-gray-700">{{ row.writer }}</td>
+                                                        <td class="text-left px-4 py-2 text-gray-700">{{ row.publisher_desc }}</td>
                                                         <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.qty }}</td>
                                                         <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.sellprice }}</td>
                                                         <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.nett }}</td>
