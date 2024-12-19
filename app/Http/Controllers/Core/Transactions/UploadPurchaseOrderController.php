@@ -258,7 +258,7 @@ class UploadPurchaseOrderController extends Controller
                 ->where('po_number', $request->po_number)
                 ->where('po_date', $request->po_date)
                 ->update([
-                    'status' => '2'
+                    'status' => '3'
                 ]);
 
             $logs->write("INFO", "Successfully updated");
