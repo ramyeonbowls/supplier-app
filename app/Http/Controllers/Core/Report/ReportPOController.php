@@ -175,7 +175,7 @@ class ReportPOController extends Controller
                         )
                         ->join('tcompany as b', function($join) {
                             $join->on('a.supplier_id', '=', 'b.id')
-                                ->on('b.type', '=', '1');
+                                ->on('b.type', '=', DB::raw("'1'"));
                         })
                         ->leftJoin('tpublisher as c', function($join) {
                             $join->on('a.supplier_id', '=', 'c.client_id') 
