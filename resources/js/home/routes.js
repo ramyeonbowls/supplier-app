@@ -77,12 +77,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "data_po" */ './components/UploadPO.vue'),
         meta: { roles: [0] },
     },
-    {
-        path: '/data-paid-off',
-        name: 'data_paid_off',
-        component: () => import(/* webpackChunkName: "data_paid_off" */ './components/UploadPaidOff.vue'),
-        meta: { roles: [0] },
-    },
 ]
 
 export default routes
