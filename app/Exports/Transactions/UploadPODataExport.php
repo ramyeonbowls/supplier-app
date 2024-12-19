@@ -66,7 +66,7 @@ class UploadPODataExport implements WithCustomStartCell, WithHeadings, WithTitle
                 $event->sheet->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
 
                 $event->sheet
-                    ->styleCells('A1:A5', [
+                    ->styleCells('A1:A4', [
                         'font' => [
                             'bold' => true
                         ],
@@ -83,14 +83,13 @@ class UploadPODataExport implements WithCustomStartCell, WithHeadings, WithTitle
                 $event->sheet->setCellValue('A1', 'CLIENT ID');
                 $event->sheet->setCellValue('A2', 'NO. PO');
                 $event->sheet->setCellValue('A3', 'TANGGAL PO');
-                $event->sheet->setCellValue('A4', 'DISCOUNT PO');
-                $event->sheet->setCellValue('A5', 'PERSENTASE SUPPLIER');
+                $event->sheet->setCellValue('A4', 'PERSENTASE SUPPLIER');
 
                 $event->sheet->getColumnDimension('A')->setWidth(30);
                 $event->sheet->getColumnDimension('B')->setWidth(30);
 
                 $event->sheet
-                    ->styleCells('A1:B5', [
+                    ->styleCells('A1:B4', [
                         'borders' => [
                             'allBorders' => [
                                 'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
