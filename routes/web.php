@@ -84,6 +84,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 });
 
                 Route::apiResource('po-report', ReportPOController::class);
+                Route::prefix('po-report-excel')->group(function() {
+                    Route::post('export-tpl', 'ReportPOController@exportTpl');
+                    Route::post('export-dtl-tpl', 'ReportPOController@exportTplDetail');
+                });
             });
 
             Route::prefix('transactions')->namespace('Transactions')->group(function() {
