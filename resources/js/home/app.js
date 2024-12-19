@@ -25,7 +25,7 @@ import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size
 
 const router = createRouter({
     history: createWebHistory(),
-    linkActiveClass: 'rounded-md bg-amber-300 active:bg-amber-300',
+    linkActiveClass: 'rounded-lg bg-gray-100',
     routes,
 })
 

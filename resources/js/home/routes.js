@@ -48,15 +48,15 @@ const routes = [
         meta: { roles: [0] },
     },
     {
-        path: '/report-supplier',
-        name: 'report_supplier',
-        component: () => import(/* webpackChunkName: "report_supplier" */ './components/ReportSupplier.vue'),
+        path: '/data-supplier',
+        name: 'data_supplier',
+        component: () => import(/* webpackChunkName: "data_supplier" */ './components/ReportSupplier.vue'),
         meta: { roles: [0] },
     },
     {
-        path: '/report-distributor',
-        name: 'report_distributor',
-        component: () => import(/* webpackChunkName: "report_distributor" */ './components/ReportDistributor.vue'),
+        path: '/data-distributor',
+        name: 'data_distributor',
+        component: () => import(/* webpackChunkName: "data_distributor" */ './components/ReportDistributor.vue'),
         meta: { roles: [0] },
     },
     {
@@ -72,9 +72,15 @@ const routes = [
         meta: { roles: [1] },
     },
     {
-        path: '/upload-po',
-        name: 'upload_po',
-        component: () => import(/* webpackChunkName: "upload_po" */ './components/UploadPO.vue'),
+        path: '/data-po',
+        name: 'data_po',
+        component: () => import(/* webpackChunkName: "data_po" */ './components/UploadPO.vue'),
+        meta: { roles: [0] },
+    },
+    {
+        path: '/data-paid-off',
+        name: 'data_paid_off',
+        component: () => import(/* webpackChunkName: "data_paid_off" */ './components/UploadPaidOff.vue'),
         meta: { roles: [0] },
     },
 ]

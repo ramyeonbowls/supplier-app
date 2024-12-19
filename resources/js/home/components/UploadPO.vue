@@ -155,7 +155,7 @@
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_amount'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_nett'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['persentase_supplier'] }} %</td>
-                                                    <td class="flex justify-start whitespace-nowrap border-b border-gray-200 px-4 py-2 gap-2">
+                                                    <td class="flex justify-start gap-2 whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                         <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetail(row)">Detail</a>
                                                         <a v-if="row['status'] == '1'" href="javascript:void(0);" class="download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '2')">Approve</a>
                                                         <a v-if="row['status'] == '2'" href="javascript:void(0);" class="download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '3')">Kirim</a>
@@ -287,12 +287,12 @@
                                                 <tbody class="divide-y divide-gray-200">
                                                     <tr v-for="(row, key) in detail" :key="key" class="odd:bg-gray-50">
                                                         <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                                            <img :src="row.cover" class="thumbnail rounded-sm w-10 h-13" alt="covers" />
+                                                            <img :src="row.cover" class="thumbnail h-13 w-10 rounded-sm" alt="covers" />
                                                         </td>
-                                                        <td class="text-left px-4 py-2 text-gray-700">{{ row.book_name }}</td>
-                                                        <td class="text-left px-4 py-2 text-gray-700">{{ row.isbn }}</td>
-                                                        <td class="text-left px-4 py-2 text-gray-700">{{ row.writer }}</td>
-                                                        <td class="text-left px-4 py-2 text-gray-700">{{ row.publisher_desc }}</td>
+                                                        <td class="px-4 py-2 text-left text-gray-700">{{ row.book_name }}</td>
+                                                        <td class="px-4 py-2 text-left text-gray-700">{{ row.isbn }}</td>
+                                                        <td class="px-4 py-2 text-left text-gray-700">{{ row.writer }}</td>
+                                                        <td class="px-4 py-2 text-left text-gray-700">{{ row.publisher_desc }}</td>
                                                         <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.qty }}</td>
                                                         <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.sellprice }}</td>
                                                         <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.nett }}</td>
@@ -305,7 +305,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:justify-end sm:px-6 sm:gap-2">
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:justify-end sm:gap-2 sm:px-6">
                                 <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Cancel</button>
                             </div>
                         </DialogPanel>
