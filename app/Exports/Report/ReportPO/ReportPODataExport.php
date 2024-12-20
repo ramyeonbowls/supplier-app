@@ -116,7 +116,7 @@ class ReportPODataExport implements WithCustomStartCell, WithEvents
                     )
                     ->join('tcompany as b', function($join) {
                         $join->on('a.supplier_id', '=', 'b.id')
-                            ->on('b.type', '=', '1');
+                            ->on('b.type', '=', DB::raw("'1'"));
                     });
 
                 $detail = DB::table('tpo_detail as a')->sharedLock()
