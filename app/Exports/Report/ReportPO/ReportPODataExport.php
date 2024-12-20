@@ -195,8 +195,8 @@ class ReportPODataExport implements WithCustomStartCell, WithEvents
                     $event->sheet->setCellValue('A'. $row_cell, $value->po_number);
                     $event->sheet->setCellValue('B'. $row_cell, $value->client_name);
                     $event->sheet->setCellValue('C'. $row_cell, $value->supplier_name);
-                    $event->sheet->setCellValue('D'. $row_cell, number_format($value->po_amount, 2, ",", "."));
-                    $event->sheet->setCellValue('E'. $row_cell, number_format($nett, 2, ",", "."));
+                    $event->sheet->setCellValue('D'. $row_cell, $value->po_amount);
+                    $event->sheet->setCellValue('E'. $row_cell, $nett);
                     $event->sheet->setCellValue('F'. $row_cell, $value->persentase_supplier);
                     $event->sheet->setCellValue('G'. $row_cell, $status);
 
@@ -221,8 +221,8 @@ class ReportPODataExport implements WithCustomStartCell, WithEvents
                 $footer_row = $last_row + 1;
 
                 $event->sheet->mergeCells('A'.$footer_row.':C'.$footer_row)->setCellValue('A'.$footer_row, 'Total');
-                $event->sheet->setCellValue('D'.$footer_row, number_format($total_gross, 2, ",", "."));
-                $event->sheet->setCellValue('E'.$footer_row, number_format($total_nett, 2, ",", "."));
+                $event->sheet->setCellValue('D'.$footer_row, $total_gross);
+                $event->sheet->setCellValue('E'.$footer_row, $total_nett);
                 $event->sheet->setCellValue('F'.$footer_row, '');
                 $event->sheet->setCellValue('G'.$footer_row, '');
 

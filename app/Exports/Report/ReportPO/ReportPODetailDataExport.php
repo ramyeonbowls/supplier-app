@@ -250,10 +250,10 @@ class ReportPODetailDataExport implements WithCustomStartCell, WithEvents
                     $event->sheet->setCellValue('D'. $row_cell, $value->writer);
                     $event->sheet->setCellValue('E'. $row_cell, $value->publisher_desc);
                     $event->sheet->setCellValue('F'. $row_cell, $value->qty);
-                    $event->sheet->setCellValue('G'. $row_cell, number_format($value->sellprice, 2, ",", "."));
-                    $event->sheet->setCellValue('H'. $row_cell, number_format($nett, 2, ",", "."));
-                    $event->sheet->setCellValue('I'. $row_cell, number_format($tgross, 2, ",", "."));
-                    $event->sheet->setCellValue('J'. $row_cell, number_format($tnett, 2, ",", "."));
+                    $event->sheet->setCellValue('G'. $row_cell, $value->sellprice);
+                    $event->sheet->setCellValue('H'. $row_cell, $nett);
+                    $event->sheet->setCellValue('I'. $row_cell, $tgross);
+                    $event->sheet->setCellValue('J'. $row_cell, $tnett);
 
                     $total_gross += $tgross;
                     $total_nett += $tnett;
@@ -278,16 +278,16 @@ class ReportPODetailDataExport implements WithCustomStartCell, WithEvents
                     ]);
 
                 $event->sheet->setCellValue('A12', 'Total Penerimaan');
-                $event->sheet->setCellValue('B12', ': '.number_format($total_nett, 2, ",", "."));
+                $event->sheet->setCellValue('B12', ': '.$total_nett);
 
                 $footer_row = $last_row + 1;
 
                 $event->sheet->mergeCells('A'.$footer_row.':E'.$footer_row)->setCellValue('A'.$footer_row, 'Total');
-                $event->sheet->setCellValue('F'.$footer_row, number_format($total_qty, 0, ",", "."));
-                $event->sheet->setCellValue('G'.$footer_row, number_format($total_sellprice, 2, ",", "."));
-                $event->sheet->setCellValue('H'.$footer_row, number_format($total_netts, 2, ",", "."));
-                $event->sheet->setCellValue('I'.$footer_row, number_format($total_gross, 2, ",", "."));
-                $event->sheet->setCellValue('J'.$footer_row, number_format($total_nett, 2, ",", "."));
+                $event->sheet->setCellValue('F'.$footer_row, $total_qty);
+                $event->sheet->setCellValue('G'.$footer_row, $total_sellprice);
+                $event->sheet->setCellValue('H'.$footer_row, $total_netts);
+                $event->sheet->setCellValue('I'.$footer_row, $total_gross);
+                $event->sheet->setCellValue('J'.$footer_row, $total_nett);
 
                 $event->sheet
                     ->styleCells('A'.$footer_row.':J'.$footer_row, [
