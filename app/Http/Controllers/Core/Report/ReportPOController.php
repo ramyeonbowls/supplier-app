@@ -83,7 +83,7 @@ class ReportPOController extends Controller
                     'a.po_number as po_number',
                     'a.po_date as po_date',
                     'a.po_type as po_type',
-                    DB::raw('sum(c.sellprice) as po_amount'),
+                    DB::raw('sum(c.sellprice * c.qty) as po_amount'),
                     'a.po_discount as po_discount',
                     'a.persentase_supplier as persentase_supplier',
                     'a.status as status',
