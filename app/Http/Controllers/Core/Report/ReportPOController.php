@@ -72,15 +72,15 @@ class ReportPOController extends Controller
                     'c.status as status',
                     'c.payment_image as payment_image'
                 )
+                ->joinSub($tbook, 'b', function($join) {
+                    $join->on('a.book_id', '=', 'b.book_id');
+                })
                 ->join('tpo_paid_off as c', function($join) {
 					$join->on('a.client_id', '=', 'c.client_id')
                         ->on('b.supplier_id', '=', 'c.supplier_id')
                         ->on('a.po_number', '=', 'c.po_number')
                         ->on('a.po_date', '=', 'c.po_date');
-				})
-                ->joinSub($tbook, 'b', function($join) {
-                    $join->on('a.book_id', '=', 'b.book_id');
-                });
+				});
 
             $results = DB::table('tpo_header as a')->sharedLock()
                 ->select(
@@ -105,8 +105,8 @@ class ReportPOController extends Controller
                         ->on('a.po_number', '=', 'c.po_number')
                         ->on('a.po_date', '=', 'c.po_date');
 				})
-                // ->where('c.supplier_id', auth()->user()->client_id)
-                // ->whereIn('a.status', ['3', '4'])
+                ->where('c.supplier_id', auth()->user()->client_id)
+                ->whereIn('a.status', ['3', '4'])
                 ->groupBy(
                     'a.client_id',
                     'b.instansi_name',
@@ -117,7 +117,9 @@ class ReportPOController extends Controller
                     'a.po_type',
                     'a.po_discount',
                     'a.persentase_supplier',
-                    'a.status'
+                    'a.status',
+                    DB::raw("CASE WHEN c.status != '' THEN c.status ELSE a.status END"),
+                    'c.payment_image'
                 )
                 ->get();
 
