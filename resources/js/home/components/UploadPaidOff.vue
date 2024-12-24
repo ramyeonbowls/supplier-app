@@ -499,6 +499,7 @@ export default {
                 .get('/transactions/po-paid/x0y0z0', {
                     params: {
                         param: 'detail-po',
+                        supplier: row.supplier_id,
                         client: row.client_id,
                         ponumber: row.po_number,
                         podate: row.po_date,
