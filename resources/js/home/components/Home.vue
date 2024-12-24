@@ -16,24 +16,24 @@
                 <template v-if="user.role === 0">
                     <div class="mt-2 grid grid-cols-12 gap-4">
                         <div class="col-span-6 sm:col-span-3">
-                            <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+                            <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
                                 <span class="rounded-full bg-sky-100 p-3 text-sky-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                                     </svg>
                                 </span>
 
                                 <div>
-                                    <p class="text-2xl font-medium text-gray-900">{{ dashboard.books }}</p>
+                                    <p class="text-1xl sm:text-2xl font-medium text-gray-900">{{ dashboard.books }}</p>
 
                                     <p class="text-sm text-gray-500">Total Buku</p>
                                 </div>
                             </article>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                            <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+                            <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
                                 <span class="rounded-full bg-emerald-100 p-3 text-emerald-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -43,37 +43,37 @@
                                 </span>
 
                                 <div>
-                                    <p class="text-2xl font-medium text-gray-900">{{ dashboard.client }}</p>
+                                    <p class="text-1xl sm:text-2xl font-medium text-gray-900">{{ dashboard.client }}</p>
 
                                     <p class="text-sm text-gray-500">Total Client</p>
                                 </div>
                             </article>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                            <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+                            <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
                                 <span class="rounded-full bg-orange-100 p-3 text-orange-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 sm:size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
                                     </svg>
                                 </span>
 
                                 <div>
-                                    <p class="text-2xl font-medium text-gray-900">{{ dashboard.supplier }}</p>
+                                    <p class="text-1xl sm:text-2xl font-medium text-gray-900">{{ dashboard.supplier }}</p>
 
                                     <p class="text-sm text-gray-500">Total Supplier</p>
                                 </div>
                             </article>
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                            <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+                            <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
                                 <span class="rounded-full bg-amber-100 p-3 text-amber-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 sm:size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
                                     </svg>
                                 </span>
 
                                 <div>
-                                    <p class="text-2xl font-medium text-gray-900">{{ dashboard.distributor }}</p>
+                                    <p class="text-1xl sm:text-2xl font-medium text-gray-900">{{ dashboard.distributor }}</p>
 
                                     <p class="text-sm text-gray-500">Total Distributor</p>
                                 </div>
