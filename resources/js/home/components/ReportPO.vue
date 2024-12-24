@@ -162,8 +162,9 @@
                                         <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_amount'] }}</td>
                                         <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_nett'] }}</td>
                                         <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['persentase_supplier'] }} %</td>
-                                        <td class="flex justify-center whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                        <td class="flex justify-start gap-2 whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                             <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetail(row)">Detail</a>
+                                            <a v-if="row['payment_image'] != ''" href="javascript:void(0);" class="download-link inline-block rounded border border-teal-600 bg-teal-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-teal-600 focus:outline-none focus:ring active:text-teal-500" @click="showImages(row['payment_image'])">Lihat</a>
                                         </td>
                                     </tr>
                                 </template>
@@ -227,6 +228,36 @@
         </div>
     </div>
 
+    <TransitionRoot as="template" :show="open_images">
+        <Dialog class="relative z-50" @close="open_images = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" :style="{ width: 'auto', maxWidth: '100%' }">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-center">
+                                    <div class="text-center sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Bukti Pembayaran</DialogTitle>
+                                        <div class="mt-2 flex justify-center p-1">
+                                            <img :src="form.image_url" class="rounded-lg shadow-md" :style="{ height: '28.125rem', width: '18.75rem' }" alt="Preview" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_images = false">Close</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+
     <TransitionRoot as="template" :show="open">
         <Dialog class="relative z-50" @close="open = false">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
@@ -234,7 +265,7 @@
             </TransitionChild>
 
             <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
-                <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="text-items-start flex min-h-full items-start justify-items-start p-4 sm:items-start sm:p-0">
                     <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                         <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-[100rem]">
                             <div class="w-[300rem] bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
@@ -243,41 +274,71 @@
                                         <InformationCircleIcon class="h-6 w-6 text-emerald-600" aria-hidden="true" />
                                     </div>
                                     <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
-                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Detail PO : {{ header_detail.po_number }}</DialogTitle>
-                                        <div class="mt-2 h-[60vh] w-[190vh] overflow-scroll p-1">
-                                            <table class="max-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                                                <thead class="ltr:text-left rtl:text-right">
-                                                    <tr>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Cover</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Judul</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ISBN / EISBN</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Penulis</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Penerbit</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Qty</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Harga</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Netto ({{ header_detail.persentase_supplier }}%)</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Total Harga</th>
-                                                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Total Netto</th>
-                                                    </tr>
-                                                </thead>
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">{{ header_detail.po_number }}</DialogTitle>
+                                        <div class="mt-2 h-[60vh] w-[82vh] overflow-scroll p-1 sm:h-[65vh] sm:w-[190vh]">
+                                            <div class="overflow-x-auto">
+                                                <table class="divide-y-2 divide-gray-200 bg-white text-sm">
+                                                    <thead class="ltr:text-left rtl:text-right">
+                                                        <tr>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">COVER</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">JUDUL</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">ISBN / EISBN</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">PENULIS</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">PENERBIT</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">QTY</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">HARGA</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">NETTO ({{ header_detail.persentase_supplier }}%)</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">TOTAL HARGA</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">TOTAL NETTO</th>
+                                                        </tr>
+                                                    </thead>
 
-                                                <tbody class="divide-y divide-gray-200">
-                                                    <tr v-for="(row, key) in detail" :key="key" class="odd:bg-gray-50">
-                                                        <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                                            <img :src="row.cover" class="thumbnail h-13 w-10 rounded-sm" alt="covers" />
-                                                        </td>
-                                                        <td class="px-4 py-2 text-left text-gray-700">{{ row.book_name }}</td>
-                                                        <td class="px-4 py-2 text-left text-gray-700">{{ row.isbn }}</td>
-                                                        <td class="px-4 py-2 text-left text-gray-700">{{ row.writer }}</td>
-                                                        <td class="px-4 py-2 text-left text-gray-700">{{ row.publisher_desc }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.qty }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.sellprice }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.nett }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.total_gross }}</td>
-                                                        <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.total_nett }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                    <tbody class="divide-y divide-gray-200">
+                                                        <tr v-for="(row, key) in detail" :key="key" class="odd:bg-gray-50">
+                                                            <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                                                <img :src="row.cover" class="thumbnail h-13 w-10 rounded-sm" alt="covers" />
+                                                            </td>
+                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.book_name }}</td>
+                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.isbn }}</td>
+                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.writer }}</td>
+                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.publisher_desc }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.qty }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.sellprice }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.nett }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.total_gross }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.total_nett }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
+                                                <div class="mt-6 grow sm:mt-8 lg:mt-0">
+                                                    <div class="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
+                                                        <div class="grid grid-cols-1 gap-1 lg:grid-cols-3 lg:gap-8">
+                                                            <div></div>
+                                                            <div></div>
+                                                            <div>
+                                                                <div class="space-y-1">
+                                                                    <dl class="flex items-center justify-between gap-4">
+                                                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
+                                                                        <dd class="text-base font-medium text-gray-900 dark:text-white">{{ header_detail.po_amount }}</dd>
+                                                                    </dl>
+
+                                                                    <dl class="flex items-center justify-between gap-4">
+                                                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Supplier %</dt>
+                                                                        <dd class="text-base font-medium text-gray-900">{{ header_detail.persentase_supplier }}</dd>
+                                                                    </dl>
+                                                                </div>
+
+                                                                <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                                                    <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                                                                    <dd class="text-base font-bold text-gray-900 dark:text-white">{{ header_detail.po_nett }}</dd>
+                                                                </dl>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -312,6 +373,7 @@ export default {
     data() {
         return {
             open: false,
+            open_images: false,
             headers: [
                 { label: 'SUPPLIER', key: 'supplier_name' },
                 { label: 'NAMA INSTANSI', key: 'client_name' },
@@ -332,6 +394,10 @@ export default {
             sortKey: '',
             sortAsc: true,
             perPageOptions: [5, 10, 15, 20, 25, 50],
+
+            form: {
+                image_url: '',
+            },
         }
     },
 
@@ -429,6 +495,11 @@ export default {
                 .catch((e) => {
                     console.error(e)
                 })
+        },
+
+        showImages(file) {
+            this.form.image_url = file
+            this.open_images = true
         },
 
         sortBy(header) {

@@ -110,6 +110,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     Route::post('upload', 'UploadPurchaseOrderController@uploadExcel');
                     Route::post('export-tpl', 'UploadPurchaseOrderController@exportTpl');
                 });
+
+                Route::apiResource('po-paid', UploadPaidOffController::class);
             });
         });
     });

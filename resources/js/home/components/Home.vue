@@ -24,7 +24,7 @@
                                 </span>
 
                                 <div>
-                                    <p class="text-1xl sm:text-2xl font-medium text-gray-900">{{ dashboard.books }}</p>
+                                    <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.books }}</p>
 
                                     <p class="text-sm text-gray-500">Total Buku</p>
                                 </div>
@@ -43,7 +43,7 @@
                                 </span>
 
                                 <div>
-                                    <p class="text-1xl sm:text-2xl font-medium text-gray-900">{{ dashboard.client }}</p>
+                                    <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.client }}</p>
 
                                     <p class="text-sm text-gray-500">Total Client</p>
                                 </div>
@@ -58,7 +58,7 @@
                                 </span>
 
                                 <div>
-                                    <p class="text-1xl sm:text-2xl font-medium text-gray-900">{{ dashboard.supplier }}</p>
+                                    <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.supplier }}</p>
 
                                     <p class="text-sm text-gray-500">Total Supplier</p>
                                 </div>
@@ -73,7 +73,7 @@
                                 </span>
 
                                 <div>
-                                    <p class="text-1xl sm:text-2xl font-medium text-gray-900">{{ dashboard.distributor }}</p>
+                                    <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.distributor }}</p>
 
                                     <p class="text-sm text-gray-500">Total Distributor</p>
                                 </div>

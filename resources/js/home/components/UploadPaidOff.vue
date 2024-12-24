@@ -4,33 +4,7 @@
             <div class="flex justify-between">
                 <div class="button-nav flex gap-2">
                     <template v-if="form.data">
-                        <!-- <button class="group relative inline-flex items-center overflow-hidden rounded bg-cyan-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-cyan-500" @click.prevent="submit">
-                            <span class="absolute -start-full transition-all group-hover:start-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                                </svg>
-                            </span>
-
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Kirim ke Supplier </span>
-                        </button> -->
-                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-indigo-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click="onUpload">
-                            <span class="absolute -start-full transition-all group-hover:start-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
-                                </svg>
-                            </span>
-
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Upload PO </span>
-                        </button>
-                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="exportTpl">
-                            <span class="absolute -start-full transition-all group-hover:start-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                            </span>
-
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Download Template </span>
-                        </button>
+                        <p class="group relative inline-flex items-center overflow-hidden rounded px-8 py-3 text-white"></p>
                     </template>
                     <template v-if="form.upload">
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click.prevent="submit">
@@ -85,9 +59,6 @@
                                     <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                         <thead class="bg-slate-300 text-left">
                                             <tr>
-                                                <!-- <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
-                                                    <input type="checkbox" id="selectAll" @change="selectAll" v-model="isAllChecked" class="size-5 rounded border-gray-300" />
-                                                </th> -->
                                                 <th v-for="header in headers" @click="sortBy(header)" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
                                                     {{ header.label }}
                                                 </th>
@@ -98,9 +69,7 @@
                                         <tbody class="divide-y divide-gray-200">
                                             <template v-if="paginatedData.length > 0">
                                                 <tr v-for="row in paginatedData" class="even:bg-gray-50 hover:bg-gray-100">
-                                                    <!-- <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                        <input type="checkbox" v-model="selectedRows" :value="row" class="size-5 rounded border-gray-300" />
-                                                    </td> -->
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 font-medium text-gray-900">{{ row['supplier_name'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 font-medium text-gray-900">{{ row['client_name'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row['po_number'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row['po_date'] }}</td>
@@ -157,8 +126,8 @@
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['persentase_supplier'] }} %</td>
                                                     <td class="flex justify-start gap-2 whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                         <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetail(row)">Detail</a>
-                                                        <a v-if="row['status'] == '1'" href="javascript:void(0);" class="download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '2')">Approve</a>
-                                                        <a v-if="row['status'] == '2'" href="javascript:void(0);" class="download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '3')">Kirim</a>
+                                                        <a v-if="row['status'] != '4'" href="javascript:void(0);" class="download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="onUpload(row)">Upload</a>
+                                                        <a v-if="row['payment_image'] != ''" href="javascript:void(0);" class="download-link inline-block rounded border border-teal-600 bg-teal-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-teal-600 focus:outline-none focus:ring active:text-teal-500" @click="showImages(row['payment_image'])">Lihat</a>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -224,20 +193,82 @@
                         <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
                             <form @submit.prevent="handleSubmit($event, submit)">
                                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
-                                    <div class="h-32 rounded-md border p-2 font-[sans-serif] shadow-sm">
+                                    <a href="#" class="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+                                        <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+
+                                        <div class="sm:flex sm:justify-between sm:gap-4">
+                                            <div>
+                                                <h3 class="text-lg font-bold text-gray-900 sm:text-xl">{{ form.field.detail.po_number }}</h3>
+
+                                                <p class="mt-1 text-xs font-medium text-gray-600">{{ form.field.detail.client_name }}</p>
+                                            </div>
+
+                                            <div class="hidden sm:block sm:shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10">
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <div class="lg:flex lg:items-start lg:gap-12">
+                                                <div class="grow lg:mt-0">
+                                                    <div class="space-y-4 rounded-lg">
+                                                        <div class="space-y-1">
+                                                            <dl class="flex items-center justify-between gap-4">
+                                                                <dt class="text-pretty text-sm font-bold text-gray-900 dark:text-gray-400">{{ form.field.detail.supplier_name }}</dt>
+                                                                <dd class="text-pretty text-sm font-medium text-gray-900 dark:text-white"></dd>
+                                                            </dl>
+
+                                                            <dl class="flex items-center justify-between gap-4">
+                                                                <dt class="text-pretty text-sm font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
+                                                                <dd class="text-pretty text-sm font-medium text-gray-900 dark:text-white">{{ form.field.detail.po_amount }}</dd>
+                                                            </dl>
+
+                                                            <dl class="flex items-center justify-between gap-4">
+                                                                <dt class="text-pretty text-sm font-normal text-gray-500 dark:text-gray-400">Supplier %</dt>
+                                                                <dd class="text-pretty text-sm font-medium text-gray-900">{{ form.field.detail.persentase_supplier }}</dd>
+                                                            </dl>
+                                                        </div>
+
+                                                        <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                                            <dt class="text-pretty text-sm font-bold text-gray-900 dark:text-white">Total</dt>
+                                                            <dd class="text-pretty text-sm font-bold text-gray-900 dark:text-white">{{ form.field.detail.po_nett }}</dd>
+                                                        </dl>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <dl class="mt-6 flex gap-4 sm:gap-6">
+                                            <div class="flex flex-col-reverse">
+                                                <dt class="text-sm font-medium text-gray-600">{{ form.field.detail.po_date }}</dt>
+                                                <dd class="text-xs text-gray-500">Tanggal</dd>
+                                            </div>
+
+                                            <div class="flex flex-col-reverse">
+                                                <dt class="text-sm font-medium text-gray-600">{{ form.field.detail.status == '3' ? 'Belum Lunas' : 'Butuh Approval' }}</dt>
+                                                <dd class="text-xs text-gray-500">Status</dd>
+                                            </div>
+                                        </dl>
+                                    </a>
+                                    <div class="rounded-md border p-2 font-[sans-serif] shadow-sm">
                                         <file-pond
-                                            name="excel"
-                                            ref="excel"
-                                            label-idle='<div class="flex justify-center gap-1 items-center"><div class="p-3 items-center"><svg class="size-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/></svg></div><div>Upload file Excel (.xlsx)...</div></div>'
+                                            name="images"
+                                            ref="images"
+                                            label-idle='<div class="flex justify-center gap-1 items-center"><div class="p-3 items-center"><svg class="size-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/></svg></div><div>Upload file Bukti Transfer (.jpg,.png,jpeg)...</div></div>'
                                             :allow-multiple="false"
-                                            accepted-file-types="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                                            label-file-type-not-allowed="Hanya file .xlsx yang diperbolehkan."
-                                            file-validate-type-label-expected-types="Memerlukan file Excel (.xlsx)"
-                                            max-file-size="300MB"
+                                            accepted-file-types="image/jpeg, image/png, image/jpg"
+                                            label-file-type-not-allowed="Hanya file (.jpg,.png,jpeg) yang diperbolehkan."
+                                            file-validate-type-label-expected-types="Memerlukan file Bukti Transfer (.jpg,.png,jpeg)"
+                                            max-file-size="1MB"
                                             v-on:init="handleFilePondInit"
                                             credits="false"
-                                            v-on:updatefiles="onChangeExcel"
-                                            style-class="custom-filepond"
+                                            v-on:updatefiles="onChangeImages"
                                         />
                                         <dt class="text-xs font-medium text-slate-500"><span class="text-red-500">*</span> Hanya file (<span class="text-red-500">.xlsx</span>) yang diperbolehkan.</dt>
                                     </div>
@@ -249,6 +280,36 @@
             </div>
         </div>
     </div>
+
+    <TransitionRoot as="template" :show="open_images">
+        <Dialog class="relative z-50" @close="open_images = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" :style="{ width: 'auto', maxWidth: '100%' }">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-center">
+                                    <div class="text-center sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Bukti Pembayaran</DialogTitle>
+                                        <div class="mt-2 flex justify-center p-1">
+                                            <img :src="form.image_url" class="rounded-lg shadow-md" :style="{ height: '28.125rem', width: '18.75rem' }" alt="Preview" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_images = false">Close</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
 
     <TransitionRoot as="template" :show="open">
         <Dialog class="relative z-50" @close="open = false">
@@ -266,7 +327,7 @@
                                         <InformationCircleIcon class="h-6 w-6 text-emerald-600" aria-hidden="true" />
                                     </div>
                                     <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
-                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Detail PO : {{ header_detail.po_number }}</DialogTitle>
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Detail {{ header_detail.po_number }}</DialogTitle>
                                         <div class="mt-2 h-[60vh] w-[82vh] overflow-scroll p-1 sm:h-[65vh] sm:w-[190vh]">
                                             <div class="overflow-x-auto">
                                                 <table class="divide-y-2 divide-gray-200 bg-white text-sm">
@@ -368,7 +429,9 @@ export default {
     data() {
         return {
             open: false,
+            open_images: false,
             headers: [
+                { label: 'SUPPLIER', key: 'supplier_name' },
                 { label: 'NAMA INSTANSI', key: 'client_name' },
                 { label: 'NO. PO', key: 'po_number' },
                 { label: 'TANGGAL PO', key: 'po_date' },
@@ -395,8 +458,11 @@ export default {
                 data: true,
                 upload: false,
 
+                image_url: '',
+
                 field: {
-                    excel: '',
+                    detail: [],
+                    images: '',
                 },
 
                 submitted: false,
@@ -414,7 +480,7 @@ export default {
 
             let loader = this.$loading.show()
             window.axios
-                .get('/transactions/po-upload')
+                .get('/transactions/po-paid')
                 .then((response) => {
                     this.data = response.data.data
                     loader.hide()
@@ -430,7 +496,7 @@ export default {
             this.header_detail = []
 
             window.axios
-                .get('/transactions/po-upload/x0y0z0', {
+                .get('/transactions/po-paid/x0y0z0', {
                     params: {
                         param: 'detail-po',
                         client: row.client_id,
@@ -450,15 +516,23 @@ export default {
 
         clearForm() {
             this.form.submitted = false
-            this.form.field.excel = ''
-            this.$refs.excel.removeFiles()
+            this.form.field.images = ''
+            this.form.field.detail = []
+            this.$refs.images.removeFiles()
         },
 
-        onUpload() {
+        showImages(file) {
+            this.form.image_url = file
+            this.open_images = true
+        },
+
+        onUpload(row) {
             this.form.data = false
             this.form.upload = true
 
             this.clearForm()
+
+            this.form.field.detail = row
         },
 
         cancel() {
@@ -472,12 +546,12 @@ export default {
 
         handleFilePondInit: function () {},
 
-        onChangeExcel() {
-            const files = this.$refs.excel.getFiles()
+        onChangeImages() {
+            const files = this.$refs.images.getFiles()
             if (files.length > 0) {
-                this.form.field.excel = files[0].file
+                this.form.field.images = files[0].file
             } else {
-                this.form.field.excel = null
+                this.form.field.images = null
             }
         },
 
@@ -492,24 +566,20 @@ export default {
                         let loader = this.$loading.show()
 
                         let form_data = new FormData()
-                        form_data.append('file_master', this.form.field.excel)
+                        Object.keys(this.form.field.detail).forEach((value) => {
+                            form_data.append(value, this.form.field.detail[value])
+                        })
+                        form_data.append('file_images', this.form.field.images)
 
                         window.axios
-                            .post('/transactions/po-upload-excel/upload?menu=' + this.$route.name, form_data)
+                            .post('/transactions/po-paid?menu=' + this.$route.name, form_data)
                             .then((response) => {
                                 loader.hide()
-
-                                if (response.data.message.length > 0) {
-                                    response.data.message.forEach((element) => {
-                                        this.$notyf.success(element)
-                                    })
-                                }
-
+                                this.$notyf.success(response.data)
                                 this.cancel()
                             })
                             .catch((e) => {
                                 this.form.submitted = false
-                                this.clearForm()
                                 loader.hide()
 
                                 if (e.response && e.response.data && e.response.data.message) {
@@ -521,52 +591,6 @@ export default {
                     }
                 })
             }
-        },
-
-        sendSupplier(row, status) {
-            if (!this.form.submitted) {
-                this.form.submitted = true
-                let loader = this.$loading.show()
-
-                window.axios
-                    .put('/transactions/po-upload/' + status + '?menu=' + this.$route.name, row)
-                    .then((response) => {
-                        loader.hide()
-                        this.form.submitted = false
-                        this.cancel()
-                    })
-                    .catch((e) => {
-                        this.form.submitted = false
-                        this.clearForm()
-                        loader.hide()
-
-                        if (e.response && e.response.data && e.response.data.message) {
-                            this.$notyf.error(e.response.data.message)
-                        } else {
-                            this.$notyf.error(e.message || 'An error occurred.')
-                        }
-                    })
-            }
-        },
-
-        async exportTpl(filename) {
-            await window
-                .axios({
-                    url: '/transactions/po-upload-excel/export-tpl',
-                    method: 'POST',
-                    responseType: 'blob',
-                })
-                .then((response) => {
-                    const url = window.URL.createObjectURL(new Blob([response.data]))
-                    const link = document.createElement('a')
-                    link.href = url
-                    link.setAttribute('download', 'upload_data_po.xlsx')
-                    document.body.appendChild(link)
-                    link.click()
-                })
-                .catch((e) => {
-                    console.log(e.response.data)
-                })
         },
 
         goToPage(page) {

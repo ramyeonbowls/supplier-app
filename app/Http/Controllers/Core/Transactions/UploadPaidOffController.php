@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Core\Report;
+namespace App\Http\Controllers\Core\Transactions;
 
 use Exception;
 use File;
 use Throwable;
 use App\Logs;
-use App\Exports\Report\ReportPO\ReportPOExport;
-use App\Exports\Report\ReportPO\ReportPODetailExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Transaction\UploadPaidOffRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -22,7 +21,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Yajra\DataTables\Facades\DataTables;
 
-class ReportPOController extends Controller
+class UploadPaidOffController extends Controller
 {
     /**
      * Instantiate a new controller instance.
@@ -105,8 +104,6 @@ class ReportPOController extends Controller
                         ->on('a.po_number', '=', 'c.po_number')
                         ->on('a.po_date', '=', 'c.po_date');
 				})
-                // ->where('c.supplier_id', auth()->user()->client_id)
-                // ->whereIn('a.status', ['3', '4'])
                 ->groupBy(
                     'a.client_id',
                     'b.instansi_name',
@@ -151,12 +148,72 @@ class ReportPOController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  UploadPaidOffRequest  $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(UploadPaidOffRequest $request): JsonResponse
     {
-        return response()->json(['request' => $request], 200);
+        $validated = $request->validated();
+
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $result['status'] = 200;
+        $result['message'] = '';
+        try {
+            DB::enableQueryLog();
+
+            $inv_folder = storage_path('app/public/images/invoice');
+
+            if (!File::exists($inv_folder)) {
+                File::makeDirectory($inv_folder, 0777, true);
+            }
+            
+            if ($request->hasFile('file_images')) {
+                try {
+                    $images = $request->file('file_images')->getClientOriginalName();
+                    $extension = $request->file('file_images')->getClientOriginalExtension();
+                    $images_name = request()->client_id . '-' . request()->supplier_id . '-' . request()->po_number . '-' . request()->po_date . '.' . $extension;
+                    $request->file('file_images')->move(public_path('/storage/images/invoice'), $images_name);
+
+                    $validated['file_images'] = '/storage/images/invoice/'. $images_name;
+                } catch (Throwable $th) {
+                    $logs->write("ERROR", $th->getMessage());
+                }
+            }
+
+            $data = (object)$validated;
+
+            $created = DB::table('tpo_paid_off')
+                ->where('client_id', $data->client_id)
+                ->where('supplier_id', $data->supplier_id)
+                ->where('po_number', $data->po_number)
+                ->where('po_date', $data->po_date)
+                ->update([
+                    'status' => '4',
+                    'payment_image' => $data->file_images
+                ]);
+
+            if ($created) {
+                $logs->write("INFO", "Successfully upload bukti pembayaran");
+
+                $result['status'] = 201;
+                $result['message'] = "Successfully upload bukti pembayaran.";
+            }
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $queries[$q]['query']);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+
+            $result['message'] = "Failed upload bukti pembayaran.<br>" . $th->getMessage();
+        }
+        $logs->write(__FUNCTION__, "STOP\r\n");
+
+        return response()->json($result['message'], $result['status']);
     }
 
     /**
@@ -191,7 +248,7 @@ class ReportPOController extends Controller
                         })
                         ->leftJoin('tpublisher as c', function($join) {
                             $join->on('a.supplier_id', '=', 'c.client_id') 
-                                ->on('a.publisher_id', '=', 'c.id') ;
+                                ->on('a.publisher_id', '=', 'c.id');
                         });
 
                     $detail = DB::table('tpo_header as a')->sharedLock()
@@ -282,42 +339,17 @@ class ReportPOController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param string $id
-     * @return JsonResponse
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(Request $request, string $id)
     {
-        return response()->json(['request' => $request, 'id' => $id], 200);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  string  $id
-     * @return JsonResponse
      */
-    public function destroy(string $id): JsonResponse
+    public function destroy(string $id)
     {
-        return response()->json(['id' => $id], 200);
-    }
-
-    /**
-     * @param Request $request
-     * @return BinaryFileResponse
-     */
-    public function exportTpl(Request $request): BinaryFileResponse
-    {
-        return Excel::download(new ReportPOExport(), 'laporan_penjualan_supplier.xlsx');
-    }
-
-    /**
-     * @param Request $request
-     * @return BinaryFileResponse
-     */
-    public function exportTplDetail(Request $request): BinaryFileResponse
-    {
-        return Excel::download(new ReportPODetailExport($request->data), 'laporan_penjualan_supplier.xlsx');
+        //
     }
 }
