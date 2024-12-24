@@ -128,10 +128,18 @@ class ReportPODataExport implements WithCustomStartCell, WithEvents
                         'b.name as supplier_name',
                         'a.book_id as book_id',
                         'a.qty as qty',
-                        'a.sellprice as sellprice'
+                        'a.sellprice as sellprice',
+                        'c.status as status',
+                        'c.payment_image as payment_image'
                     )
                     ->joinSub($tbook, 'b', function($join) {
                         $join->on('a.book_id', '=', 'b.book_id');
+                    })
+                    ->join('tpo_paid_off as c', function($join) {
+                        $join->on('a.client_id', '=', 'c.client_id')
+                            ->on('b.supplier_id', '=', 'c.supplier_id')
+                            ->on('a.po_number', '=', 'c.po_number')
+                            ->on('a.po_date', '=', 'c.po_date');
                     });
 
                 $data = DB::table('tpo_header as a')->sharedLock()
@@ -146,7 +154,8 @@ class ReportPODataExport implements WithCustomStartCell, WithEvents
                         DB::raw('sum(c.sellprice * c.qty) as po_amount'),
                         'a.po_discount as po_discount',
                         'a.persentase_supplier as persentase_supplier',
-                        'a.status as status',
+                        DB::raw("CASE WHEN c.status != '' THEN c.status ELSE a.status END as status"),
+                        'c.payment_image as payment_image'
                     )
                     ->join('tclient as b', function($join) {
                         $join->on('a.client_id', '=', 'b.client_id');
@@ -168,7 +177,9 @@ class ReportPODataExport implements WithCustomStartCell, WithEvents
                         'a.po_type',
                         'a.po_discount',
                         'a.persentase_supplier',
-                        'a.status'
+                        'a.status',
+                        DB::raw("CASE WHEN c.status != '' THEN c.status ELSE a.status END"),
+                        'c.payment_image'
                     )
                     ->get();
 
