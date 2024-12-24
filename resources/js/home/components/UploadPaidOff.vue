@@ -270,7 +270,7 @@
                                             credits="false"
                                             v-on:updatefiles="onChangeImages"
                                         />
-                                        <dt class="text-xs font-medium text-slate-500"><span class="text-red-500">*</span> Hanya file (<span class="text-red-500">.xlsx</span>) yang diperbolehkan.</dt>
+                                        <dt class="text-xs font-medium text-slate-500"><span class="text-red-500">*</span> Hanya file (<span class="text-red-500">.jpg,.png,jpeg</span>) yang diperbolehkan.</dt>
                                     </div>
                                 </div>
                             </form>
