@@ -24,6 +24,7 @@ export default {
     require('@tailwindcss/container-queries'),
     require('flowbite/plugin')({
       datatables: true,
+      charts: true,
     }),
   ],
 }

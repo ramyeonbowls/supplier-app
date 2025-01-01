@@ -458,6 +458,8 @@ class ProfileCompanyController extends Controller
                     $client = DB::table('tclient as a')->where('a.flag_appr', 'Y')->count();
                     $supplier = DB::table('tcompany as a')->where('a.type', '1')->count();
                     $distributor = DB::table('tcompany as a')->where('a.type', '2')->count();
+                    $publish = DB::table('tbook_draft as a')->where('a.status', '3')->count();
+                    $review = DB::table('tbook_draft as a')->where('a.status', '2')->count();
 
                     $queries = DB::getQueryLog();
                     for ($q = 0; $q < count($queries); $q++) {
@@ -470,6 +472,150 @@ class ProfileCompanyController extends Controller
                     $results['client'] = $client;
                     $results['supplier'] = $supplier;
                     $results['distributor'] = $distributor;
+                    $results['publish'] = $publish;
+                    $results['review'] = $review;
+
+                    return response()->json($results, 200);
+                break;
+
+                case 'dashboard-admin-1':
+                    DB::enableQueryLog();
+
+                    $filters = request()->periode ?? Carbon::now('Asia/Jakarta')->format('Y');
+
+                    $months = [
+                        1 => 'Januari',
+                        2 => 'Februari',
+                        3 => 'Maret',
+                        4 => 'April',
+                        5 => 'Mei',
+                        6 => 'Juni',
+                        7 => 'Juli',
+                        8 => 'Agustus',
+                        9 => 'September',
+                        10 => 'Oktober',
+                        11 => 'November',
+                        12 => 'Desember'
+                    ];
+
+                    $totals = DB::table('tbook_draft as a')->where('a.createdate', 'like', $filters . '%')->count();
+
+                    $total = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $total[$months[$i]] = DB::table('tbook_draft as a')
+                            ->where('a.createdate', 'like', $filters . '-' . $month . '%')
+                            ->count();
+                    }
+
+                    $publish = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $publish[$months[$i]] = DB::table('tbook_draft as a')
+                            ->where('a.createdate', 'like', $filters . '-' . $month . '%')
+                            ->where('a.status', '3')
+                            ->count();
+                    }
+
+                    $review = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $review[$months[$i]] = DB::table('tbook_draft as a')
+                            ->where('a.createdate', 'like', $filters . '-' . $month . '%')
+                            ->where('a.status', '2')
+                            ->count();
+                    }
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results['totals'] = $totals;
+                    $results['total'] = $total;
+                    $results['publish'] = $publish;
+                    $results['review'] = $review;
+
+                    return response()->json($results, 200);
+                break;
+
+                case 'dashboard-admin-2':
+                    DB::enableQueryLog();
+
+                    $filters = request()->periode ?? Carbon::now('Asia/Jakarta')->format('Y');
+
+                    $months = [
+                        1 => 'Januari',
+                        2 => 'Februari',
+                        3 => 'Maret',
+                        4 => 'April',
+                        5 => 'Mei',
+                        6 => 'Juni',
+                        7 => 'Juli',
+                        8 => 'Agustus',
+                        9 => 'September',
+                        10 => 'Oktober',
+                        11 => 'November',
+                        12 => 'Desember'
+                    ];
+
+                    $totals = DB::table('tpo_header as a')
+                        ->select(DB::raw('sum(b.sellprice * b.qty) as po_amount'))
+                        ->join('tpo_detail as b', function($join) {
+                            $join->on('a.client_id', '=', 'b.client_id')
+                                ->on('a.po_number', '=', 'b.po_number')
+                                ->on('a.po_date', '=', 'b.po_date');
+                        })
+                        ->whereIn('a.status', ['2', '3', '4'])
+                        ->where('a.po_date', 'like', $filters . '%')
+                        ->first();
+
+                    $gross = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $sqlGross = DB::table('tpo_header as a')
+                            ->select(DB::raw('sum(b.sellprice * b.qty) as po_amount'))
+                            ->join('tpo_detail as b', function($join) {
+                                $join->on('a.client_id', '=', 'b.client_id')
+                                    ->on('a.po_number', '=', 'b.po_number')
+                                    ->on('a.po_date', '=', 'b.po_date');
+                            })
+                            ->whereIn('a.status', ['2', '3', '4'])
+                            ->where('a.po_date', 'like', $filters . '-' . $month . '%')
+                            ->first();
+
+                        $gross[$months[$i]] = (int)$sqlGross->po_amount ?? 0;
+                    }
+
+                    $nett = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $sqlNett = DB::table('tpo_header as a')
+                            ->select(DB::raw('sum((b.sellprice * b.qty) - ((b.sellprice * b.qty) * a.persentase_supplier / 100)) as po_amount'))
+                            ->join('tpo_detail as b', function($join) {
+                                $join->on('a.client_id', '=', 'b.client_id')
+                                    ->on('a.po_number', '=', 'b.po_number')
+                                    ->on('a.po_date', '=', 'b.po_date');
+                            })
+                            ->whereIn('a.status', ['2', '3', '4'])
+                            ->where('a.po_date', 'like', $filters . '-' . $month . '%')
+                            ->first();
+
+                        $nett[$months[$i]] = (int)$sqlNett->po_amount ?? 0;
+                    }
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results['totals'] = number_format($totals->po_amount, 0, ",", ".") ?? 0;
+                    $results['gross'] = $gross;
+                    $results['nett'] = $nett;
 
                     return response()->json($results, 200);
                 break;
