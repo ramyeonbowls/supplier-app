@@ -14,21 +14,6 @@
             <div :class="user.role === 0 ? '' : 'hidden'" class="mt-2 grid grid-cols-12 gap-4">
                 <div class="col-span-6 rounded-lg shadow-sm sm:col-span-3">
                     <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
-                        <span class="rounded-full bg-sky-100 p-3 text-sky-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                            </svg>
-                        </span>
-
-                        <div>
-                            <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.books }}</p>
-
-                            <p class="text-sm text-gray-500">Total Buku</p>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-span-6 rounded-lg shadow-sm sm:col-span-3">
-                    <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
                         <span class="rounded-full bg-emerald-100 p-3 text-emerald-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path
@@ -76,22 +61,31 @@
                         </div>
                     </article>
                 </div>
-            </div>
-            <div :class="user.role === 0 ? '' : 'hidden'" class="mt-1 grid grid-cols-6 gap-4">
                 <div class="col-span-6 rounded-lg shadow-sm sm:col-span-3">
                     <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
-                        <span class="rounded-full bg-emerald-100 p-3 text-emerald-600">
+                        <span class="rounded-full bg-sky-100 p-3 text-sky-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
-                                />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                             </svg>
                         </span>
 
                         <div>
-                            <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.publish }}</p>
+                            <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.po }}</p>
+
+                            <p class="text-sm text-gray-500">Total PO</p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-span-6 rounded-lg shadow-sm sm:col-span-3">
+                    <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
+                        <span class="rounded-full bg-emerald-100 p-3 text-emerald-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                            </svg>
+                        </span>
+
+                        <div>
+                            <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.books }}</p>
 
                             <p class="text-sm text-gray-500">Total Buku Publish</p>
                         </div>
@@ -101,11 +95,7 @@
                     <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
                         <span class="rounded-full bg-amber-100 p-3 text-amber-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
-                                />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                             </svg>
                         </span>
 
@@ -113,6 +103,36 @@
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.review }}</p>
 
                             <p class="text-sm text-gray-500">Total Buku Review</p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-span-6 rounded-lg shadow-sm sm:col-span-3">
+                    <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
+                        <span class="rounded-full bg-rose-100 p-3 text-rose-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                            </svg>
+                        </span>
+
+                        <div>
+                            <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.reject }}</p>
+
+                            <p class="text-sm text-gray-500">Total Buku Reject</p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-span-6 rounded-lg shadow-sm sm:col-span-3">
+                    <article class="flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-2 sm:p-6">
+                        <span class="rounded-full bg-slate-100 p-3 text-slate-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4 sm:size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                            </svg>
+                        </span>
+
+                        <div>
+                            <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.pending }}</p>
+
+                            <p class="text-sm text-gray-500">Total Buku Pending</p>
                         </div>
                     </article>
                 </div>
@@ -147,7 +167,11 @@
                     <div class="flex items-center">
                         <div class="me-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">
                             <svg class="h-6 w-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                <path fill-rule="evenodd" d="M9 15a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm3.845-1.855a2.4 2.4 0 0 1 1.2-1.226 1 1 0 0 1 1.992-.026c.426.15.809.408 1.111.749a1 1 0 1 1-1.496 1.327.682.682 0 0 0-.36-.213.997.997 0 0 1-.113-.032.4.4 0 0 0-.394.074.93.93 0 0 0 .455.254 2.914 2.914 0 0 1 1.504.9c.373.433.669 1.092.464 1.823a.996.996 0 0 1-.046.129c-.226.519-.627.94-1.132 1.192a1 1 0 0 1-1.956.093 2.68 2.68 0 0 1-1.227-.798 1 1 0 1 1 1.506-1.315.682.682 0 0 0 .363.216c.038.009.075.02.111.032a.4.4 0 0 0 .395-.074.93.93 0 0 0-.455-.254 2.91 2.91 0 0 1-1.503-.9c-.375-.433-.666-1.089-.466-1.817a.994.994 0 0 1 .047-.134Zm1.884.573.003.008c-.003-.005-.003-.008-.003-.008Zm.55 2.613s-.002-.002-.003-.007a.032.032 0 0 1 .003.007ZM4 14a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0v-4a1 1 0 0 1 1-1Zm3-2a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1Zm6.5-8a1 1 0 0 1 1-1H18a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-.796l-2.341 2.049a1 1 0 0 1-1.24.06l-2.894-2.066L6.614 9.29a1 1 0 1 1-1.228-1.578l4.5-3.5a1 1 0 0 1 1.195-.025l2.856 2.04L15.34 5h-.84a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M9 15a6 6 0 1 1 12 0 6 6 0 0 1-12 0Zm3.845-1.855a2.4 2.4 0 0 1 1.2-1.226 1 1 0 0 1 1.992-.026c.426.15.809.408 1.111.749a1 1 0 1 1-1.496 1.327.682.682 0 0 0-.36-.213.997.997 0 0 1-.113-.032.4.4 0 0 0-.394.074.93.93 0 0 0 .455.254 2.914 2.914 0 0 1 1.504.9c.373.433.669 1.092.464 1.823a.996.996 0 0 1-.046.129c-.226.519-.627.94-1.132 1.192a1 1 0 0 1-1.956.093 2.68 2.68 0 0 1-1.227-.798 1 1 0 1 1 1.506-1.315.682.682 0 0 0 .363.216c.038.009.075.02.111.032a.4.4 0 0 0 .395-.074.93.93 0 0 0-.455-.254 2.91 2.91 0 0 1-1.503-.9c-.375-.433-.666-1.089-.466-1.817a.994.994 0 0 1 .047-.134Zm1.884.573.003.008c-.003-.005-.003-.008-.003-.008Zm.55 2.613s-.002-.002-.003-.007a.032.032 0 0 1 .003.007ZM4 14a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0v-4a1 1 0 0 1 1-1Zm3-2a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1Zm6.5-8a1 1 0 0 1 1-1H18a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-.796l-2.341 2.049a1 1 0 0 1-1.24.06l-2.894-2.066L6.614 9.29a1 1 0 1 1-1.228-1.578l4.5-3.5a1 1 0 0 1 1.195-.025l2.856 2.04L15.34 5h-.84a1 1 0 0 1-1-1Z"
+                                    clip-rule="evenodd"
+                                />
                             </svg>
                         </div>
                         <div>
@@ -309,9 +333,11 @@ export default {
                 client: 0,
                 supplier: 0,
                 distributor: 0,
-                publish: 0,
                 review: 0,
-                
+                reject: 0,
+                pending: 0,
+                po: 0,
+
                 chartBooks: {
                     totals: 0,
                     total: [],
@@ -322,7 +348,6 @@ export default {
                 chartPo: {
                     totals: 0,
                     gross: [],
-                    nett: [],
                 },
             },
         }
@@ -342,7 +367,7 @@ export default {
                 .then((response) => {
                     this.user = response.data
 
-                    if (this.user.role === 0 ) {
+                    if (this.user.role === 0) {
                         this.generateYears()
                         this.getDashboard()
                         this.getDashboard1()
@@ -404,8 +429,10 @@ export default {
                     this.dashboard.client = response.data.client
                     this.dashboard.supplier = response.data.supplier
                     this.dashboard.distributor = response.data.distributor
-                    this.dashboard.publish = response.data.publish
                     this.dashboard.review = response.data.review
+                    this.dashboard.reject = response.data.reject
+                    this.dashboard.pending = response.data.pending
+                    this.dashboard.po = response.data.po
                 })
                 .catch((e) => {
                     console.error(e)
@@ -437,7 +464,7 @@ export default {
 
         chartUploadBook() {
             if (this.chartBooks) {
-                this.chartBooks.destroy();
+                this.chartBooks.destroy()
             }
 
             let options = {
@@ -535,7 +562,7 @@ export default {
                     colors: ['transparent'],
                 },
                 grid: {
-                    show: false,
+                    show: true,
                     strokeDashArray: 4,
                     padding: {
                         left: 2,
@@ -592,7 +619,6 @@ export default {
                     loader.hide()
                     this.dashboard.chartPo.totals = response.data.totals
                     this.dashboard.chartPo.gross = response.data.gross
-                    this.dashboard.chartPo.nett = response.data.nett
 
                     this.chartPurchaseOrder()
                 })
@@ -603,108 +629,66 @@ export default {
 
         chartPurchaseOrder() {
             if (this.chartPo) {
-                this.chartPo.destroy();
+                this.chartPo.destroy()
             }
 
             let options = {
-                colors: ['#1A56DB', '#31C48D', '#FDBA8C'],
-                series: [
-                    {
-                        name: 'Gross',
-                        color: '#1A56DB',
-                        data: [
-                            { x: 'Januari', y: this.dashboard.chartPo.gross['Januari'] },
-                            { x: 'Februari', y: this.dashboard.chartPo.gross['Februari'] },
-                            { x: 'Maret', y: this.dashboard.chartPo.gross['Maret'] },
-                            { x: 'April', y: this.dashboard.chartPo.gross['April'] },
-                            { x: 'Mei', y: this.dashboard.chartPo.gross['Mei'] },
-                            { x: 'Juni', y: this.dashboard.chartPo.gross['Juni'] },
-                            { x: 'Juli', y: this.dashboard.chartPo.gross['Juli'] },
-                            { x: 'Agustus', y: this.dashboard.chartPo.gross['Agustus'] },
-                            { x: 'September', y: this.dashboard.chartPo.gross['September'] },
-                            { x: 'Oktober', y: this.dashboard.chartPo.gross['Oktober'] },
-                            { x: 'November', y: this.dashboard.chartPo.gross['November'] },
-                            { x: 'Desember', y: this.dashboard.chartPo.gross['Desember'] },
-                        ],
-                    },
-                    {
-                        name: 'Nett',
-                        color: '#31C48D',
-                        data: [
-                            { x: 'Januari', y: this.dashboard.chartPo.nett['Januari'] },
-                            { x: 'Februari', y: this.dashboard.chartPo.nett['Februari'] },
-                            { x: 'Maret', y: this.dashboard.chartPo.nett['Maret'] },
-                            { x: 'April', y: this.dashboard.chartPo.nett['April'] },
-                            { x: 'Mei', y: this.dashboard.chartPo.nett['Mei'] },
-                            { x: 'Juni', y: this.dashboard.chartPo.nett['Juni'] },
-                            { x: 'Juli', y: this.dashboard.chartPo.nett['Juli'] },
-                            { x: 'Agustus', y: this.dashboard.chartPo.nett['Agustus'] },
-                            { x: 'September', y: this.dashboard.chartPo.nett['September'] },
-                            { x: 'Oktober', y: this.dashboard.chartPo.nett['Oktober'] },
-                            { x: 'November', y: this.dashboard.chartPo.nett['November'] },
-                            { x: 'Desember', y: this.dashboard.chartPo.nett['Desember'] },
-                        ],
-                    },
-                ],
-                chart: {
-                    type: 'bar',
-                    height: '320px',
-                    fontFamily: 'Inter, sans-serif',
-                    toolbar: {
-                        show: false,
-                    },
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        columnWidth: '100%',
-                        borderRadiusApplication: 'end',
-                        borderRadius: 8,
-                    },
-                },
-                tooltip: {
-                    shared: true,
-                    intersect: false,
-                    style: {
-                        fontFamily: 'Inter, sans-serif',
-                    },
-                },
-                states: {
-                    hover: {
-                        filter: {
-                            type: 'darken',
-                            value: 1,
-                        },
-                    },
-                },
-                stroke: {
-                    show: true,
-                    width: 0,
-                    colors: ['transparent'],
-                },
                 grid: {
-                    show: false,
+                    show: true,
                     strokeDashArray: 4,
                     padding: {
                         left: 2,
                         right: 2,
-                        top: -14,
+                        top: -26,
+                    },
+                },
+                series: [
+                    {
+                        name: this.selectedYearPo,
+                        data: this.dashboard.chartPo.gross,
+                        color: '#7E3BF2',
+                    },
+                ],
+                chart: {
+                    height: '100%',
+                    maxWidth: '100%',
+                    type: 'area',
+                    fontFamily: 'Inter, sans-serif',
+                    dropShadow: {
+                        enabled: false,
+                    },
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                tooltip: {
+                    enabled: true,
+                    x: {
+                        show: false,
+                    },
+                },
+                legend: {
+                    show: true,
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        opacityFrom: 0.55,
+                        opacityTo: 0,
+                        shade: '#1C64F2',
+                        gradientToColors: ['#1C64F2'],
                     },
                 },
                 dataLabels: {
                     enabled: false,
                 },
-                legend: {
-                    show: false,
+                stroke: {
+                    width: 6,
                 },
                 xaxis: {
-                    floating: false,
+                    categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
                     labels: {
-                        show: true,
-                        style: {
-                            fontFamily: 'Inter, sans-serif',
-                            cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
-                        },
+                        show: false,
                     },
                     axisBorder: {
                         show: false,
@@ -715,9 +699,11 @@ export default {
                 },
                 yaxis: {
                     show: false,
-                },
-                fill: {
-                    opacity: 1,
+                    labels: {
+                        formatter: function (value) {
+                            return 'Rp. ' + value
+                        },
+                    },
                 },
             }
 

@@ -458,8 +458,10 @@ class ProfileCompanyController extends Controller
                     $client = DB::table('tclient as a')->where('a.flag_appr', 'Y')->count();
                     $supplier = DB::table('tcompany as a')->where('a.type', '1')->count();
                     $distributor = DB::table('tcompany as a')->where('a.type', '2')->count();
-                    $publish = DB::table('tbook_draft as a')->where('a.status', '3')->count();
                     $review = DB::table('tbook_draft as a')->where('a.status', '2')->count();
+                    $reject = DB::table('tbook_draft as a')->where('a.status', '5')->count();
+                    $pending = DB::table('tbook_draft as a')->where('a.status', '4')->count();
+                    $po = DB::table('tpo_header as a')->whereIn('a.status', ['2', '3', '4'])->count();
 
                     $queries = DB::getQueryLog();
                     for ($q = 0; $q < count($queries); $q++) {
@@ -472,8 +474,10 @@ class ProfileCompanyController extends Controller
                     $results['client'] = $client;
                     $results['supplier'] = $supplier;
                     $results['distributor'] = $distributor;
-                    $results['publish'] = $publish;
                     $results['review'] = $review;
+                    $results['reject'] = $reject;
+                    $results['pending'] = $pending;
+                    $results['po'] = $po;
 
                     return response()->json($results, 200);
                 break;
@@ -586,24 +590,7 @@ class ProfileCompanyController extends Controller
                             ->where('a.po_date', 'like', $filters . '-' . $month . '%')
                             ->first();
 
-                        $gross[$months[$i]] = (int)$sqlGross->po_amount ?? 0;
-                    }
-
-                    $nett = [];
-                    for ($i=1; $i <= 12; $i++) { 
-                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
-                        $sqlNett = DB::table('tpo_header as a')
-                            ->select(DB::raw('sum((b.sellprice * b.qty) - ((b.sellprice * b.qty) * a.persentase_supplier / 100)) as po_amount'))
-                            ->join('tpo_detail as b', function($join) {
-                                $join->on('a.client_id', '=', 'b.client_id')
-                                    ->on('a.po_number', '=', 'b.po_number')
-                                    ->on('a.po_date', '=', 'b.po_date');
-                            })
-                            ->whereIn('a.status', ['2', '3', '4'])
-                            ->where('a.po_date', 'like', $filters . '-' . $month . '%')
-                            ->first();
-
-                        $nett[$months[$i]] = (int)$sqlNett->po_amount ?? 0;
+                        $gross[] = (int)$sqlGross->po_amount ?? 0;
                     }
 
                     $queries = DB::getQueryLog();
@@ -615,7 +602,6 @@ class ProfileCompanyController extends Controller
 
                     $results['totals'] = number_format($totals->po_amount, 0, ",", ".") ?? 0;
                     $results['gross'] = $gross;
-                    $results['nett'] = $nett;
 
                     return response()->json($results, 200);
                 break;
