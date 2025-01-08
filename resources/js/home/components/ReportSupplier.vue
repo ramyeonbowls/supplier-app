@@ -162,7 +162,7 @@ export default {
 
     computed: {
         filteredData() {
-            let data = this.data
+            let data = [...this.data]
 
             if (this.searchQuery) {
                 data = data.filter((person) => Object.values(person).some((value) => String(value).toLowerCase().includes(this.searchQuery.toLowerCase())))

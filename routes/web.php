@@ -50,6 +50,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::prefix('encrypt-books-excel')->group(function() {
                     Route::post('upload', 'UploadBooksController@uploadExcel');
                     Route::post('export-tpl', 'UploadBooksController@exportTpl');
+                    Route::post('export-data', 'UploadBooksController@exportData');
                 });
 
                 Route::prefix('encrypt-books-submit')->group(function() {
@@ -103,6 +104,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::apiResource('approval-client', ApprovalClientController::class);
                 Route::prefix('approval-client')->group(function() {
                     Route::post('reject', 'ApprovalClientController@reject');
+                });
+
+                Route::apiResource('approval-supplier', ApprovalSupplierController::class);
+                Route::prefix('approval-supplier')->group(function() {
+                    Route::post('reject', 'ApprovalSupplierController@reject');
+                });
+
+                Route::apiResource('approval-distributor', ApprovalDistirbutorController::class);
+                Route::prefix('approval-distributor')->group(function() {
+                    Route::post('reject', 'ApprovalDistirbutorController@reject');
                 });
 
                 Route::apiResource('po-upload', UploadPurchaseOrderController::class);

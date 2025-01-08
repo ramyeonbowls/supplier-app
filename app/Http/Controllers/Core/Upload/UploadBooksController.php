@@ -6,6 +6,7 @@ use Exception;
 use File;
 use Throwable;
 use App\Logs;
+use App\Exports\Upload\BookExport;
 use App\Exports\Upload\UploadBookExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Upload\EncryptBooksRequest;
@@ -875,6 +876,15 @@ class UploadBooksController extends Controller
         }
 
         return Excel::download(new UploadBookExport($books), 'detail_data.xlsx');
+    }
+
+    /**
+     * @param Request $request
+     * @return BinaryFileResponse
+     */
+    public function exportData(Request $request): BinaryFileResponse
+    {
+        return Excel::download(new BookExport([]), 'data_buku.xlsx');
     }
 
     /**

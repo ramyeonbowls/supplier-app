@@ -80,7 +80,11 @@ class ReportSupplierController extends Controller
                 ->join('tkelurahan as f', function($join) {
 					$join->on('a.subdistrict', '=', 'f.kelurahan_id');
 				})
+                ->join('users as g', function($join) {
+                    $join->on('a.id', '=', 'g.client_id');
+                })
                 ->where('a.type', '1')
+                ->where('g.status', 1)
                 ->get();
 
             $queries = DB::getQueryLog();

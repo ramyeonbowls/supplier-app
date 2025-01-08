@@ -31,6 +31,15 @@
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Ajukan Buku </span>
                         </button>
+                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="exportData">
+                            <span class="absolute -start-full transition-all group-hover:start-4">
+                                <svg class="size-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </span>
+
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Export Buku </span>
+                        </button>
                     </template>
                     <template v-else-if="form.encrypt">
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-indigo-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500" @click.prevent="submit">
@@ -1338,6 +1347,26 @@ export default {
                     const link = document.createElement('a')
                     link.href = url
                     link.setAttribute('download', 'detail_data.xlsx')
+                    document.body.appendChild(link)
+                    link.click()
+                })
+                .catch((e) => {
+                    console.log(e.response.data)
+                })
+        },
+
+        async exportData() {
+            await window
+                .axios({
+                    url: '/upload/encrypt-books-excel/export-data',
+                    method: 'POST',
+                    responseType: 'blob',
+                })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', 'data_buku.xlsx')
                     document.body.appendChild(link)
                     link.click()
                 })

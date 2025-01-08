@@ -83,6 +83,18 @@ const routes = [
         component: () => import(/* webpackChunkName: "data_paidoff" */ './components/UploadPaidOff.vue'),
         meta: { roles: [0] },
     },
+    {
+        path: '/approval-supplier',
+        name: 'approval_supplier',
+        component: () => import(/* webpackChunkName: "approval_supplier" */ './components/ApprovalSupplier.vue'),
+        meta: { roles: [0] },
+    },
+    {
+        path: '/approval-distributor',
+        name: 'approval_distributor',
+        component: () => import(/* webpackChunkName: "approval_distributor'," */ './components/ApprovalDistributor.vue'),
+        meta: { roles: [0] },
+    },
 ]
 
 export default routes

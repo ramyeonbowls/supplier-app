@@ -11,7 +11,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Approve Client </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Approve </span>
                         </button>
                         <button class="group relative inline-flex items-center overflow-hidden rounded bg-rose-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-rose-500" @click.prevent="reject">
                             <span class="absolute -start-full transition-all group-hover:start-4">
@@ -20,7 +20,7 @@
                                 </svg>
                             </span>
 
-                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Reject Client </span>
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Reject </span>
                         </button>
                     </template>
                 </div>
@@ -50,12 +50,12 @@
                                 <div class="rounded-lg border border-gray-300">
                                     <div class="overflow-x-auto rounded-t-lg">
                                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                                            <thead class="bg-slate-300 text-left">
+                                            <thead class="bg-white-300 text-left">
                                                 <tr>
-                                                    <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                                    <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-50">
                                                         <input type="checkbox" id="selectAll" :checked="isAllSelected" @change="toggleSelectAll" class="size-5 rounded border-gray-300" />
                                                     </th>
-                                                    <th v-for="(header, index) in headers" :key="index" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                                    <th v-for="(header, index) in headers" :key="index" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-50">
                                                         {{ header.label }}
                                                         <template v-if="sortKey === header.key">
                                                             <span v-if="sortAsc" class="inline-flex items-center">
@@ -77,9 +77,9 @@
 
                                             <tbody class="divide-y divide-gray-200">
                                                 <template v-if="paginatedData.length > 0">
-                                                    <tr v-for="row in paginatedData" :key="row.client_id" class="even:bg-gray-50 hover:bg-gray-100">
+                                                    <tr v-for="row in paginatedData" :key="row.id" class="even:bg-gray-50 hover:bg-gray-100">
                                                         <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                            <input v-if="row.flag_appr == 'N'" type="checkbox" v-model="selectedRows" :value="row.client_id" class="size-5 rounded border-gray-300" />
+                                                            <input v-if="row.status == 0" type="checkbox" v-model="selectedRows" :value="row.id" class="size-5 rounded border-gray-300" />
                                                         </td>
                                                         <td v-for="header in headers" :key="header.key" class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                             <template v-if="header.key == 'flag_appr'">
@@ -116,7 +116,7 @@
                                                 </template>
                                                 <template v-else>
                                                     <tr class="even:bg-gray-50 hover:bg-gray-100">
-                                                        <td :colspan="headers.length" class="border-b border-gray-200 px-4 py-2 text-center">No Data to Show !</td>
+                                                        <td :colspan="headers.length + 1" class="border-b border-gray-200 px-4 py-2 text-center">No Data to Show !</td>
                                                     </tr>
                                                 </template>
                                             </tbody>
@@ -234,28 +234,22 @@ export default {
             image_url: '',
 
             headers: [
-                { label: 'Client ID', key: 'client_id' },
-                { label: 'Status', key: 'flag_appr' },
-                { label: 'Nama Instansi', key: 'instansi_name' },
-                { label: 'Nama Aplikasi', key: 'application_name' },
+                { label: 'ID', key: 'id' },
+                { label: 'Tipe', key: 'type' },
+                { label: 'Nama', key: 'supplierName' },
+                { label: 'Email', key: 'email' },
+                { label: 'Email Verified At', key: 'emailVerifiedAt' },
+                { label: 'Negara', key: 'country' },
+                { label: 'Provinsi', key: 'province' },
+                { label: 'Kabupaten/Kota', key: 'regency' },
+                { label: 'Kecamatan', key: 'district' },
+                { label: 'Kelurahan', key: 'subDistrict' },
                 { label: 'Alamat', key: 'address' },
-                { label: 'Negara', key: 'country_name' },
-                { label: 'Provinsi', key: 'provinsi_name' },
-                { label: 'Kabupaten/Kota', key: 'kabupaten_name' },
-                { label: 'Kecamatan', key: 'kecamatan_name' },
-                { label: 'Kelurahan', key: 'kelurahan_name' },
-                { label: 'Kodepos', key: 'kodepos' },
-                { label: 'NPWP', key: 'npwp' },
-                { label: 'Nama Penanggung Jawab', key: 'pers_responsible' },
-                { label: 'Jabatan Penanggung Jawab', key: 'pos_pers_responsible' },
-                { label: 'Nama Penandatanganan MOU', key: 'mou_sign_name' },
-                { label: 'Jabatan Penandatanganan MOU', key: 'pos_sign_name' },
-                { label: 'Nama Pengelola (Admin)', key: 'administrator_name' },
-                { label: 'Nomor HP/WA (Admin)', key: 'administrator_phone' },
-                { label: 'Alamat Website', key: 'web_add' },
-                { label: 'logo Besar', key: 'logo' },
-                { label: 'logo Kecil', key: 'logo_small' },
-                { label: 'Distributor Ref.', key: 'company_name' },
+                { label: 'No. Hp', key: 'supplierPhone' },
+                { label: 'Directur', key: 'directorName' },
+                { label: 'No. Hp Directur', key: 'directorPhone' },
+                { label: 'PIC', key: 'personInChargeName' },
+                { label: 'No. Hp PIC', key: 'personInChargePhone' },
             ],
             data: [],
             searchQuery: '',
@@ -287,7 +281,7 @@ export default {
             if (this.isAllSelected) {
                 this.selectedRows = []
             } else {
-                this.selectedRows = this.paginatedData.filter((row) => row.flag_appr === 'N').map((row) => row.client_id)
+                this.selectedRows = this.paginatedData.filter((row) => row.status === 0).map((row) => row.id)
             }
         },
 
@@ -310,7 +304,7 @@ export default {
             let loader = this.$loading.show()
 
             window.axios
-                .get('/transactions/approval-client', {
+                .get('/transactions/approval-distributor', {
                     params: {
                         param: this.selected,
                     },
@@ -342,7 +336,7 @@ export default {
                 if (this.selectedRows.length > 0) {
                     let loader = this.$loading.show()
                     window.axios
-                        .post('/transactions/approval-client?menu=' + this.$route.name, this.selectedRows)
+                        .post('/transactions/approval-distributor?menu=' + this.$route.name, this.selectedRows)
                         .then((response) => {
                             this.form.submitted = false
                             this.selectedRows = []
@@ -374,7 +368,7 @@ export default {
                 if (this.selectedRows.length > 0) {
                     let loader = this.$loading.show()
                     window.axios
-                        .post('/transactions/approval-client/reject?menu=' + this.$route.name, this.selectedRows)
+                        .post('/transactions/approval-distributor/reject?menu=' + this.$route.name, this.selectedRows)
                         .then((response) => {
                             this.form.submitted = false
                             this.selectedRows = []
@@ -402,7 +396,7 @@ export default {
 
     computed: {
         isAllSelected() {
-            return this.paginatedData.length > 0 && this.paginatedData.every((row) => this.selectedRows.includes(row.client_id))
+            return this.paginatedData.length > 0 && this.paginatedData.every((row) => this.selectedRows.includes(row.id))
         },
 
         filteredData() {

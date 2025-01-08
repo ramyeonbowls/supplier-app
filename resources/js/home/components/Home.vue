@@ -27,7 +27,7 @@
                         <div>
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.client }}</p>
 
-                            <p class="text-sm text-gray-500">Total Client</p>
+                            <p class="text-sm font-semibold text-gray-500">Total Client</p>
                         </div>
                     </article>
                 </div>
@@ -42,7 +42,7 @@
                         <div>
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.supplier }}</p>
 
-                            <p class="text-sm text-gray-500">Total Supplier</p>
+                            <p class="text-sm font-semibold text-gray-500">Total Supplier</p>
                         </div>
                     </article>
                 </div>
@@ -57,7 +57,7 @@
                         <div>
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.distributor }}</p>
 
-                            <p class="text-sm text-gray-500">Total Distributor</p>
+                            <p class="text-sm font-semibold text-gray-500">Total Distributor</p>
                         </div>
                     </article>
                 </div>
@@ -72,7 +72,7 @@
                         <div>
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.po }}</p>
 
-                            <p class="text-sm text-gray-500">Total PO</p>
+                            <p class="text-sm font-semibold text-gray-500">Total PO</p>
                         </div>
                     </article>
                 </div>
@@ -87,7 +87,7 @@
                         <div>
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.books }}</p>
 
-                            <p class="text-sm text-gray-500">Total Buku Publish</p>
+                            <p class="text-sm font-semibold text-gray-500">Total Buku Publish</p>
                         </div>
                     </article>
                 </div>
@@ -102,7 +102,7 @@
                         <div>
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.review }}</p>
 
-                            <p class="text-sm text-gray-500">Total Buku Review</p>
+                            <p class="text-sm font-semibold text-gray-500">Total Buku Review</p>
                         </div>
                     </article>
                 </div>
@@ -117,7 +117,7 @@
                         <div>
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.reject }}</p>
 
-                            <p class="text-sm text-gray-500">Total Buku Reject</p>
+                            <p class="text-sm font-semibold text-gray-500">Total Buku Reject</p>
                         </div>
                     </article>
                 </div>
@@ -132,7 +132,7 @@
                         <div>
                             <p class="text-1xl font-medium text-gray-900 sm:text-2xl">{{ dashboard.pending }}</p>
 
-                            <p class="text-sm text-gray-500">Total Buku Pending</p>
+                            <p class="text-sm font-semibold text-gray-500">Total Buku Pending</p>
                         </div>
                     </article>
                 </div>
@@ -148,7 +148,7 @@
                         </div>
                         <div>
                             <h5 class="pb-1 text-2xl font-bold leading-none text-gray-900 dark:text-white">{{ dashboard.chartBooks.totals }}</h5>
-                            <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Total Upload Buku Supplier</p>
+                            <p class="text-sm font-semibold text-gray-500 dark:text-gray-400">Total Upload Buku Supplier</p>
                         </div>
                     </div>
                     <div>
@@ -176,7 +176,7 @@
                         </div>
                         <div>
                             <h5 class="pb-1 text-2xl font-bold leading-none text-gray-900 dark:text-white">Rp. {{ dashboard.chartPo.totals }}</h5>
-                            <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Total Purchase Order</p>
+                            <p class="text-sm font-semibold text-gray-500 dark:text-gray-400">Total Purchase Order</p>
                         </div>
                     </div>
                     <div>
@@ -688,7 +688,11 @@ export default {
                 xaxis: {
                     categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
                     labels: {
-                        show: false,
+                        show: true,
+                        style: {
+                            fontFamily: 'Inter, sans-serif',
+                            cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
+                        },
                     },
                     axisBorder: {
                         show: false,

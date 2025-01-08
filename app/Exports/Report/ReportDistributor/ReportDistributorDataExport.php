@@ -144,7 +144,11 @@ class ReportDistributorDataExport implements WithCustomStartCell, WithHeadings, 
                     ->join('tkelurahan as f', function($join) {
                         $join->on('a.subdistrict', '=', 'f.kelurahan_id');
                     })
+                    ->join('users as g', function($join) {
+                        $join->on('a.id', '=', 'g.client_id');
+                    })
                     ->where('a.type', '2')
+                    ->where('g.status', 1)
                     ->get();
 
                 $rslt = $data->map(function($value, $key) {
