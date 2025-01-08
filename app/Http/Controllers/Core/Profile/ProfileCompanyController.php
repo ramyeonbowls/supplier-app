@@ -461,7 +461,7 @@ class ProfileCompanyController extends Controller
                     $review = DB::table('tbook_draft as a')->where('a.status', '2')->count();
                     $reject = DB::table('tbook_draft as a')->where('a.status', '5')->count();
                     $pending = DB::table('tbook_draft as a')->where('a.status', '4')->count();
-                    $po = DB::table('tpo_header as a')->whereIn('a.status', ['2', '3', '4'])->count();
+                    $publisher = DB::table('tpublisher as a')->count();
 
                     $queries = DB::getQueryLog();
                     for ($q = 0; $q < count($queries); $q++) {
@@ -477,7 +477,7 @@ class ProfileCompanyController extends Controller
                     $results['review'] = $review;
                     $results['reject'] = $reject;
                     $results['pending'] = $pending;
-                    $results['po'] = $po;
+                    $results['publisher'] = $publisher;
 
                     return response()->json($results, 200);
                 break;
