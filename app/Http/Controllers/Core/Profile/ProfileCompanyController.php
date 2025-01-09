@@ -530,6 +530,42 @@ class ProfileCompanyController extends Controller
                             ->count();
                     }
 
+                    $draft = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $draft[$months[$i]] = DB::table('tbook_draft as a')
+                            ->where('a.createdate', 'like', $filters . '-' . $month . '%')
+                            ->where('a.status', '1')
+                            ->count();
+                    }
+
+                    $pending = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $pending[$months[$i]] = DB::table('tbook_draft as a')
+                            ->where('a.createdate', 'like', $filters . '-' . $month . '%')
+                            ->where('a.status', '4')
+                            ->count();
+                    }
+
+                    $reject = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $reject[$months[$i]] = DB::table('tbook_draft as a')
+                            ->where('a.createdate', 'like', $filters . '-' . $month . '%')
+                            ->where('a.status', '5')
+                            ->count();
+                    }
+
+                    $withdrawn = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+                        $withdrawn[$months[$i]] = DB::table('tbook_draft as a')
+                            ->where('a.createdate', 'like', $filters . '-' . $month . '%')
+                            ->where('a.status', '6')
+                            ->count();
+                    }
+
                     $queries = DB::getQueryLog();
                     for ($q = 0; $q < count($queries); $q++) {
                         $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
@@ -541,6 +577,10 @@ class ProfileCompanyController extends Controller
                     $results['total'] = $total;
                     $results['publish'] = $publish;
                     $results['review'] = $review;
+                    $results['draft'] = $draft;
+                    $results['pending'] = $pending;
+                    $results['reject'] = $reject;
+                    $results['withdrawn'] = $withdrawn;
 
                     return response()->json($results, 200);
                 break;

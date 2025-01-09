@@ -343,6 +343,10 @@ export default {
                     total: [],
                     publish: [],
                     review: [],
+                    draft: [],
+                    pending: [],
+                    reject: [],
+                    withdrawn: [],
                 },
 
                 chartPo: {
@@ -454,6 +458,10 @@ export default {
                     this.dashboard.chartBooks.total = response.data.total
                     this.dashboard.chartBooks.publish = response.data.publish
                     this.dashboard.chartBooks.review = response.data.review
+                    this.dashboard.chartBooks.draft = response.data.draft
+                    this.dashboard.chartBooks.pending = response.data.pending
+                    this.dashboard.chartBooks.reject = response.data.reject
+                    this.dashboard.chartBooks.withdrawn = response.data.withdrawn
 
                     this.chartUploadBook()
                 })
@@ -468,7 +476,7 @@ export default {
             }
 
             let options = {
-                colors: ['#1A56DB', '#31C48D', '#FDBA8C'],
+                colors: ['#6B7280', '#9CA3AF', '#D1D5DB', '#E5E7EB'],
                 series: [
                     {
                         name: 'Total',
@@ -486,6 +494,42 @@ export default {
                             { x: 'Oktober', y: this.dashboard.chartBooks.total['Oktober'] },
                             { x: 'November', y: this.dashboard.chartBooks.total['November'] },
                             { x: 'Desember', y: this.dashboard.chartBooks.total['Desember'] },
+                        ],
+                    },
+                    {
+                        name: 'Draft',
+                        color: '#E5E7EB',
+                        data: [
+                            { x: 'Januari', y: this.dashboard.chartBooks.draft['Januari'] },
+                            { x: 'Februari', y: this.dashboard.chartBooks.draft['Februari'] },
+                            { x: 'Maret', y: this.dashboard.chartBooks.draft['Maret'] },
+                            { x: 'April', y: this.dashboard.chartBooks.draft['April'] },
+                            { x: 'Mei', y: this.dashboard.chartBooks.draft['Mei'] },
+                            { x: 'Juni', y: this.dashboard.chartBooks.draft['Juni'] },
+                            { x: 'Juli', y: this.dashboard.chartBooks.draft['Juli'] },
+                            { x: 'Agustus', y: this.dashboard.chartBooks.draft['Agustus'] },
+                            { x: 'September', y: this.dashboard.chartBooks.draft['September'] },
+                            { x: 'Oktober', y: this.dashboard.chartBooks.draft['Oktober'] },
+                            { x: 'November', y: this.dashboard.chartBooks.draft['November'] },
+                            { x: 'Desember', y: this.dashboard.chartBooks.draft['Desember'] },
+                        ],
+                    },
+                    {
+                        name: 'Review',
+                        color: '#FDBA8C',
+                        data: [
+                            { x: 'Januari', y: this.dashboard.chartBooks.review['Januari'] },
+                            { x: 'Februari', y: this.dashboard.chartBooks.review['Februari'] },
+                            { x: 'Maret', y: this.dashboard.chartBooks.review['Maret'] },
+                            { x: 'April', y: this.dashboard.chartBooks.review['April'] },
+                            { x: 'Mei', y: this.dashboard.chartBooks.review['Mei'] },
+                            { x: 'Juni', y: this.dashboard.chartBooks.review['Juni'] },
+                            { x: 'Juli', y: this.dashboard.chartBooks.review['Juli'] },
+                            { x: 'Agustus', y: this.dashboard.chartBooks.review['Agustus'] },
+                            { x: 'September', y: this.dashboard.chartBooks.review['September'] },
+                            { x: 'Oktober', y: this.dashboard.chartBooks.review['Oktober'] },
+                            { x: 'November', y: this.dashboard.chartBooks.review['November'] },
+                            { x: 'Desember', y: this.dashboard.chartBooks.review['Desember'] },
                         ],
                     },
                     {
@@ -507,21 +551,57 @@ export default {
                         ],
                     },
                     {
-                        name: 'Review',
-                        color: '#FDBA8C',
+                        name: 'Pending',
+                        color: '#F59E0B',
                         data: [
-                            { x: 'Januari', y: this.dashboard.chartBooks.review['Januari'] },
-                            { x: 'Februari', y: this.dashboard.chartBooks.review['Februari'] },
-                            { x: 'Maret', y: this.dashboard.chartBooks.review['Maret'] },
-                            { x: 'April', y: this.dashboard.chartBooks.review['April'] },
-                            { x: 'Mei', y: this.dashboard.chartBooks.review['Mei'] },
-                            { x: 'Juni', y: this.dashboard.chartBooks.review['Juni'] },
-                            { x: 'Juli', y: this.dashboard.chartBooks.review['Juli'] },
-                            { x: 'Agustus', y: this.dashboard.chartBooks.review['Agustus'] },
-                            { x: 'September', y: this.dashboard.chartBooks.review['September'] },
-                            { x: 'Oktober', y: this.dashboard.chartBooks.review['Oktober'] },
-                            { x: 'November', y: this.dashboard.chartBooks.review['November'] },
-                            { x: 'Desember', y: this.dashboard.chartBooks.review['Desember'] },
+                            { x: 'Januari', y: this.dashboard.chartBooks.pending['Januari'] },
+                            { x: 'Februari', y: this.dashboard.chartBooks.pending['Februari'] },
+                            { x: 'Maret', y: this.dashboard.chartBooks.pending['Maret'] },
+                            { x: 'April', y: this.dashboard.chartBooks.pending['April'] },
+                            { x: 'Mei', y: this.dashboard.chartBooks.pending['Mei'] },
+                            { x: 'Juni', y: this.dashboard.chartBooks.pending['Juni'] },
+                            { x: 'Juli', y: this.dashboard.chartBooks.pending['Juli'] },
+                            { x: 'Agustus', y: this.dashboard.chartBooks.pending['Agustus'] },
+                            { x: 'September', y: this.dashboard.chartBooks.pending['September'] },
+                            { x: 'Oktober', y: this.dashboard.chartBooks.pending['Oktober'] },
+                            { x: 'November', y: this.dashboard.chartBooks.pending['November'] },
+                            { x: 'Desember', y: this.dashboard.chartBooks.pending['Desember'] },
+                        ],
+                    },
+                    {
+                        name: 'Reject',
+                        color: '#EF4444',
+                        data: [
+                            { x: 'Januari', y: this.dashboard.chartBooks.reject['Januari'] },
+                            { x: 'Februari', y: this.dashboard.chartBooks.reject['Februari'] },
+                            { x: 'Maret', y: this.dashboard.chartBooks.reject['Maret'] },
+                            { x: 'April', y: this.dashboard.chartBooks.reject['April'] },
+                            { x: 'Mei', y: this.dashboard.chartBooks.reject['Mei'] },
+                            { x: 'Juni', y: this.dashboard.chartBooks.reject['Juni'] },
+                            { x: 'Juli', y: this.dashboard.chartBooks.reject['Juli'] },
+                            { x: 'Agustus', y: this.dashboard.chartBooks.reject['Agustus'] },
+                            { x: 'September', y: this.dashboard.chartBooks.reject['September'] },
+                            { x: 'Oktober', y: this.dashboard.chartBooks.reject['Oktober'] },
+                            { x: 'November', y: this.dashboard.chartBooks.reject['November'] },
+                            { x: 'Desember', y: this.dashboard.chartBooks.reject['Desember'] },
+                        ],
+                    },
+                    {
+                        name: 'Withdrawn',
+                        color: '#6B7280',
+                        data: [
+                            { x: 'Januari', y: this.dashboard.chartBooks.withdrawn['Januari'] },
+                            { x: 'Februari', y: this.dashboard.chartBooks.withdrawn['Februari'] },
+                            { x: 'Maret', y: this.dashboard.chartBooks.withdrawn['Maret'] },
+                            { x: 'April', y: this.dashboard.chartBooks.withdrawn['April'] },
+                            { x: 'Mei', y: this.dashboard.chartBooks.withdrawn['Mei'] },
+                            { x: 'Juni', y: this.dashboard.chartBooks.withdrawn['Juni'] },
+                            { x: 'Juli', y: this.dashboard.chartBooks.withdrawn['Juli'] },
+                            { x: 'Agustus', y: this.dashboard.chartBooks.withdrawn['Agustus'] },
+                            { x: 'September', y: this.dashboard.chartBooks.withdrawn['September'] },
+                            { x: 'Oktober', y: this.dashboard.chartBooks.withdrawn['Oktober'] },
+                            { x: 'November', y: this.dashboard.chartBooks.withdrawn['November'] },
+                            { x: 'Desember', y: this.dashboard.chartBooks.withdrawn['Desember'] },
                         ],
                     },
                 ],
@@ -538,7 +618,7 @@ export default {
                         horizontal: false,
                         columnWidth: '100%',
                         borderRadiusApplication: 'end',
-                        borderRadius: 8,
+                        borderRadius: 2,
                     },
                 },
                 tooltip: {
