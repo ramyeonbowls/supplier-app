@@ -10,6 +10,7 @@ import 'flowbite/dist/flowbite.min.css'
 import 'vue-loading-overlay/dist/css/index.css'
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
+import 'flatpickr/dist/flatpickr.min.css'
 
 import axios from 'axios'
 window.axios = axios

@@ -69,12 +69,14 @@
 <script>
 import MenuAdmin from './components/MenuAdmin.vue'
 import MenuSupplier from './components/MenuSupplier.vue'
+import MenuDistributor from './components/MenuDistributor.vue'
 import EmptyMenu from './components/EmptyMenu.vue'
 
 export default {
     components: {
         MenuAdmin,
         MenuSupplier,
+        MenuDistributor,
         EmptyMenu,
     },
 
@@ -94,7 +96,7 @@ export default {
             return 'EmptyMenu'
         },
         currentComponent() {
-            return this.user.role === 0 ? 'MenuAdmin' : 'MenuSupplier'
+            return this.user.role === 0 ? 'MenuAdmin' : this.user.role === 1 ? 'MenuSupplier' : 'MenuDistributor'
         },
     },
 

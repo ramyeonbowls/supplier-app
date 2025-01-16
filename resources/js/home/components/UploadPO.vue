@@ -64,6 +64,29 @@
 
                 <div class="tab-content mt-4 min-h-[23.75rem] flex-grow overflow-auto">
                     <div class="tab-panel" :class="form.data ? '' : 'hidden'">
+                        <div class="flex items-center justify-start gap-2 py-3">
+                            <div class="relative">
+                                <input ref="datepicker" type="text" v-model="filters.date" placeholder="Select date" class="w-full rounded-md border-gray-200 py-2 pe-10 shadow-sm sm:text-sm" readonly />
+                            </div>
+                            <div class="relative">
+                                <select name="client" id="client" v-model="filters.client" class="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm">
+                                    <option value="">Filter Client</option>
+                                    <option v-for="(value, key) in options.client" :key="key" :value="value.id">{{ value.name }}</option>
+                                </select>
+                            </div>
+                            <div class="relative">
+                                <button class="group relative inline-flex items-center overflow-hidden rounded bg-sky-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-sky-500" @click="getData">
+                                    <span class="absolute -start-full transition-all group-hover:start-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+                                        </svg>
+                                    </span>
+
+                                    <span class="text-sm font-medium transition-all group-hover:ms-4"> Filter </span>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="mb-4 flex items-center justify-between">
                             <div class="relative">
                                 <input type="text" id="search" v-model="searchQuery" placeholder="Search for..." class="w-full rounded-md border-gray-200 py-2 pe-10 shadow-sm sm:text-sm" />
@@ -391,6 +414,15 @@ export default {
             isAllChecked: false,
             selectedRows: [],
 
+            options: {
+                client: [],
+            },
+
+            filters: {
+                date: '',
+                client: '',
+            },
+
             form: {
                 data: true,
                 upload: false,
@@ -406,6 +438,12 @@ export default {
 
     mounted() {
         this.getData()
+        this.getClient()
+
+        flatpickr(this.$refs.datepicker, {
+            mode: 'range',
+            dateFormat: 'Y-m-d',
+        })
     },
 
     methods: {
@@ -414,7 +452,12 @@ export default {
 
             let loader = this.$loading.show()
             window.axios
-                .get('/transactions/po-upload')
+                .get('/transactions/po-upload', {
+                    params: {
+                        date: this.filters.date,
+                        client: this.filters.client,
+                    },
+                })
                 .then((response) => {
                     this.data = response.data.data
                     loader.hide()
@@ -422,6 +465,25 @@ export default {
                 .catch((e) => {
                     console.error(e)
                     loader.hide()
+                })
+        },
+
+        getClient() {
+            this.options.client = []
+
+            let loader = this.$loading.show()
+            window.axios
+                .get('/transactions/po-upload/x0y0z0', {
+                    params: {
+                        param: 'client-mst',
+                    },
+                })
+                .then((response) => {
+                    loader.hide()
+                    this.options.client = response.data
+                })
+                .catch((e) => {
+                    console.error(e)
                 })
         },
 

@@ -15,13 +15,13 @@ const routes = [
         path: '/',
         name: 'home',
         component: () => import(/* webpackChunkName: "home" */ './components/Home.vue'),
-        meta: { roles: [0, 1] },
+        meta: { roles: [0, 1, 2] },
     },
     {
         path: '/profile',
         name: 'profile',
         component: () => import(/* webpackChunkName: "profile" */ './components/Profile.vue'),
-        meta: { roles: [1] },
+        meta: { roles: [1, 2] },
     },
     {
         path: '/encrypt-book',
@@ -63,7 +63,7 @@ const routes = [
         path: '/approval-client',
         name: 'approval_client',
         component: () => import(/* webpackChunkName: "approval_client" */ './components/ApprovalClient.vue'),
-        meta: { roles: [0] },
+        meta: { roles: [0, 2] },
     },
     {
         path: '/report-po',
@@ -75,7 +75,7 @@ const routes = [
         path: '/data-po',
         name: 'data_po',
         component: () => import(/* webpackChunkName: "data_po" */ './components/UploadPO.vue'),
-        meta: { roles: [0] },
+        meta: { roles: [0, 2] },
     },
     {
         path: '/data-paidoff',
@@ -93,6 +93,12 @@ const routes = [
         path: '/approval-distributor',
         name: 'approval_distributor',
         component: () => import(/* webpackChunkName: "approval_distributor'," */ './components/ApprovalDistributor.vue'),
+        meta: { roles: [0] },
+    },
+    {
+        path: '/approval-edit-client',
+        name: 'approval_edit_client',
+        component: () => import(/* webpackChunkName: "approval_edit_client'," */ './components/ApprovalEditClient.vue'),
         meta: { roles: [0] },
     },
 ]

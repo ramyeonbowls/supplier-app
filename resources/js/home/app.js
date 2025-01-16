@@ -16,6 +16,7 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
 import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size'
+import flatpickr from 'flatpickr'
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -126,5 +127,6 @@ app.use(
     }
 )
 app.component('file-pond', FilePond)
+app.use(flatpickr)
 app.use(router)
 app.mount('#app-container')

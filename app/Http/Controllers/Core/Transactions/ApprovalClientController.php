@@ -100,6 +100,9 @@ class ApprovalClientController extends Controller
 					$join->on('a.company_id', '=', 'g.id')
                         ->on('g.type', '=', DB::raw("'2'"));
 				})
+                ->when(auth()->user()->role == 2, function($query) {
+                    $query->where('a.company_id', auth()->user()->client_id);
+                })
                 ->orderBy('a.flag_appr', 'asc')
                 ->get();
 
@@ -151,7 +154,7 @@ class ApprovalClientController extends Controller
                 $approve = DB::table('tclient')
                     ->where('client_id', $value)
                     ->update([
-                        'flag_appr' => 'Y',
+                        'flag_appr' => auth()->user()->role == 2 ? 'P' : 'Y',
                         'updated_at' => Carbon::now('Asia/Jakarta')
                     ]);
             }

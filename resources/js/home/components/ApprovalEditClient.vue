@@ -3,8 +3,8 @@
         <div class="border-b border-gray-200 p-4">
             <div class="flex justify-between">
                 <div class="button-nav flex gap-2">
-                    <template v-if="form.data">
-                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click.prevent="submit">
+                    <template v-if="form.edit">
+                        <button v-if="form.after.flag_appr == 'N'" class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click.prevent="submit">
                             <span class="absolute -start-full transition-all group-hover:start-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -13,7 +13,7 @@
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Approve Client </span>
                         </button>
-                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-rose-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-rose-500" @click.prevent="reject">
+                        <button v-if="form.after.flag_appr == 'N'" class="group relative inline-flex items-center overflow-hidden rounded bg-rose-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-rose-500" @click.prevent="reject">
                             <span class="absolute -start-full transition-all group-hover:start-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -22,13 +22,27 @@
 
                             <span class="text-sm font-medium transition-all group-hover:ms-4"> Reject Client </span>
                         </button>
+                        <button class="group relative inline-flex items-center overflow-hidden rounded bg-sky-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-sky-500" @click="cancel">
+                            <span class="absolute -start-full transition-all group-hover:start-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                                </svg>
+                            </span>
+
+                            <span class="text-sm font-medium transition-all group-hover:ms-4"> Cancel </span>
+                        </button>
                     </template>
                 </div>
             </div>
         </div>
         <div class="flex flex-grow flex-col p-6">
             <div class="tabs-container">
-                <div class="tab-content mt-1 min-h-[23.75rem] flex-grow overflow-auto">
+                <div class="tabs flex w-48 gap-2">
+                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.data ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Data</button>
+                    <button class="tab-btn shrink-0 rounded-lg p-2 px-4 py-2 text-sm font-medium" :class="form.edit ? 'bg-sky-100 text-sky-600' : 'text-gray-500 hover:bg-sky-50 hover:text-gray-700'">Form</button>
+                </div>
+
+                <div class="tab-content mt-4 min-h-[23.75rem] flex-grow overflow-auto">
                     <div class="tab-panel" :class="form.data ? '' : 'hidden'">
                         <div class="min-h-[23.75rem] flex-grow overflow-auto">
                             <div class="z-50 mb-4 flex items-center justify-between">
@@ -50,12 +64,12 @@
                                 <div class="rounded-lg border border-gray-300">
                                     <div class="overflow-x-auto rounded-t-lg">
                                         <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                                            <thead class="bg-slate-300 text-left">
+                                            <thead class="bg-white text-left">
                                                 <tr>
-                                                    <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                                    <!-- <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-50">
                                                         <input type="checkbox" id="selectAll" :checked="isAllSelected" @change="toggleSelectAll" class="size-5 rounded border-gray-300" />
-                                                    </th>
-                                                    <th v-for="(header, index) in headers" :key="index" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                                    </th> -->
+                                                    <th v-for="(header, index) in headers" :key="index" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100">
                                                         {{ header.label }}
                                                         <template v-if="sortKey === header.key">
                                                             <span v-if="sortAsc" class="inline-flex items-center">
@@ -72,28 +86,23 @@
                                                             </span>
                                                         </template>
                                                     </th>
+                                                    <th class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100">Detail</th>
                                                 </tr>
                                             </thead>
 
                                             <tbody class="divide-y divide-gray-200">
                                                 <template v-if="paginatedData.length > 0">
                                                     <tr v-for="row in paginatedData" :key="row.client_id" class="even:bg-gray-50 hover:bg-gray-100">
-                                                        <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                            <input v-if="row.flag_appr == (this.userRole == 0 ? 'P' : 'N')" type="checkbox" v-model="selectedRows" :value="row.client_id" class="size-5 rounded border-gray-300" />
-                                                        </td>
+                                                        <!-- <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                            <input v-if="row.flag_appr == 'N'" type="checkbox" v-model="selectedRows" :value="row.client_id" class="size-5 rounded border-gray-300" />
+                                                        </td> -->
                                                         <td v-for="header in headers" :key="header.key" class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                             <template v-if="header.key == 'flag_appr'">
                                                                 <span v-if="row[header.key] == 'N'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                                                                     </svg>
-                                                                    <p class="whitespace-nowrap text-sm">Need Approval Distributor</p>
-                                                                </span>
-                                                                <span v-if="row[header.key] == 'P'" class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                                    </svg>
-                                                                    <p class="whitespace-nowrap text-sm">Need Approved Platform</p>
+                                                                    <p class="whitespace-nowrap text-sm">Need Approval</p>
                                                                 </span>
                                                                 <span v-if="row[header.key] == 'Y'" class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
@@ -117,6 +126,9 @@
                                                             <template v-else>
                                                                 {{ row[header.key] }}
                                                             </template>
+                                                        </td>
+                                                        <td class="flex justify-start gap-2 whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                            <a href="javascript:void(0);" class="download-link inline-block rounded border border-blue-600 bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500" @click="getDetail(row)">Detail</a>
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -176,6 +188,176 @@
                                         </ol>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-panel" :class="form.edit ? '' : 'hidden'">
+                        <div class="mt-2 grid grid-cols-6 gap-4">
+                            <div class="col-span-6 sm:col-span-3">
+                                <article class="rounded-xl border-2 border-gray-100 bg-white">
+                                    <div class="flex justify-start">
+                                        <strong class="-mb-[2px] -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-rose-500 px-3 py-1.5 text-white">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                                                />
+                                            </svg>
+
+                                            <span class="text-[10px] font-medium sm:text-xs">Before!</span>
+                                        </strong>
+                                    </div>
+
+                                    <div class="flex items-start gap-4 p-4 sm:p-6 lg:p-8">
+                                        <div class="flow-root">
+                                            <dl class="-my-3 divide-y divide-gray-100 text-sm">
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Client ID</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.client_id }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Instansi</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.instansi_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Aplikasi</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.application_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Alamat Website</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.web_add }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Alamat</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.address }} {{ form.before.kelurahan_name }} {{ form.before.kecamatan_name }} {{ form.before.kabupaten_name }} {{ form.before.provinsi_name }} {{ form.before.negara_name }} {{ form.before.kodepos }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">No. NPWP</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.npwp }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Penanggung Jawab</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.pers_responsible }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Jabatan Penanggung Jawab</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.pos_pers_responsible }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Penandatanganan MOU</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.mou_sign_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Jabatan Penandatanganan MOU</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.pos_sign_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Pengelola (Admin)</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.administrator_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nomor HP/WA (Admin)</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.before.administrator_phone }}</dd>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="col-span-6 sm:col-span-3">
+                                <article class="rounded-xl border-2 border-gray-100 bg-white">
+                                    <div class="flex justify-start">
+                                        <strong class="-mb-[2px] -me-[2px] inline-flex items-center gap-1 rounded-ee-xl rounded-ss-xl bg-emerald-500 px-3 py-1.5 text-white">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                                                />
+                                            </svg>
+
+                                            <span class="text-[10px] font-medium sm:text-xs">After!</span>
+                                        </strong>
+                                    </div>
+
+                                    <div class="flex items-start gap-4 p-4 sm:p-6 lg:p-8">
+                                        <div class="flow-root">
+                                            <dl class="-my-3 divide-y divide-gray-100 text-sm">
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Client ID</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.client_id }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Instansi</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.instansi_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Aplikasi</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.application_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Alamat Website</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.web_add }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Alamat</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.address }} {{ form.after.kelurahan_name }} {{ form.after.kecamatan_name }} {{ form.after.kabupaten_name }} {{ form.after.provinsi_name }} {{ form.after.negara_name }} {{ form.after.kodepos }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">No. NPWP</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.npwp }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Penanggung Jawab</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.pers_responsible }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Jabatan Penanggung Jawab</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.pos_pers_responsible }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Penandatanganan MOU</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.mou_sign_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Jabatan Penandatanganan MOU</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.pos_sign_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nama Pengelola (Admin)</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.administrator_name }}</dd>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                                    <dt class="font-medium text-gray-900">Nomor HP/WA (Admin)</dt>
+                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.administrator_phone }}</dd>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </article>
                             </div>
                         </div>
                     </div>
@@ -242,27 +424,9 @@ export default {
 
             headers: [
                 { label: 'Client ID', key: 'client_id' },
-                { label: 'Status', key: 'flag_appr' },
                 { label: 'Nama Instansi', key: 'instansi_name' },
                 { label: 'Nama Aplikasi', key: 'application_name' },
-                { label: 'Alamat', key: 'address' },
-                { label: 'Negara', key: 'country_name' },
-                { label: 'Provinsi', key: 'provinsi_name' },
-                { label: 'Kabupaten/Kota', key: 'kabupaten_name' },
-                { label: 'Kecamatan', key: 'kecamatan_name' },
-                { label: 'Kelurahan', key: 'kelurahan_name' },
-                { label: 'Kodepos', key: 'kodepos' },
-                { label: 'NPWP', key: 'npwp' },
-                { label: 'Nama Penanggung Jawab', key: 'pers_responsible' },
-                { label: 'Jabatan Penanggung Jawab', key: 'pos_pers_responsible' },
-                { label: 'Nama Penandatanganan MOU', key: 'mou_sign_name' },
-                { label: 'Jabatan Penandatanganan MOU', key: 'pos_sign_name' },
-                { label: 'Nama Pengelola (Admin)', key: 'administrator_name' },
-                { label: 'Nomor HP/WA (Admin)', key: 'administrator_phone' },
-                { label: 'Alamat Website', key: 'web_add' },
-                { label: 'logo Besar', key: 'logo' },
-                { label: 'logo Kecil', key: 'logo_small' },
-                { label: 'Distributor Ref.', key: 'company_name' },
+                { label: 'Status', key: 'flag_appr' },
             ],
             data: [],
             searchQuery: '',
@@ -282,12 +446,14 @@ export default {
                 data: true,
                 edit: false,
                 submitted: false,
+
+                before: [],
+                after: [],
             },
         }
     },
     mounted() {
         this.getData()
-        this.getUserInfo()
     },
 
     methods: {
@@ -295,8 +461,7 @@ export default {
             if (this.isAllSelected) {
                 this.selectedRows = []
             } else {
-                let flagRole = this.userRole == 0 ? 'P' : 'N'
-                this.selectedRows = this.paginatedData.filter((row) => row.flag_appr === flagRole).map((row) => row.client_id)
+                this.selectedRows = this.paginatedData.filter((row) => row.flag_appr === 'N').map((row) => row.client_id)
             }
         },
 
@@ -315,13 +480,30 @@ export default {
             }
         },
 
-        getUserInfo() {
+        clearForm() {
+            this.form.submitted = false
+            this.form.before = []
+            this.form.after = []
+        },
+
+        getDetail(row) {
+            this.form.data = false
+            this.form.edit = true
+
+            this.form.after = row
+
             let loader = this.$loading.show()
 
             window.axios
-                .get('/userinfo')
+                .get('/transactions/approval-edit-client/x0y0z0', {
+                    params: {
+                        param: 'client-mst',
+                        client: row.client_id,
+                    },
+                })
                 .then((response) => {
-                    this.userRole = response.data.role
+                    this.detail = response.data
+                    this.form.before = row
 
                     loader.hide()
                 })
@@ -335,7 +517,7 @@ export default {
             let loader = this.$loading.show()
 
             window.axios
-                .get('/transactions/approval-client', {
+                .get('/transactions/approval-edit-client', {
                     params: {
                         param: this.selected,
                     },
@@ -364,31 +546,25 @@ export default {
             if (!this.form.submitted) {
                 this.form.submitted = true
 
-                if (this.selectedRows.length > 0) {
-                    let loader = this.$loading.show()
-                    window.axios
-                        .post('/transactions/approval-client?menu=' + this.$route.name, this.selectedRows)
-                        .then((response) => {
-                            this.form.submitted = false
-                            this.selectedRows = []
-                            this.getData()
-                            loader.hide()
-                            this.$notyf.success('Successfully Approve Client')
-                        })
-                        .catch((e) => {
-                            this.form.submitted = false
-                            loader.hide()
+                let loader = this.$loading.show()
+                window.axios
+                    .post('/transactions/approval-edit-client?menu=' + this.$route.name, this.form.after)
+                    .then((response) => {
+                        this.form.submitted = false
+                        this.cancel()
+                        loader.hide()
+                        this.$notyf.success('Successfully Approve Edit Client')
+                    })
+                    .catch((e) => {
+                        this.form.submitted = false
+                        loader.hide()
 
-                            if (e.response && e.response.data && e.response.data.message) {
-                                this.$notyf.error(e.response.data.message)
-                            } else {
-                                this.$notyf.error(e.message || 'An error occurred.')
-                            }
-                        })
-                } else {
-                    this.form.submitted = false
-                    this.$notyf.error('Tidak ada data yang dipilih!')
-                }
+                        if (e.response && e.response.data && e.response.data.message) {
+                            this.$notyf.error(e.response.data.message)
+                        } else {
+                            this.$notyf.error(e.message || 'An error occurred.')
+                        }
+                    })
             }
         },
 
@@ -396,32 +572,34 @@ export default {
             if (!this.form.submitted) {
                 this.form.submitted = true
 
-                if (this.selectedRows.length > 0) {
-                    let loader = this.$loading.show()
-                    window.axios
-                        .post('/transactions/approval-client/reject?menu=' + this.$route.name, this.selectedRows)
-                        .then((response) => {
-                            this.form.submitted = false
-                            this.selectedRows = []
-                            this.getData()
-                            loader.hide()
-                            this.$notyf.success('Successfully Reject Client')
-                        })
-                        .catch((e) => {
-                            this.form.submitted = false
-                            loader.hide()
+                let loader = this.$loading.show()
+                window.axios
+                    .post('/transactions/approval-edit-client/reject?menu=' + this.$route.name, this.form.after)
+                    .then((response) => {
+                        this.form.submitted = false
+                        this.cancel()
+                        loader.hide()
+                        this.$notyf.success('Successfully Reject Edit Client')
+                    })
+                    .catch((e) => {
+                        this.form.submitted = false
+                        loader.hide()
 
-                            if (e.response && e.response.data && e.response.data.message) {
-                                this.$notyf.error(e.response.data.message)
-                            } else {
-                                this.$notyf.error(e.message || 'An error occurred.')
-                            }
-                        })
-                } else {
-                    this.form.submitted = false
-                    this.$notyf.error('Tidak ada data yang dipilih!')
-                }
+                        if (e.response && e.response.data && e.response.data.message) {
+                            this.$notyf.error(e.response.data.message)
+                        } else {
+                            this.$notyf.error(e.message || 'An error occurred.')
+                        }
+                    })
             }
+        },
+
+        cancel() {
+            this.form.data = true
+            this.form.edit = false
+
+            this.clearForm()
+            this.getData()
         },
     },
 

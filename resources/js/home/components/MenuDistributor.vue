@@ -11,6 +11,16 @@
         </li>
 
         <li>
+            <router-link :to="{ name: 'profile' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+
+                Profile
+            </router-link>
+        </li>
+
+        <li>
             <details class="group [&_summary::-webkit-details-marker]:hidden">
                 <summary class="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                     <span class="group flex items-center gap-2 text-sm font-semibold">
@@ -34,16 +44,6 @@
 
                 <ul class="mt-2 space-y-1 px-4">
                     <li>
-                        <router-link :to="{ name: 'approval_book' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-                            </svg>
-
-                            Approval Buku
-                        </router-link>
-                    </li>
-
-                    <li>
                         <router-link :to="{ name: 'approval_client' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
@@ -51,38 +51,11 @@
                             Approval Client
                         </router-link>
                     </li>
-
-                    <li>
-                        <router-link :to="{ name: 'approval_edit_client' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-                            </svg>
-                            Approval Edit Client
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'approval_supplier' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-                            </svg>
-                            Approval Supplier
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'approval_distributor' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-                            </svg>
-                            Approval Distributor
-                        </router-link>
-                    </li>
                 </ul>
             </details>
         </li>
 
-        <li>
+        <!-- <li>
             <details class="group [&_summary::-webkit-details-marker]:hidden">
                 <summary class="flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                     <span class="group flex items-center gap-2 text-sm font-semibold">
@@ -101,24 +74,6 @@
 
                 <ul class="mt-2 space-y-1 px-4">
                     <li>
-                        <router-link :to="{ name: 'data_supplier' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-                            </svg>
-                            Data Supplier
-                        </router-link>
-                    </li>
-
-                    <li>
-                        <router-link :to="{ name: 'data_distributor' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-                            </svg>
-                            Data Distributor
-                        </router-link>
-                    </li>
-
-                    <li>
                         <router-link :to="{ name: 'data_po' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
@@ -126,33 +81,15 @@
                             Data PO
                         </router-link>
                     </li>
-                    <li>
-                        <router-link :to="{ name: 'data_paidoff' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.49 12 3.75 3.75m0 0-3.75 3.75m3.75-3.75H3.74V4.499" />
-                            </svg>
-                            Data Pelunasan
-                        </router-link>
-                    </li>
                 </ul>
             </details>
-        </li>
-
-        <li>
-            <router-link :to="{ name: 'encrypt_file' }" class="group flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="" class="size-5 stroke-svg-icon-color">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                </svg>
-
-                Enkripsi File
-            </router-link>
-        </li>
+        </li> -->
     </ul>
     <slot></slot>
 </template>
 
 <script>
 export default {
-    name: 'MenuAdmin',
+    name: 'MenuDistributor',
 }
 </script>

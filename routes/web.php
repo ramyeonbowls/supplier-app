@@ -123,6 +123,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 });
 
                 Route::apiResource('po-paid', UploadPaidOffController::class);
+
+                Route::apiResource('approval-edit-client', ApprovalEditClientController::class);
+                Route::prefix('approval-edit-client')->group(function() {
+                    Route::post('reject', 'ApprovalEditClientController@reject');
+                });
             });
         });
     });

@@ -44,6 +44,9 @@ class UploadPurchaseOrderController extends Controller
         $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
         $logs->write(__FUNCTION__, 'START');
 
+        $filter['date'] = $request->date ?? '';
+        $filter['client'] = $request->client ?? '';
+
         $results = [];
         try {
             DB::enableQueryLog();
@@ -68,6 +71,12 @@ class UploadPurchaseOrderController extends Controller
                         ->on('a.po_number', '=', 'c.po_number')
                         ->on('a.po_date', '=', 'c.po_date');
 				})
+                ->when(isset($filter['date']) && $filter['date'] != '', function($query) use ($filter) {
+                    $query->whereBetween('a.po_date', [explode(' to ', $filter['date'])[0], explode(' to ', $filter['date'])[1]]);
+                })
+                ->when(isset($filter['client']) && $filter['client'] != '', function($query) use ($filter) {
+                    $query->where('a.client_id', $filter['client']);
+                })
                 ->groupBy(
                     'a.client_id',
                     'b.instansi_name',
@@ -222,6 +231,37 @@ class UploadPurchaseOrderController extends Controller
                                 'nett' => number_format($nett, 0, 2),
                                 'total_gross' => number_format($total_gross, 0, 2),
                                 'total_nett' => number_format($total_nett, 0, 2),
+                            ];
+                        });
+                    }
+
+                    return response()->json($results, 200);
+                break;
+
+                case 'client-mst':
+                    DB::enableQueryLog();
+
+                    $ketegori = DB::table('tclient as a')->sharedLock()
+                        ->select(
+                            'a.client_id as id',
+                            'a.instansi_name as name'
+                        )
+                        ->where('a.flag_appr', 'Y')
+                        ->get();
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results = [];
+                    if($ketegori) {
+                        $results = $ketegori->map(function($value, $key) {
+                            return [
+                                'id' => $value->id,
+                                'name' => $value->name
                             ];
                         });
                     }
