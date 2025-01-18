@@ -82,7 +82,7 @@
                                         </svg>
                                     </span>
 
-                                    <span class="text-sm font-medium transition-all group-hover:ms-4"> Filter </span>
+                                    <span class="text-sm font-medium transition-all group-hover:ms-4"> Tampilkan </span>
                                 </button>
                             </div>
                         </div>

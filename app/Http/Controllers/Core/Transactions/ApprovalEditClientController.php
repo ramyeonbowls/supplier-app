@@ -214,7 +214,7 @@ class ApprovalEditClientController extends Controller
                 case 'client-mst':
                     DB::enableQueryLog();
 
-                    $client_id = request()->client_id ?? '';
+                    $client_id = request()->client ?? '';
                     $client = DB::table('tclient as a')->sharedLock()
                         ->select(
                             'a.client_id as client_id',
@@ -270,9 +270,7 @@ class ApprovalEditClientController extends Controller
                             $join->on('a.company_id', '=', 'g.id')
                                 ->on('g.type', '=', DB::raw("'2'"));
                         })
-                        ->when(isset($client_id) && $client_id != '', function($query) use ($client_id) {
-                            $query->where('a.client_id', $client_id);
-                        })
+                        ->where('a.client_id', $client_id)
                         ->orderBy('a.flag_appr', 'asc')
                         ->get();
 

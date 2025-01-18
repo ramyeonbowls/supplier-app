@@ -86,7 +86,7 @@
                                                             </span>
                                                         </template>
                                                     </th>
-                                                    <th class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100">Detail</th>
+                                                    <th class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100">Action</th>
                                                 </tr>
                                             </thead>
 
@@ -127,8 +127,8 @@
                                                                 {{ row[header.key] }}
                                                             </template>
                                                         </td>
-                                                        <td class="flex justify-start gap-2 whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                            <a href="javascript:void(0);" class="download-link inline-block rounded border border-blue-600 bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500" @click="getDetail(row)">Detail</a>
+                                                        <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                            <a v-if="row['flag_appr'] == 'N'" href="javascript:void(0);" class="download-link inline-block rounded border border-blue-600 bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500" @click="getDetail(row)">Detail</a>
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -297,62 +297,108 @@
                                             <dl class="-my-3 divide-y divide-gray-100 text-sm">
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Client ID</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.client_id }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.client_id != form.before.client_id ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.client_id }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Nama Instansi</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.instansi_name }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.instansi_name != form.before.instansi_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.instansi_name }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Nama Aplikasi</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.application_name }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.application_name != form.before.application_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.application_name }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Alamat Website</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.web_add }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.web_add != form.before.web_add ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.web_add }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Alamat</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.address }} {{ form.after.kelurahan_name }} {{ form.after.kecamatan_name }} {{ form.after.kabupaten_name }} {{ form.after.provinsi_name }} {{ form.after.negara_name }} {{ form.after.kodepos }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.address != form.before.address ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">{{ form.after.address }}</span> <span :class="form.after.kelurahan_name != form.before.kelurahan_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">{{ form.after.kelurahan_name }}</span> <span :class="form.after.kecamatan_name != form.before.kecamatan_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">{{ form.after.kecamatan_name }}</span> <span :class="form.after.kabupaten_name != form.before.kabupaten_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">{{ form.after.kabupaten_name }}</span> <span :class="form.after.provinsi_name != form.before.provinsi_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">{{ form.after.provinsi_name }}</span> <span :class="form.after.negara_name != form.before.negara_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">{{ form.after.negara_name }}</span> <span :class="form.after.kodepos != form.before.kodepos ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">{{ form.after.kodepos }}</span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">No. NPWP</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.npwp }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.npwp != form.before.npwp ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.npwp }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Nama Penanggung Jawab</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.pers_responsible }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.pers_responsible != form.before.pers_responsible ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.pers_responsible }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Jabatan Penanggung Jawab</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.pos_pers_responsible }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.pos_pers_responsible != form.before.pos_pers_responsible ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.pos_pers_responsible }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Nama Penandatanganan MOU</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.mou_sign_name }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.mou_sign_name != form.before.mou_sign_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.mou_sign_name }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Jabatan Penandatanganan MOU</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.pos_sign_name }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.pos_sign_name != form.before.pos_sign_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.pos_sign_name }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Nama Pengelola (Admin)</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.administrator_name }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.administrator_name != form.before.administrator_name ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.administrator_name }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
 
                                                 <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
                                                     <dt class="font-medium text-gray-900">Nomor HP/WA (Admin)</dt>
-                                                    <dd class="text-gray-700 sm:col-span-2">{{ form.after.administrator_phone }}</dd>
+                                                    <dd class="text-gray-700 sm:col-span-2">
+                                                        <span :class="form.after.administrator_phone != form.before.administrator_phone ? 'inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700' : ''">
+                                                            {{ form.after.administrator_phone }}
+                                                        </span>
+                                                    </dd>
                                                 </div>
                                             </dl>
                                         </div>
@@ -490,7 +536,8 @@ export default {
             this.form.data = false
             this.form.edit = true
 
-            this.form.after = row
+            this.form.after = []
+            this.form.before = []
 
             let loader = this.$loading.show()
 
@@ -502,8 +549,8 @@ export default {
                     },
                 })
                 .then((response) => {
-                    this.detail = response.data
-                    this.form.before = row
+                    this.form.before = response.data[0]
+                    this.form.after = row
 
                     loader.hide()
                 })

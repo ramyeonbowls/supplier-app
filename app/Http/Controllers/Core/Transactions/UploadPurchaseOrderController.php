@@ -44,7 +44,14 @@ class UploadPurchaseOrderController extends Controller
         $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
         $logs->write(__FUNCTION__, 'START');
 
-        $filter['date'] = $request->date ?? '';
+        if ($request->date) {
+            $filter['sdate'] = explode(' to ', $request->date)[0] ?? $request->date;
+            $filter['edate'] = explode(' to ', $request->date)[1] ?? $request->date;
+        } else {
+            $filter['sdate'] = '';
+            $filter['edate'] = '';
+        }
+
         $filter['client'] = $request->client ?? '';
 
         $results = [];
@@ -71,8 +78,8 @@ class UploadPurchaseOrderController extends Controller
                         ->on('a.po_number', '=', 'c.po_number')
                         ->on('a.po_date', '=', 'c.po_date');
 				})
-                ->when(isset($filter['date']) && $filter['date'] != '', function($query) use ($filter) {
-                    $query->whereBetween('a.po_date', [explode(' to ', $filter['date'])[0], explode(' to ', $filter['date'])[1]]);
+                ->when(isset($filter['sdate']) && $filter['sdate'] != '' && isset($filter['edate']) && $filter['edate'] != '', function($query) use ($filter) {
+                    $query->whereBetween('a.po_date', [$filter['sdate'], $filter['edate']]);
                 })
                 ->when(isset($filter['client']) && $filter['client'] != '', function($query) use ($filter) {
                     $query->where('a.client_id', $filter['client']);
