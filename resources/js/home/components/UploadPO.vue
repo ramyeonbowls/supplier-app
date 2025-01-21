@@ -180,8 +180,9 @@
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['persentase_supplier'] }} %</td>
                                                     <td class="flex justify-start gap-2 whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                         <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetail(row)">Detail</a>
-                                                        <a v-if="row['status'] == '1'" href="javascript:void(0);" class="download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '2')">Approve</a>
-                                                        <a v-if="row['status'] == '2'" href="javascript:void(0);" class="download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '3')">Kirim</a>
+                                                        <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetailSupplier(row)">Detail Supplier</a>
+                                                        <a v-if="row['status'] == '1'" href="javascript:void(0);" class="w-36 text-center download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '2')">Approve Client</a>
+                                                        <a v-if="row['status'] == '2'" href="javascript:void(0);" class="w-36 text-center download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '3')">Approve Supplier</a>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -290,7 +291,7 @@
                                     </div>
                                     <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
                                         <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Detail PO : {{ header_detail.po_number }}</DialogTitle>
-                                        <div class="mt-2 h-[60vh] w-[82vh] overflow-scroll p-1 sm:h-[65vh] sm:w-[190vh]">
+                                        <div class="mt-2 h-[60vh] w-[38vh] overflow-scroll p-1 sm:h-[48vh] sm:w-[190vh]">
                                             <div class="overflow-x-auto">
                                                 <table class="divide-y-2 divide-gray-200 bg-white text-sm">
                                                     <thead class="ltr:text-left rtl:text-right">
@@ -326,30 +327,30 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
-                                                <div class="mt-6 grow sm:mt-8 lg:mt-0">
-                                                    <div class="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
-                                                        <div class="grid grid-cols-1 gap-1 lg:grid-cols-3 lg:gap-8">
-                                                            <div></div>
-                                                            <div></div>
-                                                            <div>
-                                                                <div class="space-y-1">
-                                                                    <dl class="flex items-center justify-between gap-4">
-                                                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
-                                                                        <dd class="text-base font-medium text-gray-900 dark:text-white">{{ header_detail.po_amount }}</dd>
-                                                                    </dl>
+                                        </div>
+                                        <div class="mt-2 w-[38vh] sm:w-[190vh] sm:mt-4 lg:flex lg:items-start lg:gap-5">
+                                            <div class="mt-2 grow sm:mt-4 lg:mt-0">
+                                                <div class="space-y-2 rounded-lg border border-gray-100 bg-gray-50 p-2 dark:border-gray-700 dark:bg-gray-800">
+                                                    <div class="grid grid-cols-1 gap-1 lg:grid-cols-3 lg:gap-4">
+                                                        <div></div>
+                                                        <div></div>
+                                                        <div>
+                                                            <div class="space-y-1">
+                                                                <dl class="flex items-center justify-between gap-4">
+                                                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
+                                                                    <dd class="text-base font-medium text-gray-900 dark:text-white">{{ header_detail.po_amount }}</dd>
+                                                                </dl>
 
-                                                                    <dl class="flex items-center justify-between gap-4">
-                                                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Supplier %</dt>
-                                                                        <dd class="text-base font-medium text-gray-900">{{ header_detail.persentase_supplier }}</dd>
-                                                                    </dl>
-                                                                </div>
-
-                                                                <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                                                                    <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                                                                    <dd class="text-base font-bold text-gray-900 dark:text-white">{{ header_detail.po_nett }}</dd>
+                                                                <dl class="flex items-center justify-between gap-4">
+                                                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Supplier %</dt>
+                                                                    <dd class="text-base font-medium text-gray-900">{{ header_detail.persentase_supplier }}</dd>
                                                                 </dl>
                                                             </div>
+
+                                                            <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                                                <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                                                                <dd class="text-base font-bold text-gray-900 dark:text-white">{{ header_detail.po_nett }}</dd>
+                                                            </dl>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -359,7 +360,67 @@
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:justify-end sm:gap-2 sm:px-6">
-                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Cancel</button>
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Close</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="openSupplier">
+        <Dialog class="relative z-50" @close="openSupplier = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-[100rem]">
+                            <div class="w-[300rem] bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <InformationCircleIcon class="h-6 w-6 text-emerald-600" aria-hidden="true" />
+                                    </div>
+                                    <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Detail PO : {{ header_detail.po_number }}</DialogTitle>
+                                        <div class="mt-2 h-[60vh] w-[38vh] overflow-scroll p-1 sm:h-[48vh] sm:w-[190vh]">
+                                            <div class="overflow-x-auto">
+                                                <table class="divide-y-2 divide-gray-200 bg-white text-sm">
+                                                    <thead class="ltr:text-left rtl:text-right">
+                                                        <tr>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">SUPPLIER</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">NAMA INSTANSI</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">NO. PO</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">TANGGAL PO</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">GROSS PO</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">NETTO PO</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">PERSENTASE SUPPLIER</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody class="divide-y divide-gray-200">
+                                                        <tr v-for="(row, key) in detailSupplier" :key="key" class="odd:bg-gray-50">
+                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.supplier_name }}</td>
+                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.client_name }}</td>
+                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.po_number }}</td>
+                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.po_date }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.po_amount }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.po_nett }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.persentase_supplier }} %</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:justify-end sm:gap-2 sm:px-6">
+                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400 sm:ml-3 sm:w-auto" @click="exportTplDetail">Cetak Laporan</button>
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="openSupplier = false" ref="cancelButtonRef">Close</button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>
@@ -391,6 +452,7 @@ export default {
     data() {
         return {
             open: false,
+            openSupplier: false,
             headers: [
                 { label: 'NAMA INSTANSI', key: 'client_name' },
                 { label: 'NO. PO', key: 'po_number' },
@@ -404,6 +466,8 @@ export default {
             data: [],
             detail: [],
             header_detail: [],
+            detailSupplier: [],
+            header_detailSupplier: [],
             searchQuery: '',
             rowsPerPage: 10,
             currentPage: 1,
@@ -504,6 +568,29 @@ export default {
                     this.detail = response.data
                     this.header_detail = row
                     this.open = true
+                })
+                .catch((e) => {
+                    console.error(e)
+                })
+        },
+
+        getDetailSupplier(row) {
+            this.detailSupplier = []
+            this.header_detailSupplier = []
+
+            window.axios
+                .get('/transactions/po-upload/x0y0z0', {
+                    params: {
+                        param: 'detail-po-supplier',
+                        client: row.client_id,
+                        ponumber: row.po_number,
+                        podate: row.po_date,
+                    },
+                })
+                .then((response) => {
+                    this.detailSupplier = response.data
+                    this.header_detailSupplier = row
+                    this.openSupplier = true
                 })
                 .catch((e) => {
                     console.error(e)
@@ -623,6 +710,29 @@ export default {
                     const link = document.createElement('a')
                     link.href = url
                     link.setAttribute('download', 'upload_data_po.xlsx')
+                    document.body.appendChild(link)
+                    link.click()
+                })
+                .catch((e) => {
+                    console.log(e.response.data)
+                })
+        },
+
+        async exportTplDetail(filename) {
+            await window
+                .axios({
+                    url: '/transactions/po-upload-excel/export-dtl-tpl',
+                    method: 'POST',
+                    responseType: 'blob',
+                    data: {
+                        data: this.header_detailSupplier,
+                    },
+                })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', 'laporan_po_supplier.xlsx')
                     document.body.appendChild(link)
                     link.click()
                 })

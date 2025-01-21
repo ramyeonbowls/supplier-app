@@ -120,6 +120,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::prefix('po-upload-excel')->group(function() {
                     Route::post('upload', 'UploadPurchaseOrderController@uploadExcel');
                     Route::post('export-tpl', 'UploadPurchaseOrderController@exportTpl');
+                    Route::post('export-dtl-tpl', 'UploadPurchaseOrderController@exportTplDetail');
                 });
 
                 Route::apiResource('po-paid', UploadPaidOffController::class);
