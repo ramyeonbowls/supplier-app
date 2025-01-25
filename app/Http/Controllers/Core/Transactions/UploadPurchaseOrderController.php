@@ -85,6 +85,9 @@ class UploadPurchaseOrderController extends Controller
                 ->when(isset($filter['client']) && $filter['client'] != '', function($query) use ($filter) {
                     $query->where('a.client_id', $filter['client']);
                 })
+                ->when(auth()->user()->role == 2, function($query) {
+                    $query->where('b.company_id', auth()->user()->client_id);
+                })
                 ->groupBy(
                     'a.client_id',
                     'b.instansi_name',
@@ -420,6 +423,32 @@ class UploadPurchaseOrderController extends Controller
                 $result['status'] = 201;
                 $result['message'] = "Successfully updated.";
 
+                if ($id == '2') {
+                    $detailMap = DB::table('tpo_detail as a')->sharedLock()
+                        ->select(
+                            'a.client_id as client_id',
+                            'a.po_number as po_number',
+                            'a.book_id as book_id',
+                            'a.qty as qty'
+                        )
+                        ->where('a.client_id', $request->client_id)
+                        ->where('a.po_number', $request->po_number)
+                        ->where('a.po_date', $request->po_date)
+                        ->distinct()
+                        ->get();
+
+                    foreach ($detailMap as $i => $value) {
+                        $mapping = DB::table('tmapping_book')->insert([
+                            'client_id' => $value->client_id,
+                            'po_number' => $value->po_number,
+                            'book_id' => $value->book_id,
+                            'copy' => $value->qty,
+                            'created_at' => Carbon::now('Asia/Jakarta'),
+                            'updated_at' => Carbon::now('Asia/Jakarta'),
+                        ]);
+                    }                    
+                }
+
                 if ($id == '3') {
                     $tbook = DB::table('tbook as a')->sharedLock()
                         ->select(
@@ -450,6 +479,7 @@ class UploadPurchaseOrderController extends Controller
                             'client_id' => $request->client_id,
                             'po_number' => $request->po_number,
                             'po_date' => $request->po_date,
+                            'payment_image' => '',
                             'created_at' => Carbon::now('Asia/Jakarta'),
                             'created_by' => auth()->user()->email,
                         ]);
@@ -483,7 +513,49 @@ class UploadPurchaseOrderController extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        return response()->json(['id' => $id], 200);
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $filter['po_number'] = explode('|', $id)[0] ?? '';
+        $filter['client_id'] = explode('|', $id)[1] ?? '';
+        $filter['po_date'] = explode('|', $id)[2] ?? '';
+
+        $result['status'] = 200;
+        $result['message'] = '';
+        try {
+            DB::enableQueryLog();
+
+            $deleted = DB::table('tmapping_book')
+                ->where('client_id', $filter['client_id'])
+                ->where('po_number', $filter['po_number'])
+                ->delete();
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $queries[$q]['query']);
+            }
+
+            if ($deleted) {
+                $logs->write("INFO", "PO berhasil ditarik");
+                $result['message'] = 'PO berhasil ditarik';
+
+                $updated = DB::table('tpo_header')
+                    ->where('client_id', $filter['client_id'])
+                    ->where('po_number', $filter['po_number'])
+                    ->where('po_date', $filter['po_date'])
+                    ->update([
+                        'status' => '5'
+                    ]);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+
+            $result['message'] = 'PO gagal ditarik.<br>' . $th->getMessage();
+        }
+        $logs->write(__FUNCTION__, "STOP\r\n");
+
+        return response()->json($result['message'], $result['status']);
     }
 
     /**

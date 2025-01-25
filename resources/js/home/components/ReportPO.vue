@@ -134,6 +134,12 @@
                                             </span>
                                         </td>
                                         <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                            <span v-if="row['status'] == '0'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                </svg>
+                                                <p class="whitespace-nowrap text-sm">Butuh Approval Distributor</p>
+                                            </span>
                                             <span v-if="row['status'] == '1'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -261,23 +267,20 @@
     <TransitionRoot as="template" :show="open">
         <Dialog class="relative z-50" @close="open = false">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+                <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
             </TransitionChild>
 
             <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
-                <div class="text-items-start flex min-h-full items-start justify-items-start p-4 sm:items-start sm:p-0">
+                <div class="flex min-h-full items-start justify-center p-4 text-center sm:items-center sm:p-0">
                     <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-[100rem]">
-                            <div class="w-[300rem] bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-1 sm:w-full">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
-                                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <InformationCircleIcon class="h-6 w-6 text-emerald-600" aria-hidden="true" />
-                                    </div>
-                                    <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
-                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">{{ header_detail.po_number }}</DialogTitle>
-                                        <div class="mt-2 h-[60vh] w-[38vh] overflow-scroll p-1 sm:h-[48vh] sm:w-[190vh]">
-                                            <div class="overflow-x-auto">
-                                                <table class="divide-y-2 divide-gray-200 bg-white text-sm">
+                                    <div class="mt-3 h-full max-h-[40rem] w-full overflow-auto text-center sm:mt-0 sm:max-h-[30rem] sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold text-gray-900">Detail PO : {{ header_detail.po_number }}</DialogTitle>
+                                        <div class="mt-2">
+                                            <div class="overflow-auto rounded-lg border border-gray-200">
+                                                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                                     <thead class="ltr:text-left rtl:text-right">
                                                         <tr>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">COVER</th>
@@ -312,38 +315,10 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="mt-2 w-[38vh] sm:w-[190vh] sm:mt-4 lg:flex lg:items-start lg:gap-5">
-                                            <div class="mt-2 grow sm:mt-4 lg:mt-0">
-                                                <div class="space-y-2 rounded-lg border border-gray-100 bg-gray-50 p-2 dark:border-gray-700 dark:bg-gray-800">
-                                                    <div class="grid grid-cols-1 gap-1 lg:grid-cols-3 lg:gap-4">
-                                                        <div></div>
-                                                        <div></div>
-                                                        <div>
-                                                            <div class="space-y-1">
-                                                                <dl class="flex items-center justify-between gap-4">
-                                                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
-                                                                    <dd class="text-base font-medium text-gray-900 dark:text-white">{{ header_detail.po_amount }}</dd>
-                                                                </dl>
-
-                                                                <dl class="flex items-center justify-between gap-4">
-                                                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Supplier %</dt>
-                                                                    <dd class="text-base font-medium text-gray-900">{{ header_detail.persentase_supplier }}</dd>
-                                                                </dl>
-                                                            </div>
-
-                                                            <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                                                                <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                                                                <dd class="text-base font-bold text-gray-900 dark:text-white">{{ header_detail.po_nett }}</dd>
-                                                            </dl>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:justify-end sm:gap-2 sm:px-6">
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                 <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400 sm:ml-3 sm:w-auto" @click="exportTplDetail">Cetak Laporan</button>
                                 <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Close</button>
                             </div>

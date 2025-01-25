@@ -64,7 +64,7 @@
 
                 <div class="tab-content mt-4 min-h-[23.75rem] flex-grow overflow-auto">
                     <div class="tab-panel" :class="form.data ? '' : 'hidden'">
-                        <div class="flex items-center justify-start gap-2 py-3">
+                        <div class="flex flex-col justify-start gap-2 py-3 sm:flex-row sm:items-center">
                             <div class="relative">
                                 <input ref="datepicker" type="text" v-model="filters.date" placeholder="Select date" class="w-full rounded-md border-gray-200 py-2 pe-10 shadow-sm sm:text-sm" readonly />
                             </div>
@@ -74,7 +74,7 @@
                                     <option v-for="(value, key) in options.client" :key="key" :value="value.id">{{ value.name }}</option>
                                 </select>
                             </div>
-                            <div class="relative">
+                            <div class="flex justify-center">
                                 <button class="group relative inline-flex items-center overflow-hidden rounded bg-sky-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-sky-500" @click="getData">
                                     <span class="absolute -start-full transition-all group-hover:start-4">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -87,14 +87,14 @@
                             </div>
                         </div>
 
-                        <div class="mb-4 flex items-center justify-between">
+                        <div class="mb-4 flex items-center justify-between gap-2">
                             <div class="relative">
                                 <input type="text" id="search" v-model="searchQuery" placeholder="Search for..." class="w-full rounded-md border-gray-200 py-2 pe-10 shadow-sm sm:text-sm" />
                             </div>
 
-                            <div class="flex w-[20rem] items-center justify-end gap-2">
-                                <label for="HeadlineAct" class="block text-sm font-medium text-gray-900"> Rows per page : </label>
-                                <select v-model="rowsPerPage" class="w-1/4 rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm">
+                            <div class="flex items-center gap-2 sm:w-[20rem] sm:justify-end">
+                                <label for="HeadlineAct" class="hidden text-sm font-medium text-gray-900 sm:block"> Rows per page : </label>
+                                <select v-model="rowsPerPage" class="rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:w-1/4 sm:text-sm">
                                     <option v-for="option in perPageOptions" :key="option" :value="option">
                                         {{ option }}
                                     </option>
@@ -106,15 +106,15 @@
                             <div class="rounded-lg border border-gray-300">
                                 <div class="overflow-x-auto rounded-t-lg">
                                     <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                                        <thead class="bg-slate-300 text-left">
+                                        <thead class="bg-white text-left">
                                             <tr>
                                                 <!-- <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
                                                     <input type="checkbox" id="selectAll" @change="selectAll" v-model="isAllChecked" class="size-5 rounded border-gray-300" />
                                                 </th> -->
-                                                <th v-for="header in headers" @click="sortBy(header)" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                                <th v-for="header in headers" @click="sortBy(header)" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-50">
                                                     {{ header.label }}
                                                 </th>
-                                                <th class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">ACTION</th>
+                                                <th class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-50">ACTION</th>
                                             </tr>
                                         </thead>
 
@@ -150,11 +150,17 @@
                                                         </span>
                                                     </td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                        <span v-if="row['status'] == '0'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                            </svg>
+                                                            <p class="whitespace-nowrap text-sm">{{ user.role == 0 ? 'Butuh Approval Distributor' : 'Open' }}</p>
+                                                        </span>
                                                         <span v-if="row['status'] == '1'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                             </svg>
-                                                            <p class="whitespace-nowrap text-sm">Open</p>
+                                                            <p class="whitespace-nowrap text-sm">{{ user.role == 2 ? 'Butuh Approval Supplier' : 'Open' }}</p>
                                                         </span>
                                                         <span v-if="row['status'] == '2'" class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
@@ -174,6 +180,12 @@
                                                             </svg>
                                                             <p class="whitespace-nowrap text-sm">Lunas</p>
                                                         </span>
+                                                        <span v-if="row['status'] == '5'" class="inline-flex items-center justify-center rounded-full bg-rose-100 px-2.5 py-0.5 text-rose-700">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                            </svg>
+                                                            <p class="whitespace-nowrap text-sm">Ditarik</p>
+                                                        </span>
                                                     </td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_amount'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_nett'] }}</td>
@@ -181,8 +193,10 @@
                                                     <td class="flex justify-start gap-2 whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                         <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetail(row)">Detail</a>
                                                         <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetailSupplier(row)">Detail Supplier</a>
-                                                        <a v-if="row['status'] == '1'" href="javascript:void(0);" class="w-36 text-center download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '2')">Approve Client</a>
-                                                        <a v-if="row['status'] == '2'" href="javascript:void(0);" class="w-36 text-center download-link inline-block rounded border border-sky-600 bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '3')">Approve Supplier</a>
+                                                        <a v-if="row['status'] == '0' && user.role == 2" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-sky-600 bg-sky-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '1')">Approve Distributor</a>
+                                                        <a v-if="row['status'] == '1' && user.role == 0" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-sky-600 bg-sky-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '2')">Approve Client</a>
+                                                        <a v-if="row['status'] == '2' && user.role == 0" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-sky-600 bg-sky-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '3')">Approve Supplier</a>
+                                                        <a v-if="row['status'] == '3' && user.role == 0" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-rose-600 bg-rose-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-rose-600 focus:outline-none focus:ring active:text-rose-500" @click="destroy(row)">Tarik</a>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -277,23 +291,20 @@
     <TransitionRoot as="template" :show="open">
         <Dialog class="relative z-50" @close="open = false">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+                <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
             </TransitionChild>
 
             <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
                 <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                     <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-[100rem]">
-                            <div class="w-[300rem] bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-1 sm:w-full">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
-                                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <InformationCircleIcon class="h-6 w-6 text-emerald-600" aria-hidden="true" />
-                                    </div>
-                                    <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
-                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Detail PO : {{ header_detail.po_number }}</DialogTitle>
-                                        <div class="mt-2 h-[60vh] w-[38vh] overflow-scroll p-1 sm:h-[48vh] sm:w-[190vh]">
-                                            <div class="overflow-x-auto">
-                                                <table class="divide-y-2 divide-gray-200 bg-white text-sm">
+                                    <div class="mt-3 h-full max-h-[40rem] w-full overflow-auto text-center sm:mt-0 sm:max-h-[30rem] sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold text-gray-900">Detail PO : {{ header_detail.po_number }}</DialogTitle>
+                                        <div class="mt-2">
+                                            <div class="overflow-auto rounded-lg border border-gray-200">
+                                                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                                     <thead class="ltr:text-left rtl:text-right">
                                                         <tr>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">COVER</th>
@@ -328,39 +339,11 @@
                                                 </table>
                                             </div>
                                         </div>
-                                        <div class="mt-2 w-[38vh] sm:w-[190vh] sm:mt-4 lg:flex lg:items-start lg:gap-5">
-                                            <div class="mt-2 grow sm:mt-4 lg:mt-0">
-                                                <div class="space-y-2 rounded-lg border border-gray-100 bg-gray-50 p-2 dark:border-gray-700 dark:bg-gray-800">
-                                                    <div class="grid grid-cols-1 gap-1 lg:grid-cols-3 lg:gap-4">
-                                                        <div></div>
-                                                        <div></div>
-                                                        <div>
-                                                            <div class="space-y-1">
-                                                                <dl class="flex items-center justify-between gap-4">
-                                                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Subtotal</dt>
-                                                                    <dd class="text-base font-medium text-gray-900 dark:text-white">{{ header_detail.po_amount }}</dd>
-                                                                </dl>
-
-                                                                <dl class="flex items-center justify-between gap-4">
-                                                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Supplier %</dt>
-                                                                    <dd class="text-base font-medium text-gray-900">{{ header_detail.persentase_supplier }}</dd>
-                                                                </dl>
-                                                            </div>
-
-                                                            <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                                                                <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                                                                <dd class="text-base font-bold text-gray-900 dark:text-white">{{ header_detail.po_nett }}</dd>
-                                                            </dl>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:justify-end sm:gap-2 sm:px-6">
-                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Close</button>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="shadow-xs mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open = false" ref="cancelButtonRef">Close</button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>
@@ -372,23 +355,20 @@
     <TransitionRoot as="template" :show="openSupplier">
         <Dialog class="relative z-50" @close="openSupplier = false">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+                <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
             </TransitionChild>
 
             <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
                 <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                     <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-[100rem]">
-                            <div class="w-[300rem] bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-1 sm:w-full">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
-                                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <InformationCircleIcon class="h-6 w-6 text-emerald-600" aria-hidden="true" />
-                                    </div>
-                                    <div class="mt-3 text-left sm:ml-4 sm:mt-0 sm:text-left">
-                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Detail PO : {{ header_detail.po_number }}</DialogTitle>
-                                        <div class="mt-2 h-[60vh] w-[38vh] overflow-scroll p-1 sm:h-[48vh] sm:w-[190vh]">
-                                            <div class="overflow-x-auto">
-                                                <table class="divide-y-2 divide-gray-200 bg-white text-sm">
+                                    <div class="mt-3 h-full max-h-[40rem] w-full overflow-auto text-center sm:mt-0 sm:max-h-[30rem] sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold text-gray-900">Detail PO : {{ header_detailSupplier.po_number }}</DialogTitle>
+                                        <div class="mt-2">
+                                            <div class="overflow-auto rounded-lg border border-gray-200">
+                                                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                                                     <thead class="ltr:text-left rtl:text-right">
                                                         <tr>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">SUPPLIER</th>
@@ -403,7 +383,7 @@
 
                                                     <tbody class="divide-y divide-gray-200">
                                                         <tr v-for="(row, key) in detailSupplier" :key="key" class="odd:bg-gray-50">
-                                                            <td class="px-4 py-2 text-left text-gray-700">{{ row.supplier_name }}</td>
+                                                            <td class="px-4 py-2 text-left font-semibold text-gray-700">{{ row.supplier_name }}</td>
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.client_name }}</td>
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.po_number }}</td>
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.po_date }}</td>
@@ -418,7 +398,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:justify-end sm:gap-2 sm:px-6">
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                 <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400 sm:ml-3 sm:w-auto" @click="exportTplDetail">Cetak Laporan</button>
                                 <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="openSupplier = false" ref="cancelButtonRef">Close</button>
                             </div>
@@ -478,6 +458,8 @@ export default {
             isAllChecked: false,
             selectedRows: [],
 
+            user: {},
+
             options: {
                 client: [],
             },
@@ -501,6 +483,7 @@ export default {
     },
 
     mounted() {
+        this.userinfo()
         this.getData()
         this.getClient()
 
@@ -511,6 +494,19 @@ export default {
     },
 
     methods: {
+        userinfo() {
+            this.user = {}
+
+            window.axios
+                .get('/userinfo')
+                .then((response) => {
+                    this.user = response.data
+                })
+                .catch((e) => {
+                    console.error(e)
+                })
+        },
+
         getData() {
             this.data = []
 
@@ -683,6 +679,34 @@ export default {
                         loader.hide()
                         this.form.submitted = false
                         this.cancel()
+                        this.$notyf.success(response.data)
+                    })
+                    .catch((e) => {
+                        this.form.submitted = false
+                        this.clearForm()
+                        loader.hide()
+
+                        if (e.response && e.response.data && e.response.data.message) {
+                            this.$notyf.error(e.response.data.message)
+                        } else {
+                            this.$notyf.error(e.message || 'An error occurred.')
+                        }
+                    })
+            }
+        },
+
+        destroy(row) {
+            if (!this.form.submitted) {
+                this.form.submitted = true
+                let loader = this.$loading.show()
+
+                window.axios
+                    .delete('/transactions/po-upload/' + row.po_number + '|' + row.client_id + '|' + row.po_date + '?menu=' + this.$route.name)
+                    .then((response) => {
+                        loader.hide()
+                        this.form.submitted = false
+                        this.cancel()
+                        this.$notyf.success(response.data)
                     })
                     .catch((e) => {
                         this.form.submitted = false
