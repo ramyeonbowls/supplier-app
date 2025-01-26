@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/login/app.js',
                 'resources/js/register/app.js',
                 'resources/js/verify/app.js',
+                'resources/js/landing/app.js',
             ],
             refresh: true,
         }),
