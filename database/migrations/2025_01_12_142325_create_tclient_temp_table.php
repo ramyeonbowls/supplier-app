@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tclient_temp', function (Blueprint $table) {
-            $table->string('client_id', 50)->primary();
+            $table->id();
+            $table->string('client_id', 50);
             $table->string('instansi_name', 150)->nullable();
             $table->string('application_name', 150)->nullable();
             $table->string('address', 200)->nullable();

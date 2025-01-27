@@ -47,6 +47,7 @@ class ApprovalEditClientController extends Controller
 
             $results = DB::table('tclient_temp as a')->sharedLock()
                 ->select(
+                    DB::raw('max(a.id) as id'),
                     'a.client_id as client_id',
                     'a.instansi_name as instansi_name',
                     'a.application_name as application_name',
@@ -100,6 +101,42 @@ class ApprovalEditClientController extends Controller
 					$join->on('a.company_id', '=', 'g.id')
                         ->on('g.type', '=', DB::raw("'2'"));
 				})
+                ->where('a.flag_appr', 'N')
+                ->groupBy(
+                    'a.client_id',
+                    'a.instansi_name',
+                    'a.application_name',
+                    'a.address',
+                    'a.country_id',
+                    'b.country_name',
+                    'a.provinsi_id',
+                    'c.provinsi_name',
+                    'a.kabupaten_id',
+                    'd.kabupaten_name',
+                    'a.kecamatan_id',
+                    'e.kecamatan_name',
+                    'a.kelurahan_id',
+                    'f.kelurahan_name',
+                    'a.kodepos',
+                    'a.npwp',
+                    'a.pers_responsible',
+                    'a.pos_pers_responsible',
+                    'a.mou_sign_name',
+                    'a.pos_sign_name',
+                    'a.administrator_name',
+                    'a.administrator_phone',
+                    'a.logo',
+                    'a.logo_small',
+                    'a.company_id',
+                    'g.name',
+                    'a.web_add',
+                    'a.agreement',
+                    'a.client_category',
+                    'a.client_level',
+                    'a.flag_appr',
+                    'a.created_at',
+                    'a.updated_at',
+                )
                 ->orderBy('a.flag_appr', 'asc')
                 ->get();
 
@@ -149,6 +186,7 @@ class ApprovalEditClientController extends Controller
 
             $approve = DB::table('tclient_temp')
                 ->where('client_id', $request->client_id)
+                ->where('id', $request->id)
                 ->update([
                     'flag_appr' => 'Y',
                     'updated_at' => Carbon::now('Asia/Jakarta')
@@ -369,6 +407,7 @@ class ApprovalEditClientController extends Controller
 
             $reject = DB::table('tclient_temp')
                 ->where('client_id', $request->client_id)
+                ->where('id', $request->id)
                 ->update([
                     'flag_appr' => 'R',
                     'updated_at' => Carbon::now('Asia/Jakarta')

@@ -134,7 +134,7 @@
                                                 </template>
                                                 <template v-else>
                                                     <tr class="even:bg-gray-50 hover:bg-gray-100">
-                                                        <td :colspan="headers.length" class="border-b border-gray-200 px-4 py-2 text-center">No Data to Show !</td>
+                                                        <td :colspan="headers.length + 1" class="border-b border-gray-200 px-4 py-2 text-center">No Data to Show !</td>
                                                     </tr>
                                                 </template>
                                             </tbody>
