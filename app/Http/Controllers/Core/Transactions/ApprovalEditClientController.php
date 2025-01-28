@@ -161,9 +161,6 @@ class ApprovalEditClientController extends Controller
                 $path = 'storage/images/logo/';
                 return file_exists(public_path($path . $value->logo_small)) ? $path . $value->logo_small : '';
             })
-            ->editColumn('web_add', function ($value) {
-                return $value->web_add . '.pustakadigital.id';
-            })
             ->addIndexColumn()
             ->toJson();
     }
@@ -184,36 +181,36 @@ class ApprovalEditClientController extends Controller
         try {
             DB::enableQueryLog();
 
-            $approve = DB::table('tclient_temp')
-                ->where('client_id', $request->client_id)
-                ->where('id', $request->id)
-                ->update([
-                    'flag_appr' => 'Y',
-                    'updated_at' => Carbon::now('Asia/Jakarta')
+            $approve = DB::table('tclient')
+                ->updateOrInsert([
+                    'client_id' => $request->client_id,
+                ], [
+                    'instansi_name' => $request->instansi_name,
+                    'application_name' => $request->application_name,
+                    'address' => $request->address,
+                    'country_id' => $request->negara_id,
+                    'provinsi_id' => $request->provinsi_id,
+                    'kabupaten_id' => $request->kabupaten_id,
+                    'kecamatan_id' => $request->kecamatan_id,
+                    'kelurahan_id' => $request->kelurahan_id,
+                    'kodepos' => $request->kodepos,
+                    'npwp' => $request->npwp,
+                    'pers_responsible' => $request->pers_responsible,
+                    'pos_pers_responsible' => $request->pos_pers_responsible,
+                    'mou_sign_name' => $request->mou_sign_name,
+                    'pos_sign_name' => $request->pos_sign_name,
+                    'administrator_name' => $request->administrator_name,
+                    'administrator_phone' => $request->administrator_phone,
+                    'web_add' => $request->web_add,
                 ]);
             
             if ($approve) {
-                $update = DB::table('tclient')
-                    ->updateOrInsert([
-                        'client_id' => $request->client_id,
-                    ], [
-                        'instansi_name' => $request->instansi_name,
-                        'application_name' => $request->application_name,
-                        'address' => $request->address,
-                        'country_id' => $request->negara_id,
-                        'provinsi_id' => $request->provinsi_id,
-                        'kabupaten_id' => $request->kabupaten_id,
-                        'kecamatan_id' => $request->kecamatan_id,
-                        'kelurahan_id' => $request->kelurahan_id,
-                        'kodepos' => $request->kodepos,
-                        'npwp' => $request->npwp,
-                        'pers_responsible' => $request->pers_responsible,
-                        'pos_pers_responsible' => $request->pos_pers_responsible,
-                        'mou_sign_name' => $request->mou_sign_name,
-                        'pos_sign_name' => $request->pos_sign_name,
-                        'administrator_name' => $request->administrator_name,
-                        'administrator_phone' => $request->administrator_phone,
-                        'web_add' => $request->web_add,
+                $update = DB::table('tclient_temp')
+                    ->where('client_id', $request->client_id)
+                    ->where('id', $request->id)
+                    ->update([
+                        'flag_appr' => 'Y',
+                        'updated_at' => Carbon::now('Asia/Jakarta')
                     ]);
 
                 $logs->write("INFO", "Successfully approve");
