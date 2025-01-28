@@ -10,9 +10,9 @@
             </div>
 
             <ul class="hidden gap-5 text-slate-500 cursor-pointer md:flex">
-                <li class="hover:text-slate-700 hover:font-semibold">Tentang kami</li>
+                <li class="hover:text-slate-700 hover:font-semibold"><a href="#about">Tentang kami</a></li>
                 <li class="hover:text-slate-700 hover:font-semibold"><a href="#product">Produk</a></li>
-                <li class="hover:text-slate-700 hover:font-semibold">Kontak</li>
+                <li class="hover:text-slate-700 hover:font-semibold"><a href="#contact">Kontak</a></li>
             </ul>
 
             <a href="pendaftaran-client" class="bg-blue-600 hover:bg-blue-500 px-5 py-3 text-sm text-white font-semibold rounded-full hidden md:flex md:items-center md:gap-2">Daftar Sekarang
@@ -43,7 +43,7 @@
 
             </div>
 
-            <div class="relative bg-blue-100 px-5 py-10 h-[850px] flex items-center md:px-10 md:static">
+            <div id="about" class="relative bg-blue-100 px-5 py-10 h-[850px] flex items-center md:px-10 md:static">
                 <img src="images/landing/ebooks-collection-library.png" alt="img-ebook" class="md:w-3/4">
                 
                 <div class="absolute top-0 w-full flex flex-col gap-3 md:static md:top-auto">
@@ -153,20 +153,20 @@
                 </a>
             </div>
 
-            <div class="h-fit p-5 md:p-10 flex flex-col items-center justify-center text-slate-600">
+            <div id="contact" class="h-fit p-5 md:p-10 flex flex-col items-center justify-center text-slate-600">
                 <img src="images/logo/logo.svg" alt="img-logo" class="w-24 md:w-40">
 
                 <div class="w-1/2 mt-5 md:flex md:gap-10">
-                    <p class="flex gap-3 text-xs items-center">
-                        <img src="images/icons/email.png" alt="icon-email" class="w-5">
+                    <p class="flex gap-3 mt-2 text-xs items-center">
+                        <img src="images/icons/email.png" alt="icon-email" class="w-5 bg-slate-300 p-1 rounded-full">
                         info@pustakadigital.id
                     </p>
-                    <p class="flex gap-3 text-xs items-center">
-                        <img src="images/icons/phone-call.png" alt="icon-phone" class="w-5">
+                    <p class="flex gap-3 mt-2 text-xs items-center">
+                        <img src="images/icons/phone-call.png" alt="icon-phone" class="w-5  bg-slate-300 p-1 rounded-full">
                         0812-2603-2731
                     </p>
-                    <p class="flex gap-3 text-xs items-center">
-                        <img src="images/icons/maps-and-flags.png" alt="icon-maps" class="w-5">
+                    <p class="flex gap-3 mt-2 text-xs items-center">
+                        <img src="images/icons/maps-and-flags.png" alt="icon-maps" class="w-5  bg-slate-300 p-1 rounded-full">
                         Jl. Glondong Gg. Nakula, Bangunharjo, Sewon, Bantul, DI Yogyakarta 55188
                     </p>
                 </div>
