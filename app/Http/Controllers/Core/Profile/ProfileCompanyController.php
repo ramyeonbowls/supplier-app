@@ -646,6 +646,318 @@ class ProfileCompanyController extends Controller
                     return response()->json($results, 200);
                 break;
 
+                case 'dashboard-supplier':
+                    DB::enableQueryLog();
+
+                    $publish = DB::table('tbook as a')->where('a.supplier_id', auth()->user()->client_id)->count();
+                    $review = DB::table('tbook_draft as a')->where('a.supplier_id', auth()->user()->client_id)->where('a.status', '2')->count();
+
+                    $tbook = DB::table('tbook as a')->sharedLock()
+                        ->select(
+                            'a.*',
+                            'b.name'
+                        )
+                        ->join('tcompany as b', function($join) {
+                            $join->on('a.supplier_id', '=', 'b.id')
+                                ->on('b.type', '=', DB::raw("'1'"));
+                        });
+
+                    $detail = DB::table('tpo_detail as a')->sharedLock()
+                        ->select(
+                            'a.client_id as client_id',
+                            'a.po_number as po_number',
+                            'a.po_date as po_date',
+                            'b.supplier_id as supplier_id',
+                            'b.name as supplier_name',
+                            'a.book_id as book_id',
+                            'a.qty as qty',
+                            'a.sellprice as sellprice',
+                            'c.status as status',
+                            'c.payment_image as payment_image'
+                        )
+                        ->joinSub($tbook, 'b', function($join) {
+                            $join->on('a.book_id', '=', 'b.book_id');
+                        })
+                        ->leftJoin('tpo_paid_off as c', function($join) {
+                            $join->on('a.client_id', '=', 'c.client_id')
+                                ->on('b.supplier_id', '=', 'c.supplier_id')
+                                ->on('a.po_number', '=', 'c.po_number')
+                                ->on('a.po_date', '=', 'c.po_date');
+                        });
+
+                    $purchase = DB::table('tpo_header as a')->sharedLock()
+                        ->select(
+                            'a.client_id as client_id',
+                            'b.instansi_name as client_name',
+                            'c.supplier_id as supplier_id',
+                            'c.supplier_name as supplier_name',
+                            'a.po_number as po_number',
+                            'a.po_date as po_date',
+                            'a.po_type as po_type',
+                            DB::raw('sum(c.sellprice * c.qty) as po_amount'),
+                            'a.po_discount as po_discount',
+                            'a.persentase_supplier as persentase_supplier',
+                            DB::raw("case when c.status != '' then c.status else a.status end as status"),
+                            'c.payment_image as payment_image'
+                        )
+                        ->join('tclient as b', function($join) {
+                            $join->on('a.client_id', '=', 'b.client_id');
+                        })
+                        ->joinSub($detail, 'c', function($join) {
+                            $join->on('a.client_id', '=', 'c.client_id')
+                                ->on('a.po_number', '=', 'c.po_number')
+                                ->on('a.po_date', '=', 'c.po_date');
+                        })
+                        ->where('c.supplier_id', auth()->user()->client_id)
+                        ->groupBy(
+                            'a.client_id',
+                            'b.instansi_name',
+                            'c.supplier_id',
+                            'c.supplier_name',
+                            'a.po_number',
+                            'a.po_date',
+                            'a.po_type',
+                            'a.po_discount',
+                            'a.persentase_supplier',
+                            'a.status',
+                            DB::raw("case when c.status != '' then c.status else a.status end"),
+                            'c.payment_image'
+                        )
+                        ->get();
+
+                    $paid = $purchase->filter(function ($item) {
+                        return $item->status == 4;
+                    });
+
+                    $notPaid = $purchase->filter(function ($item) {
+                        return $item->status == 3;
+                    });
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results['publish'] = $publish;
+                    $results['review'] = $review;
+                    $results['paid'] = count($paid) ?? 0;
+                    $results['notPaid'] = count($notPaid) ?? 0;
+
+                    return response()->json($results, 200);
+                break;
+
+                case 'dashboard-supplier-1':
+                    DB::enableQueryLog();
+
+                    $filters = request()->periode ?? Carbon::now('Asia/Jakarta')->format('Y');
+
+                    $months = [
+                        1 => 'Januari',
+                        2 => 'Februari',
+                        3 => 'Maret',
+                        4 => 'April',
+                        5 => 'Mei',
+                        6 => 'Juni',
+                        7 => 'Juli',
+                        8 => 'Agustus',
+                        9 => 'September',
+                        10 => 'Oktober',
+                        11 => 'November',
+                        12 => 'Desember'
+                    ];
+
+                    $tbook = DB::table('tbook as a')->sharedLock()
+                        ->select(
+                            'a.*',
+                            'b.name'
+                        )
+                        ->join('tcompany as b', function($join) {
+                            $join->on('a.supplier_id', '=', 'b.id')
+                                ->on('b.type', '=', DB::raw("'1'"));
+                        });
+
+                    $detail = DB::table('tpo_detail as a')->sharedLock()
+                        ->select(
+                            'a.client_id as client_id',
+                            'a.po_number as po_number',
+                            'a.po_date as po_date',
+                            'b.supplier_id as supplier_id',
+                            'b.name as supplier_name',
+                            'a.book_id as book_id',
+                            'a.qty as qty',
+                            'a.sellprice as sellprice',
+                            'c.status as status',
+                            'c.payment_image as payment_image'
+                        )
+                        ->joinSub($tbook, 'b', function($join) {
+                            $join->on('a.book_id', '=', 'b.book_id');
+                        })
+                        ->leftJoin('tpo_paid_off as c', function($join) {
+                            $join->on('a.client_id', '=', 'c.client_id')
+                                ->on('b.supplier_id', '=', 'c.supplier_id')
+                                ->on('a.po_number', '=', 'c.po_number')
+                                ->on('a.po_date', '=', 'c.po_date');
+                        });
+
+                    $totals = 0;
+                    $total = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                        $purchase = DB::table('tpo_header as a')->sharedLock()
+                            ->select(
+                                'a.client_id as client_id',
+                                'b.instansi_name as client_name',
+                                'c.supplier_id as supplier_id',
+                                'a.po_number as po_number',
+                                'a.po_date as po_date',
+                                'c.book_id as book_id',
+                                DB::raw("case when c.status != '' then c.status else a.status end as status"),
+                            )
+                            ->join('tclient as b', function($join) {
+                                $join->on('a.client_id', '=', 'b.client_id');
+                            })
+                            ->joinSub($detail, 'c', function($join) {
+                                $join->on('a.client_id', '=', 'c.client_id')
+                                    ->on('a.po_number', '=', 'c.po_number')
+                                    ->on('a.po_date', '=', 'c.po_date');
+                            })
+                            ->where('c.supplier_id', auth()->user()->client_id)
+                            ->where('a.po_date', 'like', $filters . '-' . $month . '%')
+                            ->get();
+
+                        $collectBook = $purchase->filter(function ($item) {
+                            return $item->status == 3 || $item->status == 4;
+                        })->count();
+
+                        $totals += $collectBook ?? 0;
+                        $total[$months[$i]] = $collectBook ?? 0;
+                    }
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results['totals'] = $totals;
+                    $results['total'] = $total;
+
+                    return response()->json($results, 200);
+                break;
+
+                case 'dashboard-supplier-2':
+                    DB::enableQueryLog();
+
+                    $filters = request()->periode ?? Carbon::now('Asia/Jakarta')->format('Y');
+
+                    $months = [
+                        1 => 'Januari',
+                        2 => 'Februari',
+                        3 => 'Maret',
+                        4 => 'April',
+                        5 => 'Mei',
+                        6 => 'Juni',
+                        7 => 'Juli',
+                        8 => 'Agustus',
+                        9 => 'September',
+                        10 => 'Oktober',
+                        11 => 'November',
+                        12 => 'Desember'
+                    ];
+
+                    $tbook = DB::table('tbook as a')->sharedLock()
+                        ->select(
+                            'a.*',
+                            'b.name'
+                        )
+                        ->join('tcompany as b', function($join) {
+                            $join->on('a.supplier_id', '=', 'b.id')
+                                ->on('b.type', '=', DB::raw("'1'"));
+                        });
+
+                    $detail = DB::table('tpo_detail as a')->sharedLock()
+                        ->select(
+                            'a.client_id as client_id',
+                            'a.po_number as po_number',
+                            'a.po_date as po_date',
+                            'b.supplier_id as supplier_id',
+                            'b.name as supplier_name',
+                            'a.book_id as book_id',
+                            'a.qty as qty',
+                            'a.sellprice as sellprice',
+                            'c.status as status',
+                            'c.payment_image as payment_image'
+                        )
+                        ->joinSub($tbook, 'b', function($join) {
+                            $join->on('a.book_id', '=', 'b.book_id');
+                        })
+                        ->leftJoin('tpo_paid_off as c', function($join) {
+                            $join->on('a.client_id', '=', 'c.client_id')
+                                ->on('b.supplier_id', '=', 'c.supplier_id')
+                                ->on('a.po_number', '=', 'c.po_number')
+                                ->on('a.po_date', '=', 'c.po_date');
+                        });
+
+                    $totals = 0;
+                    $gross = [];
+                    for ($i=1; $i <= 12; $i++) { 
+                        $month = str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                        $purchase = DB::table('tpo_header as a')->sharedLock()
+                            ->select(
+                                'a.client_id as client_id',
+                                'b.instansi_name as client_name',
+                                'c.supplier_id as supplier_id',
+                                'a.po_number as po_number',
+                                'a.po_date as po_date',
+                                DB::raw('sum(c.sellprice * c.qty) as po_amount'),
+                                DB::raw("case when c.status != '' then c.status else a.status end as status"),
+                            )
+                            ->join('tclient as b', function($join) {
+                                $join->on('a.client_id', '=', 'b.client_id');
+                            })
+                            ->joinSub($detail, 'c', function($join) {
+                                $join->on('a.client_id', '=', 'c.client_id')
+                                    ->on('a.po_number', '=', 'c.po_number')
+                                    ->on('a.po_date', '=', 'c.po_date');
+                            })
+                            ->where('c.supplier_id', auth()->user()->client_id)
+                            ->where('a.po_date', 'like', $filters . '-' . $month . '%')
+                            ->groupBy(
+                                'a.client_id',
+                                'b.instansi_name',
+                                'c.supplier_id',
+                                'a.po_number',
+                                'a.po_date',
+                                DB::raw("case when c.status != '' then c.status else a.status end")
+                            )
+                            ->get();
+
+                        $collectBook = $purchase->filter(function ($item) {
+                            return $item->status == 3 || $item->status == 4;
+                        });
+
+                        $totals += $collectBook->sum('po_amount') ?? 0;
+                        $gross[] = $collectBook->sum('po_amount') ?? 0;
+                    }
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results['totals'] = number_format($totals, 0, ",", ".") ?? 0;
+                    $results['gross'] = $gross;
+
+                    return response()->json($results, 200);
+                break;
+
                 default:
                     return response()->json(request()->param, 200);
                 break;
