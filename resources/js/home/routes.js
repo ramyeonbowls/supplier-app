@@ -12,7 +12,7 @@ const routes = [
         meta: { roles: [0, 1, 2] },
     },
     {
-        path: '/',
+        path: '/home',
         name: 'home',
         component: () => import(/* webpackChunkName: "home" */ './components/Home.vue'),
         meta: { roles: [0, 1, 2] },
