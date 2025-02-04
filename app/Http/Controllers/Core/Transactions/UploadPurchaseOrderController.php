@@ -69,7 +69,8 @@ class UploadPurchaseOrderController extends Controller
                     DB::raw('sum(c.sellprice * c.qty) as po_amount'),
                     'a.po_discount as po_discount',
                     'a.persentase_supplier as persentase_supplier',
-                    'a.status as status'
+                    'a.status as status',
+                    'a.distributor_id as distributor_id',
                 )
                 ->join('tclient as b', function($join) {
 					$join->on('a.client_id', '=', 'b.client_id');
@@ -86,7 +87,7 @@ class UploadPurchaseOrderController extends Controller
                     $query->where('a.client_id', $filter['client']);
                 })
                 ->when(auth()->user()->role == 2, function($query) {
-                    $query->where('b.company_id', auth()->user()->client_id);
+                    $query->where('a.distributor_id', auth()->user()->client_id);
                 })
                 ->groupBy(
                     'a.client_id',
@@ -132,7 +133,44 @@ class UploadPurchaseOrderController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        return response()->json(['request' => $request], 200);
+        $logs = new Logs(Arr::last(explode("\\", get_class())) . 'Log');
+        $logs->write(__FUNCTION__, 'START');
+
+        $result['status'] = 200;
+        $result['message'] = '';
+        try {
+            DB::enableQueryLog();
+
+            $updated = DB::table('tpo_header')
+                ->where('client_id', $request->client_id)
+                ->where('po_number', $request->po_number)
+                ->where('po_date', $request->po_date)
+                ->update([
+                    'distributor_id' => $request->distributor_id
+                ]);
+
+            if ($updated) {
+                $logs->write("INFO", "Successfully updated");
+                $result['status'] = 201;
+                $result['message'] = "Successfully updated.";
+            } else {
+                $result['status'] = 500;
+                $result['message'] = "Failed updated.";
+            }
+
+            $queries = DB::getQueryLog();
+            for ($q = 0; $q < count($queries); $q++) {
+                $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                $logs->write('SQL', $queries[$q]['query']);
+            }
+        } catch (Throwable $th) {
+            $logs->write("ERROR", $th->getMessage());
+
+            $result['status'] = 500;
+            $result['message'] = "Failed updated.<br>" . $th->getMessage();
+        }
+
+        return response()->json($result['message'], $result['status']);
     }
 
     /**
@@ -386,6 +424,41 @@ class UploadPurchaseOrderController extends Controller
                     return response()->json($results, 200);
                 break;
 
+                case 'distributor-mst':
+                    DB::enableQueryLog();
+
+                    $ketegori = DB::table('tcompany as a')->sharedLock()
+                        ->select(
+                            'a.id as id',
+                            'a.name as name'
+                        )
+                        ->join('users as b', function($join) {
+                            $join->on('a.id', '=', 'b.client_id');
+                        })
+                        ->where('b.status', 1)
+                        ->where('a.type', '2')
+                        ->get();
+
+                    $queries = DB::getQueryLog();
+                    for ($q = 0; $q < count($queries); $q++) {
+                        $sql = Str::replaceArray('?', $queries[$q]['bindings'], str_replace('?', "'?'", $queries[$q]['query']));
+                        $logs->write('BINDING', '[' . implode(', ', $queries[$q]['bindings']) . ']');
+                        $logs->write('SQL', $sql);
+                    }
+
+                    $results = [];
+                    if($ketegori) {
+                        $results = $ketegori->map(function($value, $key) {
+                            return [
+                                'id' => $value->id,
+                                'name' => $value->name
+                            ];
+                        });
+                    }
+
+                    return response()->json($results, 200);
+                break;
+
                 default:
                     return response()->json(request()->param, 200);
                 break;
@@ -592,6 +665,8 @@ class UploadPurchaseOrderController extends Controller
                 $pctPo      = $worksheet->getCellByColumnAndRow(2, 4)->getFormattedValue();
 
                 if ($clientId != '' && $noPo != '' && $tglPo != '' && $discPo != '' && $pctPo != '') {
+                    $distributor = DB::table('tcompany as a')->select('a.company_id as distributor_id')->sharedLock()->where('a.client_id', $clientId)->first();
+
                     for ($row = 8; $row <= $highestRow; $row++) {
                         $bookId     = $worksheet->getCellByColumnAndRow(1, $row)->getFormattedValue();
                         $qty        = $worksheet->getCellByColumnAndRow(2, $row)->getFormattedValue();
@@ -605,13 +680,14 @@ class UploadPurchaseOrderController extends Controller
                                 $tagging = $status->status == '1' ? 'exists' : 'notexists';
                             }
     
-                            $data_excel[$tagging][$i][$ii]['clientId']  = $clientId;
-                            $data_excel[$tagging][$i][$ii]['noPo']      = $noPo;
-                            $data_excel[$tagging][$i][$ii]['tglPo']     = $tglPo;
-                            $data_excel[$tagging][$i][$ii]['discPo']    = $discPo;
-                            $data_excel[$tagging][$i][$ii]['pctPo']     = $pctPo;
-                            $data_excel[$tagging][$i][$ii]['bookId']    = $bookId;
-                            $data_excel[$tagging][$i][$ii]['qty']       = $qty;
+                            $data_excel[$tagging][$i][$ii]['clientId']         = $clientId;
+                            $data_excel[$tagging][$i][$ii]['noPo']             = $noPo;
+                            $data_excel[$tagging][$i][$ii]['tglPo']            = $tglPo;
+                            $data_excel[$tagging][$i][$ii]['discPo']           = $discPo;
+                            $data_excel[$tagging][$i][$ii]['pctPo']            = $pctPo;
+                            $data_excel[$tagging][$i][$ii]['bookId']           = $bookId;
+                            $data_excel[$tagging][$i][$ii]['qty']              = $qty;
+                            $data_excel[$tagging][$i][$ii]['distributorId']    = $distributor->distributor_id;
     
                             $ii++;
                         }
@@ -646,6 +722,7 @@ class UploadPurchaseOrderController extends Controller
                                     'po_discount' => $value['discPo'],
                                     'status' => '1',
                                     'persentase_supplier' => $value['pctPo'],
+                                    'distributor_id' => $value['distributorId'],
                                     'created_at' => Carbon::now('Asia/Jakarta'),
                                     'created_by' => auth()->user()->email,
                                 ]);
@@ -687,6 +764,7 @@ class UploadPurchaseOrderController extends Controller
                             'po_discount' => $value['discPo'],
                             'status' => '1',
                             'persentase_supplier' => $value['pctPo'],
+                            'distributor_id' => $value['distributorId'],
                             'created_at' => Carbon::now('Asia/Jakarta'),
                             'created_by' => auth()->user()->email,
                         ]);
