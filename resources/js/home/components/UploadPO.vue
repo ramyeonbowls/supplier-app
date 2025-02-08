@@ -758,7 +758,7 @@ export default {
                 let loader = this.$loading.show()
 
                 window.axios
-                    .post('/transactions/po-upload/?menu=' + this.$route.name, {
+                    .post('/transactions/po-upload', {
                         params: {
                             client_id: this.form.field.client_id,
                             po_number: this.form.field.po_number,
