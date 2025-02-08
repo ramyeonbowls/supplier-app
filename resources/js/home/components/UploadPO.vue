@@ -418,7 +418,7 @@
     </TransitionRoot>
 
     <TransitionRoot as="template" :show="openChange">
-        <Dialog class="relative z-50" @close="openChange = false">
+        <Dialog class="relative z-50" @close="openChange = false, cancel()">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
             </TransitionChild>
@@ -447,7 +447,7 @@
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                 <button type="button" class="shadow-xs inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-500 sm:ml-3 sm:w-auto" @click="changeDistributor">Ganti Distributor</button>
-                                <button type="button" class="shadow-xs mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="openChange = false" ref="cancelButtonRef">Cancel</button>
+                                <button type="button" class="shadow-xs mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="openChange = false, cancel()" ref="cancelButtonRef">Cancel</button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>
@@ -652,7 +652,7 @@ export default {
             this.form.field.client_id = row.client_id
             this.form.field.po_number = row.po_number
             this.form.field.po_date = row.po_date
-            this.form.field.distributor = row.distributor_id
+            this.form.field.distributor = row.distributor_id ?? ''
 
             let loader = this.$loading.show()
             window.axios
@@ -759,10 +759,12 @@ export default {
 
                 window.axios
                     .post('/transactions/po-upload/?menu=' + this.$route.name, {
-                        client_id: this.form.field.client_id,
-                        po_number: this.form.field.po_number,
-                        po_date: this.form.field.po_date,
-                        distributor_id: this.form.field.distributor,
+                        params: {
+                            client_id: this.form.field.client_id,
+                            po_number: this.form.field.po_number,
+                            po_date: this.form.field.po_date,
+                            distributor_id: this.form.field.distributor,
+                        },
                     })
                     .then((response) => {
                         loader.hide()

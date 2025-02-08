@@ -142,11 +142,11 @@ class UploadPurchaseOrderController extends Controller
             DB::enableQueryLog();
 
             $updated = DB::table('tpo_header')
-                ->where('client_id', $request->client_id)
-                ->where('po_number', $request->po_number)
-                ->where('po_date', $request->po_date)
+                ->where('client_id', $request->params['client_id'])
+                ->where('po_number', $request->params['po_number'])
+                ->where('po_date', $request->params['po_date'])
                 ->update([
-                    'distributor_id' => $request->distributor_id
+                    'distributor_id' => $request->params['distributor_id']
                 ]);
 
             if ($updated) {
