@@ -50,8 +50,8 @@
                 <img src="images/landing/public-library-visitors.png" alt="img-banner" class="hidden w-[70%] md:block md:w-1/2" />
             </div>
 
-            <div id="about" class="relative flex h-[700px] items-center justify-center bg-blue-100 px-5 py-10 md:static md:h-[850px] md:px-10">
-                <img src="images/landing/ebooks-collection-library.png" alt="img-ebook" class="w-[70%]" />
+            <div id="about" class="relative flex h-[700px] items-center justify-center bg-blue-100 px-5 py-10 md:static md:h-[1100px] md:px-10">
+                <img src="images/landing/ebooks-collection-library.png" alt="img-ebook" class="w-[70%] md:w-1/2" />
 
                 <div class="absolute top-0 flex w-full flex-col gap-3 px-10 md:top-auto lg:static">
                     <h1 class="mb-5 mt-10 text-center text-sm md:text-[1rem] lg:text-[1.3rem]">Kenapa <span class="font-bold text-blue-500">GINESIA</span> ?</h1>
@@ -124,24 +124,26 @@
                 </div>
             </div>
 
-            <div class="flex h-fit flex-col items-center gap-5 bg-blue-100 px-5 py-10">
-                <h1 class="text-center text-sm font-bold text-slate-600 md:text-base">Pengembangan produk Platform <span class="text-blue-500">GINESIA</span></h1>
-                <p class="text-center text-[0.6rem] text-slate-500 md:text-base">Selain Aplikasi Perpustakaan Digital Berbasis Website, kami juga mengembangkan produk-produk inovasi di bidang literasi, seperti</p>
+            <div class="md:p1-0 flex h-fit flex-col items-center justify-center gap-5 bg-blue-100 px-5 py-10 md:gap-10">
+                <div class="flex flex-col md:gap-10 md:px-20">
+                    <h1 class="text-center text-sm font-bold text-slate-600 md:text-base">Pengembangan produk Platform <span class="text-blue-500">GINESIA</span></h1>
+                    <p class="text-center text-[0.6rem] text-slate-500 md:text-base">Selain Aplikasi Perpustakaan Digital Berbasis Website, kami juga mengembangkan produk-produk inovasi di bidang literasi, seperti</p>
+                </div>
 
                 <div class="flex flex-col items-center justify-center gap-2 md:flex-row md:flex-wrap">
-                    <div class="rounded-md bg-white p-5 md:h-48 md:w-1/3">
+                    <div class="h-fit rounded-md bg-white p-5 md:h-72 md:w-1/3 lg:h-48">
                         <h1 class="mb-2 text-sm font-semibold text-slate-600 md:text-base">Tugu Baca Hybrid</h1>
                         <p class="text-[0.6rem] text-slate-500 md:text-[0.8rem]">berupa kiosk touchscreen yang memungkinkanpengguna membaca konten literasi secara online maupun offline.Perangkat ini mempermudah akses ke e-book, audiobook, dankonten digital lainnya, sehingga cocok ditempatkan di area publikuntuk mendukung literasi masyarakat.</p>
                     </div>
-                    <div class="rounded-md bg-white p-5 md:h-48 md:w-1/3">
+                    <div class="h-fit rounded-md bg-white p-5 md:h-72 md:w-1/3 lg:h-48">
                         <h1 class="mb-2 text-sm font-semibold text-slate-600 md:text-base">Ginesia Literacy System</h1>
                         <p class="text-[0.6rem] text-slate-500 md:text-[0.8rem]">berupa server GLS yang menyediakanberbagai konten digital, seperti e-book, audiobook, dan materiedukasi lainnya, untuk mendukung program literasi digital. Sistem inifleksibel dan dapat diterapkan di sekolah, perpustakaan keliling,maupun pusat belajar komunitas, dengan akses yang mudah kapansaja, bahkan tanpa koneksi internet.</p>
                     </div>
-                    <div class="rounded-md bg-white p-5 md:h-48 md:w-1/3">
+                    <div class="h-fit rounded-md bg-white p-5 md:h-72 md:w-1/3 lg:h-48">
                         <h1 class="mb-2 text-sm font-semibold text-slate-600 md:text-base">Ruang Baca Hybrid</h1>
                         <p class="text-[0.6rem] text-slate-500 md:text-[0.8rem]">mengintegrasikan koleksi buku fisik dan kontendigital untuk memenuhi kebutuhan pembaca modern. Tempat inimenyediakan fasilitas membaca nyaman, baik untuk bahan cetakmaupun digital, serta dilengkapi perangkat elektronik untuk akseskoleksi virtual.</p>
                     </div>
-                    <div class="rounded-md bg-white p-5 md:h-48 md:w-1/3">
+                    <div class="h-fit rounded-md bg-white p-5 md:h-72 md:w-1/3 lg:h-48">
                         <h1 class="mb-2 text-sm font-semibold text-slate-600 md:text-base">Internalisasi Sekolah</h1>
                         <p class="text-[0.6rem] text-slate-500 md:text-[0.8rem]">program yang menghadirkan jaringan Wi-Fi berkecepatan tinggi dan infrastruktur teknologi untuk mendukungpembelajaran berbasis digital. Program ini menawarkan dua opsikonektivitas, yaitu melalui ISP lokal atau satelit Starlink, yang dapatdisesuaikan dengan kondisi lingkungan sekolah, termasuk areaterpencil yang sulit dijangkau jaringan kabel.</p>
                     </div>
