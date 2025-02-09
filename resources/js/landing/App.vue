@@ -53,10 +53,10 @@
 
             </div>
 
-            <div id="about" class="relative bg-blue-100 px-5 py-10 h-[700px] md:h-[850px] flex items-center md:px-10 md:static">
-                <img src="images/landing/ebooks-collection-library.png" alt="img-ebook" class="md:w-3/4">
+            <div id="about" class="relative bg-blue-100 px-5 py-10 h-[700px] md:h-[850px] flex justify-center items-center md:px-10 md:static">
+                <img src="images/landing/ebooks-collection-library.png" alt="img-ebook" class="w-[70%]">
                 
-                <div class="absolute top-0 w-full flex flex-col gap-3 md:static md:top-auto">
+                <div class="absolute top-0 flex flex-col gap-3 lg:static md:top-auto px-10 w-full">
                     <h1 class="text-sm mt-10 mb-5 text-center md:text-[1rem] lg:text-[1.3rem]">Kenapa <span class="font-bold text-blue-500">GINESIA</span> ?</h1>
 
                     <div class="text-xs bg-white p-3 rounded-md w-4/5">
@@ -64,7 +64,7 @@
                         <p class="text-slate-500 text-[0.6rem] md:text-base">Temukan ribuan buku dan materi pelajaran hanya dengan beberapa klik. GINESIA menawarkan kemudahan akses melalui website, tanpa perlu mengunduh aplikasi—cukup buka browser dan mulailah membaca!</p>
                     </div>
 
-                    <div class="text-xs bg-white p-3 rounded-md w-4/5 translate-x-9">
+                    <div class="text-xs bg-white p-3 rounded-md w-4/5 translate-x-12">
                         <h2 class="cursor-pointer mb-2 font-semibold text-slate-600 md:text-base">Tanpa download, tanpa ribet</h2>
                         <p class="text-slate-500 text-[0.6rem] md:text-base">GINESIA dapat diakses langsung dari browser Anda, menghilangkan kebutuhan untuk proses download dan instalasi. Nikmati pengalaman membaca yang cepat dan praktis!</p>
                     </div>
@@ -74,7 +74,7 @@
                         <p class="text-slate-500 text-[0.6rem] md:text-base">Dari buku klasik hingga karya terbaru, dari fiksi hingga referensi akademik—semua ada di GINESIA. Dengan fitur pencarian yang mudah digunakan, menemukan buku favorit Anda menjadi sangat mudah.</p>
                     </div>
 
-                    <div class="text-xs bg-white p-3 rounded-md w-4/5 translate-x-9">
+                    <div class="text-xs bg-white p-3 rounded-md w-4/5 translate-x-12">
                         <h2  class="cursor-pointer mb-2 font-semibold text-slate-600 md:text-base">Pengalaman membaca interaktif</h2>
                         <p class="text-slate-500 text-[0.6rem] md:text-base">Nikmati antarmuka yang ramah pengguna, dengan fitur yang memungkinkan Anda menyesuaikan pengalaman membaca sesuai kebutuhan Anda.</p>
                     </div>
