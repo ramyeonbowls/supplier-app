@@ -165,9 +165,9 @@
                                                 <p class="whitespace-nowrap text-sm">Lunas</p>
                                             </span>
                                         </td>
-                                        <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_amount'] }}</td>
-                                        <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_nett'] }}</td>
-                                        <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['persentase_supplier'] }} %</td>
+                                        <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_type'] == '1' ? row['po_amount'] : 0 }}</td>
+                                        <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_type'] == '1' ? row['po_nett'] : 0 }}</td>
+                                        <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_type'] == '1' ? row['persentase_supplier'] : 0 }} %</td>
                                         <td class="flex justify-start gap-2 whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                             <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetail(row)">Detail</a>
                                             <a v-if="row['payment_image'] != ''" href="javascript:void(0);" class="download-link inline-block rounded border border-teal-600 bg-teal-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-teal-600 focus:outline-none focus:ring active:text-teal-500" @click="showImages(row['payment_image'])">Lihat</a>
@@ -290,7 +290,7 @@
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">PENERBIT</th>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">QTY</th>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">HARGA</th>
-                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">NETTO ({{ header_detail.persentase_supplier }}%)</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">NETTO ({{ header_detail.po_type == '1' ? header_detail.persentase_supplier : 0 }}%)</th>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">TOTAL HARGA</th>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">TOTAL NETTO</th>
                                                         </tr>
@@ -306,10 +306,10 @@
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.writer }}</td>
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.publisher_desc }}</td>
                                                             <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.qty }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.sellprice }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.nett }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.total_gross }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.total_nett }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detail.po_type == '1' ? row.sellprice : 0 }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detail.po_type == '1' ? row.nett : 0 }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detail.po_type == '1' ? row.total_gross : 0 }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detail.po_type == '1' ? row.total_nett : 0 }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

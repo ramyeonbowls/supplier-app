@@ -128,83 +128,92 @@
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row['po_number'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row['po_date'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                        <span v-if="row['po_type'] == '1'" class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
-                                                                <path
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
-                                                                />
-                                                            </svg>
-                                                            <p class="whitespace-nowrap text-sm">Pembelian</p>
-                                                        </span>
-                                                        <span v-if="row['po_type'] == '2'" class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
-                                                                <path
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
-                                                                />
-                                                            </svg>
-                                                            <p class="whitespace-nowrap text-sm">Hibah</p>
-                                                        </span>
+                                                        <div class="flex flex-row justify-start gap-2">
+                                                            <span v-if="row['po_type'] == '1'" class="inline-flex items-center justify-center rounded-md bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+                                                                    />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Pembelian</p>
+                                                            </span>
+                                                            <span v-if="row['po_type'] == '2'" class="inline-flex items-center justify-center rounded-md bg-amber-100 px-2.5 py-0.5 text-amber-700">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+                                                                    />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Hibah</p>
+                                                            </span>
+                                                            <a v-if="row['status'] == '0' || row['status'] == '1'" href="javascript:void(0);" class="inline-flex items-center justify-center rounded-md bg-emerald-100 px-2.5 py-0.5 text-emerald-700" @click="getType(row)">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
+                                                                </svg>
+                                                                <p class="whitespace-nowrap text-sm">Ganti Tipe</p>
+                                                            </a>
+                                                        </div>
                                                     </td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row['distributor_name'] }}</td>
                                                     <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
-                                                        <div class="flex flex-row justify-between gap-2">
-                                                            <span v-if="row['status'] == '0'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
+                                                        <div class="flex flex-row justify-start gap-2">
+                                                            <span v-if="row['status'] == '0'" class="inline-flex items-center justify-center rounded-md bg-slate-100 px-2.5 py-0.5 text-slate-700">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                                 </svg>
                                                                 <p class="whitespace-nowrap text-sm">{{ user.role == 0 ? 'Butuh Approval Distributor' : 'Open' }}</p>
                                                             </span>
-                                                            <a v-if="row['status'] == '0' && user.role == 0" href="javascript:void(0);" class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700" @click="getDistributor(row)">
+                                                            <a v-if="row['status'] == '0' && user.role == 0" href="javascript:void(0);" class="inline-flex items-center justify-center rounded-md bg-emerald-100 px-2.5 py-0.5 text-emerald-700" @click="getDistributor(row)">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
                                                                 </svg>
                                                                 <p class="whitespace-nowrap text-sm">Ganti Distributor</p>
                                                             </a>
                                                         </div>
-                                                        <span v-if="row['status'] == '1'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
+                                                        <span v-if="row['status'] == '1'" class="inline-flex items-center justify-center rounded-md bg-slate-100 px-2.5 py-0.5 text-slate-700">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                             </svg>
                                                             <p class="whitespace-nowrap text-sm">{{ user.role == 2 ? 'Butuh Approval Supplier' : 'Open' }}</p>
                                                         </span>
-                                                        <span v-if="row['status'] == '2'" class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
+                                                        <span v-if="row['status'] == '2'" class="inline-flex items-center justify-center rounded-md bg-amber-100 px-2.5 py-0.5 text-amber-700">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                             </svg>
                                                             <p class="whitespace-nowrap text-sm">Approved</p>
                                                         </span>
-                                                        <span v-if="row['status'] == '3'" class="inline-flex items-center justify-center rounded-full bg-amber-100 px-2.5 py-0.5 text-amber-700">
+                                                        <span v-if="row['status'] == '3'" class="inline-flex items-center justify-center rounded-md bg-amber-100 px-2.5 py-0.5 text-amber-700">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                             </svg>
                                                             <p class="whitespace-nowrap text-sm">Dikirim ke Supplier</p>
                                                         </span>
-                                                        <span v-if="row['status'] == '4'" class="inline-flex items-center justify-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
+                                                        <span v-if="row['status'] == '4'" class="inline-flex items-center justify-center rounded-md bg-emerald-100 px-2.5 py-0.5 text-emerald-700">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                             </svg>
                                                             <p class="whitespace-nowrap text-sm">Lunas</p>
                                                         </span>
-                                                        <span v-if="row['status'] == '5'" class="inline-flex items-center justify-center rounded-full bg-rose-100 px-2.5 py-0.5 text-rose-700">
+                                                        <span v-if="row['status'] == '5'" class="inline-flex items-center justify-center rounded-md bg-rose-100 px-2.5 py-0.5 text-rose-700">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
                                                             </svg>
                                                             <p class="whitespace-nowrap text-sm">Ditarik</p>
                                                         </span>
                                                     </td>
-                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_amount'] }}</td>
-                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_nett'] }}</td>
-                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['persentase_supplier'] }} %</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_type'] == '1' ? row['po_amount'] : 0 }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_type'] == '1' ? row['po_nett'] : 0 }}</td>
+                                                    <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2 text-right">{{ row['po_type'] == '1' ? row['persentase_supplier'] : 0 }} %</td>
                                                     <td class="flex justify-start gap-2 whitespace-nowrap border-gray-200 px-4 py-2">
                                                         <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetail(row)">Detail</a>
                                                         <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="getDetailSupplier(row)">Detail Supplier</a>
                                                         <a v-if="row['status'] == '0' && user.role == 2" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-sky-600 bg-sky-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '1')">Approve Distributor</a>
                                                         <a v-if="row['status'] == '1' && user.role == 0" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-sky-600 bg-sky-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '2')">Approve Client</a>
-                                                        <a v-if="row['status'] == '2' && user.role == 0" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-sky-600 bg-sky-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '3')">Approve Supplier</a>
-                                                        <a v-if="row['status'] == '2' && user.role == 0" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-rose-600 bg-rose-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-rose-600 focus:outline-none focus:ring active:text-rose-500" @click="destroy(row)">Tarik</a>
+                                                        <a v-if="row['po_type'] == '1' && row['status'] == '2' && user.role == 0" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-sky-600 bg-sky-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500" @click="sendSupplier(row, '3')">Approve Supplier</a>
+                                                        <a v-if="row['po_type'] == '1' && row['status'] == '2' && user.role == 0" href="javascript:void(0);" class="download-link inline-block w-36 rounded border border-rose-600 bg-rose-600 px-3 py-1 text-center text-sm font-medium text-white hover:bg-transparent hover:text-rose-600 focus:outline-none focus:ring active:text-rose-500" @click="destroy(row)">Tarik</a>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -322,7 +331,7 @@
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">PENERBIT</th>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">QTY</th>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">HARGA</th>
-                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">NETTO ({{ header_detail.persentase_supplier }}%)</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">NETTO ({{ header_detail.po_type == '1' ? header_detail.persentase_supplier : 0 }}%)</th>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">TOTAL HARGA</th>
                                                             <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">TOTAL NETTO</th>
                                                         </tr>
@@ -338,10 +347,10 @@
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.writer }}</td>
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.publisher_desc }}</td>
                                                             <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.qty }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.sellprice }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.nett }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.total_gross }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.total_nett }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detail.po_type == '1' ? row.sellprice : 0 }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detail.po_type == '1' ? row.nett : 0 }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detail.po_type == '1' ? row.total_gross : 0 }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detail.po_type == '1' ? row.total_nett : 0 }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -395,9 +404,9 @@
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.client_name }}</td>
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.po_number }}</td>
                                                             <td class="px-4 py-2 text-left text-gray-700">{{ row.po_date }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.po_amount }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.po_nett }}</td>
-                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ row.persentase_supplier }} %</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detailSupplier.po_type == '1' ? row.po_amount : 0 }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detailSupplier.po_type == '1' ? row.po_nett : 0 }}</td>
+                                                            <td class="whitespace-nowrap px-4 py-2 text-right text-gray-700">{{ header_detailSupplier.po_type == '1' ? row.persentase_supplier : 0 }}%</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -418,7 +427,7 @@
     </TransitionRoot>
 
     <TransitionRoot as="template" :show="openChange">
-        <Dialog class="relative z-50" @close="openChange = false, cancel()">
+        <Dialog class="relative z-50" @close="(openChange = false), cancel()">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
             </TransitionChild>
@@ -429,12 +438,12 @@
                         <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm">
                             <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:flex-col sm:items-center">
-                                    <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 sm:size-10">
+                                    <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-md bg-emerald-100 sm:size-10">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-emerald-600">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
                                         </svg>
                                     </div>
-                                    <div class="mt-3 text-center place">
+                                    <div class="place mt-3 text-center">
                                         <DialogTitle as="h3" class="text-base font-semibold text-gray-900">Pilih Distributor</DialogTitle>
                                         <div class="mt-2">
                                             <select name="distributor" id="distributor" v-model="form.field.distributor" class="w-auto rounded-lg border-gray-300 text-gray-700 sm:text-sm">
@@ -447,7 +456,46 @@
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                 <button type="button" class="shadow-xs inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-500 sm:ml-3 sm:w-auto" @click="changeDistributor">Ganti Distributor</button>
-                                <button type="button" class="shadow-xs mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="openChange = false, cancel()" ref="cancelButtonRef">Cancel</button>
+                                <button type="button" class="shadow-xs mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="(openChange = false), cancel()" ref="cancelButtonRef">Cancel</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="openType">
+        <Dialog class="relative z-50" @close="(openType = false), cancel()">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:flex-col sm:items-center">
+                                    <div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-md bg-emerald-100 sm:size-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-emerald-600">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
+                                        </svg>
+                                    </div>
+                                    <div class="place mt-3 text-center">
+                                        <DialogTitle as="h3" class="text-base font-semibold text-gray-900">Pilih Tipe</DialogTitle>
+                                        <div class="mt-2">
+                                            <select name="distributor" id="distributor" v-model="form.field.type" class="w-auto rounded-lg border-gray-300 text-gray-700 sm:text-sm">
+                                                <option value="1">Pembelian</option>
+                                                <option value="2">Hibah</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="shadow-xs inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-500 sm:ml-3 sm:w-auto" @click="changeType">Ganti Tipe</button>
+                                <button type="button" class="shadow-xs mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="(openType = false), cancel()" ref="cancelButtonRef">Cancel</button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>
@@ -481,11 +529,13 @@ export default {
             open: false,
             openSupplier: false,
             openChange: false,
+            openType: false,
             headers: [
                 { label: 'NAMA INSTANSI', key: 'client_name' },
                 { label: 'NO. PO', key: 'po_number' },
                 { label: 'TANGGAL PO', key: 'po_date' },
                 { label: 'TIPE PO', key: 'po_type' },
+                { label: 'DISTRIBUTOR', key: 'distributor_name' },
                 { label: 'STATUS', key: 'status' },
                 { label: 'GROSS PO', key: 'po_amount' },
                 { label: 'NETT PO', key: 'po_nett' },
@@ -524,11 +574,12 @@ export default {
 
                 field: {
                     excel: '',
-                    
+
                     client_id: '',
                     po_number: '',
                     po_date: '',
                     distributor: '',
+                    type: '',
                 },
 
                 submitted: false,
@@ -671,6 +722,19 @@ export default {
                 })
         },
 
+        getType(row) {
+            let loader = this.$loading.show()
+
+            this.form.field.client_id = row.client_id
+            this.form.field.po_number = row.po_number
+            this.form.field.po_date = row.po_date
+            this.form.field.type = row.po_type ?? ''
+
+            loader.hide()
+
+            this.openType = true
+        },
+
         clearForm() {
             this.form.submitted = false
             this.form.field.excel = ''
@@ -679,7 +743,8 @@ export default {
             this.form.field.po_number = ''
             this.form.field.po_date = ''
             this.form.field.distributor = ''
-            
+            this.form.field.type = ''
+
             this.$refs.excel.removeFiles()
         },
 
@@ -760,6 +825,7 @@ export default {
                 window.axios
                     .post('/transactions/po-upload', {
                         params: {
+                            param: 'distributor',
                             client_id: this.form.field.client_id,
                             po_number: this.form.field.po_number,
                             po_date: this.form.field.po_date,
@@ -770,6 +836,42 @@ export default {
                         loader.hide()
                         this.form.submitted = false
                         this.openChange = false
+                        this.cancel()
+                        this.$notyf.success(response.data)
+                    })
+                    .catch((e) => {
+                        this.form.submitted = false
+                        this.clearForm()
+                        loader.hide()
+
+                        if (e.response && e.response.data && e.response.data.message) {
+                            this.$notyf.error(e.response.data.message)
+                        } else {
+                            this.$notyf.error(e.message || 'An error occurred.')
+                        }
+                    })
+            }
+        },
+
+        changeType() {
+            if (!this.form.submitted) {
+                this.form.submitted = true
+                let loader = this.$loading.show()
+
+                window.axios
+                    .post('/transactions/po-upload', {
+                        params: {
+                            param: 'type',
+                            client_id: this.form.field.client_id,
+                            po_number: this.form.field.po_number,
+                            po_date: this.form.field.po_date,
+                            po_type: this.form.field.type,
+                        },
+                    })
+                    .then((response) => {
+                        loader.hide()
+                        this.form.submitted = false
+                        this.openType = false
                         this.cancel()
                         this.$notyf.success(response.data)
                     })

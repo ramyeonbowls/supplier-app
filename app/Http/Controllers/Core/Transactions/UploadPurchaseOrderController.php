@@ -71,6 +71,7 @@ class UploadPurchaseOrderController extends Controller
                     'a.persentase_supplier as persentase_supplier',
                     'a.status as status',
                     'a.distributor_id as distributor_id',
+                    'c.name as distributor_name',
                 )
                 ->join('tclient as b', function($join) {
 					$join->on('a.client_id', '=', 'b.client_id');
@@ -79,6 +80,9 @@ class UploadPurchaseOrderController extends Controller
 					$join->on('a.client_id', '=', 'c.client_id')
                         ->on('a.po_number', '=', 'c.po_number')
                         ->on('a.po_date', '=', 'c.po_date');
+				})
+                ->LeftJoin('tcompany as c', function($join) {
+					$join->on('a.distributor_id', '=', 'c.id');
 				})
                 ->when(isset($filter['sdate']) && $filter['sdate'] != '' && isset($filter['edate']) && $filter['edate'] != '', function($query) use ($filter) {
                     $query->whereBetween('a.po_date', [$filter['sdate'], $filter['edate']]);
@@ -141,13 +145,13 @@ class UploadPurchaseOrderController extends Controller
         try {
             DB::enableQueryLog();
 
+            $param = $request->params['param'] == 'distributor' ? [ 'distributor_id' => $request->params['distributor_id'] ] : [ 'po_type' => $request->params['po_type'] ];
+
             $updated = DB::table('tpo_header')
                 ->where('client_id', $request->params['client_id'])
                 ->where('po_number', $request->params['po_number'])
                 ->where('po_date', $request->params['po_date'])
-                ->update([
-                    'distributor_id' => $request->params['distributor_id']
-                ]);
+                ->update($param);
 
             if ($updated) {
                 $logs->write("INFO", "Successfully updated");
