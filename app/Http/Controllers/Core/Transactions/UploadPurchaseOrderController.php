@@ -71,7 +71,7 @@ class UploadPurchaseOrderController extends Controller
                     'a.persentase_supplier as persentase_supplier',
                     'a.status as status',
                     'a.distributor_id as distributor_id',
-                    'c.name as distributor_name',
+                    'd.name as distributor_name',
                 )
                 ->join('tclient as b', function($join) {
 					$join->on('a.client_id', '=', 'b.client_id');
@@ -81,8 +81,8 @@ class UploadPurchaseOrderController extends Controller
                         ->on('a.po_number', '=', 'c.po_number')
                         ->on('a.po_date', '=', 'c.po_date');
 				})
-                ->LeftJoin('tcompany as c', function($join) {
-					$join->on('a.distributor_id', '=', 'c.id');
+                ->LeftJoin('tcompany as d', function($join) {
+					$join->on('a.distributor_id', '=', 'd.id');
 				})
                 ->when(isset($filter['sdate']) && $filter['sdate'] != '' && isset($filter['edate']) && $filter['edate'] != '', function($query) use ($filter) {
                     $query->whereBetween('a.po_date', [$filter['sdate'], $filter['edate']]);
@@ -101,7 +101,9 @@ class UploadPurchaseOrderController extends Controller
                     'a.po_type',
                     'a.po_discount',
                     'a.persentase_supplier',
-                    'a.status'
+                    'a.status',
+                    'a.distributor_id',
+                    'd.name'
                 )
                 ->get();
 
