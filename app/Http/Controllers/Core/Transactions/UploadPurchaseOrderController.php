@@ -671,7 +671,7 @@ class UploadPurchaseOrderController extends Controller
                 $pctPo      = $worksheet->getCellByColumnAndRow(2, 4)->getFormattedValue();
 
                 if ($clientId != '' && $noPo != '' && $tglPo != '' && $discPo != '' && $pctPo != '') {
-                    $distributor = DB::table('tcompany as a')->select('a.company_id as distributor_id')->sharedLock()->where('a.client_id', $clientId)->first();
+                    $distributor = DB::table('tclient as a')->select('a.company_id as distributor_id')->sharedLock()->where('a.client_id', $clientId)->first();
 
                     for ($row = 8; $row <= $highestRow; $row++) {
                         $bookId     = $worksheet->getCellByColumnAndRow(1, $row)->getFormattedValue();
