@@ -85,6 +85,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::prefix('data-books-excel')->group(function() {
                     Route::post('export-data', 'DataBooksController@exportData');
                 });
+
+                Route::get('/audio/{filename}', 'AudioController@stream')->where('filename', '.*');
             });
 
             Route::prefix('report')->namespace('Report')->group(function() {

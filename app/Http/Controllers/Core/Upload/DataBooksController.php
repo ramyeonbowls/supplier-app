@@ -54,8 +54,97 @@ class DataBooksController extends Controller
         try {
             DB::enableQueryLog();
 
+            $video = DB::table('tvideo_draft as a')->sharedLock()
+                ->select(
+                    DB::raw("'V' as type"),
+                    'a.book_id as book_id', 
+                    'a.isbn as isbn', 
+                    'a.eisbn as eisbn', 
+                    'a.title as title', 
+                    'a.writer as writer', 
+                    'a.publisher_id as publisher_id',
+                    'c.description as publisher_desc',
+                    'a.size as size', 
+                    'a.year as year', 
+                    'a.volume as volume', 
+                    'a.edition as edition', 
+                    'a.page as page', 
+                    'a.sinopsis as sinopsis', 
+                    'a.sellprice as sellprice', 
+                    'a.rentprice as rentprice', 
+                    'a.retailprice as retailprice', 
+                    'a.city as city', 
+                    'a.category_id as category_id', 
+                    'b.category_desc as category_desc',
+                    'a.book_format_id as book_format_id', 
+                    'a.filename as filename', 
+                    'a.cover as cover', 
+                    'a.age as age', 
+                    'a.status as status', 
+                    'a.reason as reason', 
+                    'a.createdate as createdate',
+                )
+                ->leftJoin('tcompany_category as b', function($join) {
+					$join->on('a.supplier_id', '=', 'b.client_id') 
+						->on('a.category_id', '=', 'b.category_id') ;
+				})
+                ->leftJoin('tpublisher as c', function($join) {
+					$join->on('a.supplier_id', '=', 'c.client_id') 
+						->on('a.publisher_id', '=', 'c.id') ;
+				})
+                ->where('a.supplier_id', auth()->user()->client_id)
+                ->when(isset($status) && count($status) > 0, function($query) use ($status) {
+                    $query->whereIn('a.status', $status);
+                })
+                ->orderBy('a.status', 'asc');
+
+            $audio = DB::table('taudio_draft as a')->sharedLock()
+                ->select(
+                    DB::raw("'A' as type"),
+                    'a.book_id as book_id', 
+                    'a.isbn as isbn', 
+                    'a.eisbn as eisbn', 
+                    'a.title as title', 
+                    'a.writer as writer', 
+                    'a.publisher_id as publisher_id',
+                    'c.description as publisher_desc',
+                    'a.size as size', 
+                    'a.year as year', 
+                    'a.volume as volume', 
+                    'a.edition as edition', 
+                    'a.page as page', 
+                    'a.sinopsis as sinopsis', 
+                    'a.sellprice as sellprice', 
+                    'a.rentprice as rentprice', 
+                    'a.retailprice as retailprice', 
+                    'a.city as city', 
+                    'a.category_id as category_id', 
+                    'b.category_desc as category_desc',
+                    'a.book_format_id as book_format_id', 
+                    'a.filename as filename', 
+                    'a.cover as cover', 
+                    'a.age as age', 
+                    'a.status as status', 
+                    'a.reason as reason', 
+                    'a.createdate as createdate',
+                )
+                ->leftJoin('tcompany_category as b', function($join) {
+					$join->on('a.supplier_id', '=', 'b.client_id') 
+						->on('a.category_id', '=', 'b.category_id') ;
+				})
+                ->leftJoin('tpublisher as c', function($join) {
+					$join->on('a.supplier_id', '=', 'c.client_id') 
+						->on('a.publisher_id', '=', 'c.id') ;
+				})
+                ->where('a.supplier_id', auth()->user()->client_id)
+                ->when(isset($status) && count($status) > 0, function($query) use ($status) {
+                    $query->whereIn('a.status', $status);
+                })
+                ->orderBy('a.status', 'asc');
+
             $results = DB::table('tbook_draft as a')->sharedLock()
                 ->select(
+                    DB::raw("'B' as type"),
                     'a.book_id as book_id', 
                     'a.isbn as isbn', 
                     'a.eisbn as eisbn', 
@@ -96,6 +185,8 @@ class DataBooksController extends Controller
                     $query->whereIn('a.status', $status);
                 })
                 ->orderBy('a.status', 'asc')
+                ->unionAll($audio)
+                ->unionAll($video)
                 ->get();
 
             $queries = DB::getQueryLog();
@@ -353,13 +444,21 @@ class DataBooksController extends Controller
                         $data_excel['failed'][$i][$ii]['retailPrice']   = is_numeric($retailPrice) ? '' : 'Bukan Angka';
                         $data_excel['failed'][$i][$ii]['city']          = empty($city) ? 'Kosong' : '';
                         $data_excel['failed'][$i][$ii]['ages']          = is_numeric($ages) ? '' : 'Bukan Angka';
-                        $data_excel['failed'][$i][$ii]['fileExist']     = ($fileTmpPdfSize <= 0 && $fileTmpCoverSize <= 0) ? $fileTmpPdfName.' Tidak Ada' : '';
-                        $data_excel['failed'][$i][$ii]['coverExist']    = ($fileTmpPdfSize <= 0 && $fileTmpCoverSize <= 0) ? $fileTmpPdfName.' Tidak Ada' : '';
+                        $data_excel['failed'][$i][$ii]['fileExist']     = ($fileTmpPdfSize <= 0) ? $fileTmpPdfName.' Tidak Ada' : '';
+                        $data_excel['failed'][$i][$ii]['coverExist']    = ($fileTmpCoverSize <= 0) ? $fileTmpPdfName.' Tidak Ada' : '';
                         $data_excel['failed'][$i][$ii]['coverFile']     = file_exists(public_path('storage/covers_draft/' . $fileTmpPdfName.'.jpg')) ? 'storage/covers_draft/' . $fileTmpPdfName.'.jpg' : '';
                         $data_excel['failed'][$i][$ii]['publisher']     = '';
                         $data_excel['failed'][$i][$ii]['category']      = '';
+                        $data_excel['failed'][$i][$ii]['exists']        = '';
+                        $data_excel['failed'][$i][$ii]['type']          = $request->type;
                     } else {
-                        $exists = DB::table('tbook_draft')->sharedLock()->where('isbn', $isbn)->first('isbn');
+                        if ($request->type === 'A') {
+                            $exists = DB::table('taudio_draft')->sharedLock()->where('isbn', $isbn)->first('isbn');
+                        } elseif ($request->type === 'V') {
+                            $exists = DB::table('tvideo_draft')->sharedLock()->where('isbn', $isbn)->first('isbn');
+                        } else {
+                            $exists = DB::table('tbook_draft')->sharedLock()->where('isbn', $isbn)->first('isbn');
+                        }
     
                         $tagging = 'new';
                         if ($exists) {
@@ -388,6 +487,8 @@ class DataBooksController extends Controller
                         $data_excel[$tagging][$i][$ii]['coverFile']     = file_exists(public_path('storage/covers_draft/' . $fileTmpPdfName.'.jpg')) ? 'storage/covers_draft/' . $fileTmpPdfName.'.jpg' : '';
                         $data_excel[$tagging][$i][$ii]['publisher']     = '';
                         $data_excel[$tagging][$i][$ii]['category']      = '';
+                        $data_excel[$tagging][$i][$ii]['exists']        = $tagging == 'exists' ? 'File Sudah ada' : '';
+                        $data_excel[$tagging][$i][$ii]['type']          = $request->type;
                     }
 
                     $ii++;
@@ -467,7 +568,13 @@ class DataBooksController extends Controller
                             'updateby'      => auth()->user()->email,
                         ];
 
-                        $tbook_draft = DB::table('tbook_draft')->insert($data);
+                        if ($request->type === 'A') {
+                            $tbook_draft = DB::table('taudio_draft')->insert($data);
+                        } elseif ($request->type === 'V') {
+                            $tbook_draft = DB::table('tvideo_draft')->insert($data);
+                        } else {
+                            $tbook_draft = DB::table('tbook_draft')->insert($data);
+                        }
                     }
                 }
             }
@@ -674,16 +781,41 @@ class DataBooksController extends Controller
             DB::enableQueryLog();
 
             foreach ($request->all()[0] as $key => $value) {
-                $updated = DB::table('tbook_draft')
-                    ->where('supplier_id', auth()->user()->client_id)
-                    ->where('book_id', $value['bookId'])
-                    ->update([
-                        'status' => '2',
-                        'publisher_id' => $value['publisher'],
-                        'category_id' => $value['category'],
-                        'updatedate' => Carbon::now('Asia/Jakarta'),
-                        'updateby' => auth()->user()->email,
-                    ]);
+                if ($value['type'] == 'B') {
+                    $updated = DB::table('tbook_draft')
+                        ->where('supplier_id', auth()->user()->client_id)
+                        ->where('book_id', $value['bookId'])
+                        ->update([
+                            'status' => '2',
+                            'publisher_id' => $value['publisher'],
+                            'category_id' => $value['category'],
+                            'updatedate' => Carbon::now('Asia/Jakarta'),
+                            'updateby' => auth()->user()->email,
+                        ]);
+                } elseif ($value['type'] == 'A') {
+                    $updated = DB::table('taudio_draft')
+                        ->where('supplier_id', auth()->user()->client_id)
+                        ->where('book_id', $value['bookId'])
+                        ->update([
+                            'status' => '2',
+                            'publisher_id' => $value['publisher'],
+                            'category_id' => $value['category'],
+                            'updatedate' => Carbon::now('Asia/Jakarta'),
+                            'updateby' => auth()->user()->email,
+                        ]);
+                } elseif ($value['type'] == 'V') {
+                    $updated = DB::table('tvideo_draft')
+                        ->where('supplier_id', auth()->user()->client_id)
+                        ->where('book_id', $value['bookId'])
+                        ->update([
+                            'status' => '2',
+                            'publisher_id' => $value['publisher'],
+                            'category_id' => $value['category'],
+                            'updatedate' => Carbon::now('Asia/Jakarta'),
+                            'updateby' => auth()->user()->email,
+                        ]);
+                }
+
             }
             
             if ($updated) {

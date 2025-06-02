@@ -94,7 +94,9 @@
                                                         <img :src="row[header.key]" class="thumbnail rounded-sm" alt="covers" @click="showImages(row[header.key])" />
                                                     </template>
                                                     <template v-else-if="header.key == 'filename'">
-                                                        <a href="javascript:void(0);" class="download-link inline-block rounded border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', row[header.key])">Download file enkripsi</a>
+                                                        <a v-if="row['type'] == 'B'" href="javascript:void(0);" class="download-link inline-block rounded-full border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', row[header.key])">Download file enkripsi</a>
+                                                        <a v-if="row['type'] == 'A'" href="javascript:void(0);" class="download-link inline-block rounded-full border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="showAudio(row[header.key])">Putar Audio</a>
+                                                        <a v-if="row['type'] == 'V'" href="javascript:void(0);" class="download-link inline-block rounded-full border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="showVideo(row[header.key])">Putar Video</a>
                                                     </template>
                                                     <template v-else-if="header.key == 'status'">
                                                         <span v-if="row[header.key] == '1'" class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
@@ -233,6 +235,17 @@
                     <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
                         <form @submit.prevent="handleSubmit($event, submit)">
                             <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                                <div class="flex flex-col justify-start gap-2">
+                                    <label for="type" class="block text-sm font-bold text-gray-900"> Pilih File yang di Upload : </label>
+                                    <Field as="select" rules="required" name="type" id="type" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="form.field.type" @change="clearForm">
+                                        <option value="">--</option>
+                                        <option value="B">Buku</option>
+                                        <option value="A">Audio</option>
+                                        <option value="V">Video</option>
+                                    </Field>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                                 <div class="flex h-32 flex-col justify-between rounded-md border p-2 font-[sans-serif] shadow-sm">
                                     <file-pond
                                         name="file"
@@ -247,6 +260,7 @@
                                         credits="false"
                                         v-on:updatefiles="onChangeFile"
                                         style-class="custom-filepond"
+                                        :disabled="!form.field.type"
                                     />
                                     <dt class="text-xs font-medium text-slate-500"><span class="text-red-500">*</span> File <span class="text-red-500">.Zip hasil Enkripsi dengan nama file file_</span>.</dt>
                                 </div>
@@ -264,6 +278,7 @@
                                         credits="false"
                                         v-on:updatefiles="onChangeCover"
                                         style-class="custom-filepond"
+                                        :disabled="!form.field.type"
                                     />
                                     <dt class="text-xs font-medium text-slate-500"><span class="text-red-500">*</span> File <span class="text-red-500">.Zip hasil Enkripsi dengan nama file cover_</span>.</dt>
                                 </div>
@@ -281,6 +296,7 @@
                                         credits="false"
                                         v-on:updatefiles="onChangeExcel"
                                         style-class="custom-filepond"
+                                        :disabled="!form.field.type"
                                     />
                                     <dt class="text-xs font-medium text-slate-500"><span class="text-red-500">*</span> File <span class="text-red-500">.xlsx hasil Enkripsi</span>.</dt>
                                 </div>
@@ -361,7 +377,11 @@
                                                     <img :src="row.coverFile" class="thumbnail rounded-sm" alt="covers" @click="showImages(row.coverFile)" />
                                                 </td>
                                                 <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.title }}</td>
-                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.fileName }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <a v-if="row.type == 'B'" href="javascript:void(0);" class="download-link inline-block rounded-full border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="downloadFile('books', row.fileName)">Download file enkripsi</a>
+                                                    <a v-if="row.type == 'A'" href="javascript:void(0);" class="download-link inline-block rounded-full border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="showAudio(row.fileName)">Putar Audio</a>
+                                                    <a v-if="row.type == 'V'" href="javascript:void(0);" class="download-link inline-block rounded-full border border-emerald-600 bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-transparent hover:text-emerald-600 focus:outline-none focus:ring active:text-emerald-500" @click="showVideo(row.fileName)">Putar Video</a>
+                                                </td>
                                                 <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.size }}</td>
                                                 <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
                                                     <span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
@@ -530,6 +550,12 @@
                                                                 <span v-if="row.coverExist !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> File Cover {{ row.coverExist }}</span>
                                                             </td>
                                                         </tr>
+                                                        <tr v-for="(row, key) in form.field.exists[0]" :key="key" class="odd:bg-gray-50">
+                                                            <td class="px-4 py-2 text-gray-700">{{ row.fileName }}</td>
+                                                            <td class="flex flex-wrap justify-center gap-2 px-4 py-2 text-gray-700">
+                                                                <span v-if="row.exists !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> {{ row.exists }}</span>
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -538,8 +564,73 @@
                                 </div>
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400 sm:ml-3 sm:w-auto" @click="(open_notif = false), onReview()">Next</button>
+                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400 sm:ml-3 sm:w-auto" @click="(open_notif = false), onReview()" :disabled="form.field.success.length <= 0">Next</button>
                                 <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="(open_notif = false), cancelUpload()" ref="cancelButtonRef">Cancel</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="open_audio">
+        <Dialog class="relative z-50" @close="open_audio = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" :style="{ width: 'auto', maxWidth: '100%' }">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-center">
+                                    <div class="text-center sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Audio Buku</DialogTitle>
+                                        <div class="mt-2 flex w-96 justify-center p-1">
+                                            <media-theme-tailwind-audio :style="{ width: '100%' }">
+                                                <audio slot="media" :src="`/upload/audio/${encodeURIComponent(audio_url)}`" controls playsinline crossorigin="anonymous"></audio>
+                                            </media-theme-tailwind-audio>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_audio = false">Close</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+
+    <TransitionRoot as="template" :show="open_video">
+        <Dialog class="relative z-50" @close="open_video = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-slate-900/80 bg-opacity-5 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all" :style="{ width: 'auto', maxWidth: '100%' }">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-center">
+                                    <div class="text-center sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Video Buku</DialogTitle>
+                                        <div class="mt-2 flex w-[50rem] justify-center p-1">
+                                            <video class="h-auto w-full max-w-full rounded-lg border border-gray-200 dark:border-gray-700" controls>
+                                                <source :src="`/upload/audio/${encodeURIComponent(video_url)}`" type="video/mp4" />
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="open_video = false">Close</button>
                             </div>
                         </DialogPanel>
                     </TransitionChild>
@@ -555,6 +646,7 @@ import { Form as VeeForm, Field, ErrorMessage, defineRule } from 'vee-validate'
 import { required } from '@vee-validate/rules'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
+import 'player.style/tailwind-audio'
 
 defineRule('required', required)
 
@@ -583,8 +675,12 @@ export default {
             open_sinopsis: false,
             open_error: false,
             open_notif: false,
+            open_audio: false,
+            open_video: false,
             image_url: '',
             detail_sinopsis: '',
+            audio_url: '',
+            video_url: '',
             selectedRows: [],
             selected: [],
 
@@ -636,6 +732,7 @@ export default {
                 tabs: 0,
 
                 field: {
+                    type: '',
                     file: '',
                     cover: '',
                     excel: '',
@@ -658,6 +755,12 @@ export default {
             this.form.field.file = ''
             this.form.field.cover = ''
             this.form.field.excel = ''
+
+            this.form.field.type = ''
+            this.form.field.success = []
+            this.form.field.exists = []
+            this.form.field.failed = []
+            this.selectedRows = []
 
             this.$refs.file.removeFiles()
             this.$refs.cover.removeFiles()
@@ -759,6 +862,16 @@ export default {
             this.open_sinopsis = true
         },
 
+        showAudio(text) {
+            this.audio_url = text
+            this.open_audio = true
+        },
+
+        showVideo(text) {
+            this.video_url = text
+            this.open_video = true
+        },
+
         onUpload() {
             this.form.data = false
             this.form.upload = true
@@ -811,6 +924,7 @@ export default {
                 coverFile: element.path_cover,
                 publisher: element.publisher_id,
                 category: element.category_id,
+                type: element.type,
             }))
 
             this.form.field.success = [data]
@@ -922,13 +1036,14 @@ export default {
                         this.clearForm()
 
                         loader.hide()
-                        if (response.data.data.failed.length > 0) {
+                        if (response.data.data.failed.length > 0 || response.data.data.exists.length > 0) {
                             this.form.field.failed = response.data.data.failed
                             this.form.field.exists = response.data.data.exists
                             this.form.field.success = response.data.data.new
                             this.open_notif = true
                             this.$notyf.error(response.data.message)
                         } else {
+                            this.onReview()
                             this.form.field.success = response.data.data.new
                             this.$notyf.success(response.data.message)
                         }

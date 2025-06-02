@@ -46,6 +46,7 @@
         "flowbite": "^2.5.2",
         "notyf": "^3.10.0",
         "pdfjs-dist": "^4.8.69",
+        "player.style": "^0.1.8",
         "simple-datatables": "^9.1.0",
         "vee-validate": "^4.13.2"
     }
