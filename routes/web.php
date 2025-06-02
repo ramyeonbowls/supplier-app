@@ -72,7 +72,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     Route::post('export-tpl', 'EncryptFileController@exportTpl');
                 });
 
-                Route::apiResource('data-books', UploadBooksController::class);
+                Route::apiResource('data-books', DataBooksController::class);
+
+                Route::prefix('data-books-download')->group(function() {
+                    Route::get('download-file', 'DataBooksController@downloadFile');
+                });
+
+                Route::prefix('data-books-submit')->group(function() {
+                    Route::post('submit-draft', 'DataBooksController@submitDraft');
+                });
+
+                Route::prefix('data-books-excel')->group(function() {
+                    Route::post('export-data', 'DataBooksController@exportData');
+                });
             });
 
             Route::prefix('report')->namespace('Report')->group(function() {

@@ -1,6 +1,6 @@
 <template>
     <div class="w-full px-1 py-1 sm:px-0">
-        <TabGroup :selectedIndex="form.tabs">
+        <TabGroup :selectedIndex="form.tabs" :defaultIndex="1">
             <TabList class="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                 <Tab as="template" key="data">
                     <button :class="['w-full rounded-lg py-2.5 text-sm font-semibold leading-5', 'ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2', form.data ? 'bg-white text-blue-700 shadow' : 'text-blue-100 hover:bg-white/[0.12] hover:text-white']">Data</button>
@@ -26,7 +26,7 @@
 
                                 <span class="text-sm font-medium transition-all group-hover:ms-4"> Upload Enkripsi File </span>
                             </button>
-                            <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="submitBooks">
+                            <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="onDraft">
                                 <span class="absolute -start-full transition-all group-hover:start-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path
@@ -38,6 +38,15 @@
                                 </span>
 
                                 <span class="text-sm font-medium transition-all group-hover:ms-4"> Pengajuan buku </span>
+                            </button>
+                            <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="exportData">
+                                <span class="absolute -start-full transition-all group-hover:start-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                    </svg>
+                                </span>
+
+                                <span class="text-sm font-medium transition-all group-hover:ms-4"> Export Buku </span>
                             </button>
                         </div>
                     </div>
@@ -62,13 +71,13 @@
                     <div class="overflow-x-auto">
                         <div class="rounded-lg border border-gray-300 shadow-sm">
                             <div class="overflow-x-auto rounded-t-lg">
-                                <table class="z-30 min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                                    <thead class="bg-slate-300 text-left">
+                                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                                    <thead class="bg-white text-left">
                                         <tr>
-                                            <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                            <th class="cursor-pointer border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100">
                                                 <input type="checkbox" id="selectAll" :checked="isAllSelected" @change="toggleSelectAll" class="size-5 rounded border-gray-300" />
                                             </th>
-                                            <th v-for="(header, index) in headers" :key="index" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-200">
+                                            <th v-for="(header, index) in headers" :key="index" class="cursor-pointer whitespace-nowrap border-b border-gray-200 px-4 py-2 text-left hover:bg-gray-100">
                                                 <span>{{ header.label }}</span>
                                             </th>
                                         </tr>
@@ -198,7 +207,7 @@
                 <TabPanel class="rounded-xl bg-white p-3">
                     <div class="flex justify-between">
                         <div class="button-nav flex gap-2">
-                            <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="onUpload">
+                            <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="submit">
                                 <span class="absolute -start-full transition-all group-hover:start-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -279,7 +288,133 @@
                         </form>
                     </VeeForm>
                 </TabPanel>
-                <TabPanel class="rounded-xl bg-white p-3"> Review </TabPanel>
+                <TabPanel class="rounded-xl bg-white p-3">
+                    <div class="flex justify-between">
+                        <div class="button-nav flex gap-2">
+                            <button class="group relative inline-flex items-center overflow-hidden rounded bg-emerald-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-emerald-500" @click="submitReview">
+                                <span class="absolute -start-full transition-all group-hover:start-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </span>
+
+                                <span class="text-sm font-medium transition-all group-hover:ms-4"> Ajukan Buku </span>
+                            </button>
+                            <button class="group relative inline-flex items-center overflow-hidden rounded bg-rose-500 px-8 py-3 text-white focus:outline-none focus:ring active:bg-rose-500" @click="cancelReview">
+                                <span class="absolute -start-full transition-all group-hover:start-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </span>
+
+                                <span class="text-sm font-medium transition-all group-hover:ms-4"> Cancel </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-200 p-2"></div>
+
+                    <div class="mt-4">
+                        <div class="overflow-auto rounded-lg border border-gray-200">
+                            <VeeForm ref="form" v-slot="{ handleSubmit }" as="div">
+                                <form @submit.prevent="handleSubmit($event, submit)">
+                                    <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                                        <thead class="ltr:text-left rtl:text-right">
+                                            <tr>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">COVER</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">JUDUL</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">FILE</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">UKURAN</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">STATUS</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">PENULIS</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">
+                                                    <select name="publisher_all" id="publisher_all" class="rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" @change="changePublisher">
+                                                        <option value="">Pilih Penerbit</option>
+                                                        <option v-for="(value, key) in options.publisher" :key="key" :value="value.id">{{ value.name }}</option>
+                                                    </select>
+                                                </th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">ISBN</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">EISBN</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">
+                                                    <select name="category_all" id="category_all" class="rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" @change="changeCategory">
+                                                        <option value="">Pilih Kategori Buku</option>
+                                                        <option v-for="(value, key) in options.category" :key="key" :value="value.id">{{ value.name }}</option>
+                                                    </select>
+                                                </th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">KOTA</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">TAHUN</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">EDISI</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">HALAMAN</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">SINOPSIS</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">UKURAN</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">JILID</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">UMUR</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">HARGA JUAL</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">HARGA PINJAM</th>
+                                                <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">HARGA RETAIL</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="divide-y divide-gray-200">
+                                            <tr v-for="(row, key) in form.field.success[0]" :key="key" class="odd:bg-gray-50">
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <img :src="row.coverFile" class="thumbnail rounded-sm" alt="covers" @click="showImages(row.coverFile)" />
+                                                </td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.title }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.fileName }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.size }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-2.5 py-0.5 text-slate-700">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ms-1 me-1.5 size-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                        </svg>
+                                                        <p class="whitespace-nowrap text-sm">Draft</p>
+                                                    </span>
+                                                </td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.writer }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <Field as="select" :rules="validatePublisher" :name="'publisher' + key" :id="'publisher' + key" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="row.publisher">
+                                                        <option value="">Pilih Penerbit</option>
+                                                        <option v-for="(value, key) in options.publisher" :key="key" :value="value.id">{{ value.name }}</option>
+                                                    </Field>
+                                                    <ErrorMessage :name="'publisher' + key" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
+                                                </td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.isbn }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.eisbn }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <Field as="select" :rules="validateCategory" :name="'category' + key" :id="'category' + key" class="relative w-full rounded-md border-gray-300 text-gray-700 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 sm:text-sm" v-model="row.category">
+                                                        <option value="">Pilih Kategori Buku</option>
+                                                        <option v-for="(value, key) in options.category" :key="key" :value="value.id">{{ value.name }}</option>
+                                                    </Field>
+                                                    <ErrorMessage :name="'category' + key" class="mt-1 block text-xs text-red-600 dark:text-red-500" />
+                                                </td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.city }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.years }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.edition }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.page }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <a href="javascript:void(0)" class="whitespace-nowrap" @click="showSinopsis(row.sinopsis)">{{ row.sinopsis.substring(0, 10) + '...' }}</a>
+                                                </td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.size }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.volume }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">{{ row.ages }}</td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <span class="flex place-content-end">{{ row.sellPrice }}</span>
+                                                </td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <span class="flex place-content-end">{{ row.rentPrice }}</span>
+                                                </td>
+                                                <td class="whitespace-nowrap border-b border-gray-200 px-4 py-2">
+                                                    <span class="flex place-content-end">{{ row.retailPrice }}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </VeeForm>
+                        </div>
+                    </div>
+                </TabPanel>
             </TabPanels>
         </TabGroup>
     </div>
@@ -347,6 +482,71 @@
             </div>
         </Dialog>
     </TransitionRoot>
+
+    <TransitionRoot as="template" :show="open_notif">
+        <Dialog class="relative z-50" static>
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-50 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-start justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-1 sm:w-full">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mt-3 h-full max-h-[40rem] w-full overflow-auto text-center sm:mt-0 sm:max-h-[30rem] sm:text-left">
+                                        <DialogTitle as="h3" class="text-base font-semibold text-gray-900">Notifikasi</DialogTitle>
+                                        <div class="mt-2">
+                                            <div class="overflow-auto rounded-lg border border-gray-200">
+                                                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                                                    <thead class="ltr:text-left rtl:text-right">
+                                                        <tr>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">FILENAME</th>
+                                                            <th class="whitespace-nowrap px-4 py-2 font-semibold text-gray-900">KETERANGAN</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody class="divide-y divide-gray-200">
+                                                        <tr v-for="(row, key) in form.field.failed[0]" :key="key" class="odd:bg-gray-50">
+                                                            <td class="px-4 py-2 text-gray-700">{{ row.fileName }}</td>
+                                                            <td class="flex flex-wrap justify-start gap-2 px-4 py-2 text-gray-700">
+                                                                <span v-if="row.isbn !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> ISBN {{ row.isbn }}</span>
+                                                                <span v-if="row.eisbn !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> EISBN {{ row.eisbn }}</span>
+                                                                <span v-if="row.title !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Judul {{ row.title }}</span>
+                                                                <span v-if="row.writer !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Penulis {{ row.writer }}</span>
+                                                                <span v-if="row.size !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Ukuran Buku {{ row.size }}</span>
+                                                                <span v-if="row.years !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Tahun {{ row.years }}</span>
+                                                                <span v-if="row.volume !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Jilid {{ row.volume }}</span>
+                                                                <span v-if="row.edition !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Edisi {{ row.edition }}</span>
+                                                                <span v-if="row.page !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Halaman {{ row.page }}</span>
+                                                                <span v-if="row.sinopsis !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Sinopsis {{ row.sinopsis }}</span>
+                                                                <span v-if="row.sellPrice !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Harga Jual {{ row.sellPrice }}</span>
+                                                                <span v-if="row.rentPrice !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Harga Pinjam {{ row.rentPrice }}</span>
+                                                                <span v-if="row.retailPrice !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Harga Retail {{ row.retailPrice }}</span>
+                                                                <span v-if="row.city !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Kota {{ row.city }}</span>
+                                                                <span v-if="row.ages !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> Umur {{ row.ages }}</span>
+                                                                <span v-if="row.fileExist !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> File Enkripsi {{ row.fileExist }}</span>
+                                                                <span v-if="row.coverExist !== ''" class="whitespace-nowrap rounded-md bg-rose-100 px-2.5 py-0.5 text-sm font-semibold text-rose-700"> File Cover {{ row.coverExist }}</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400 sm:ml-3 sm:w-auto" @click="(open_notif = false), onReview()">Next</button>
+                                <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="(open_notif = false), cancelUpload()" ref="cancelButtonRef">Cancel</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
     <!-- modal -->
 </template>
 
@@ -382,6 +582,7 @@ export default {
             open: false,
             open_sinopsis: false,
             open_error: false,
+            open_notif: false,
             image_url: '',
             detail_sinopsis: '',
             selectedRows: [],
@@ -419,8 +620,16 @@ export default {
             sortAsc: true,
             perPageOptions: [10, 20, 30, 40, 50],
 
+            options: {
+                category: [],
+                publisher: [],
+                format: [],
+            },
+
             form: {
                 submitted: false,
+                submit_count: 0,
+
                 data: true,
                 upload: false,
                 review: false,
@@ -429,7 +638,10 @@ export default {
                 field: {
                     file: '',
                     cover: '',
-                    excel: null,
+                    excel: '',
+                    success: [],
+                    exists: [],
+                    failed: [],
                 },
             },
         }
@@ -446,6 +658,10 @@ export default {
             this.form.field.file = ''
             this.form.field.cover = ''
             this.form.field.excel = ''
+
+            this.$refs.file.removeFiles()
+            this.$refs.cover.removeFiles()
+            this.$refs.excel.removeFiles()
         },
 
         getData() {
@@ -469,6 +685,70 @@ export default {
                 })
         },
 
+        getCategory() {
+            this.options.category = []
+
+            window.axios
+                .get('/upload/data-books/x0y0z0', {
+                    params: {
+                        param: 'category-mst',
+                    },
+                })
+                .then((response) => {
+                    this.options.category = response.data
+                })
+                .catch((e) => {
+                    console.error(e)
+                })
+        },
+
+        changeCategory(event) {
+            const selectedValue = event.target.value
+            this.form.field.success[0].forEach((element) => {
+                element.category = selectedValue
+            })
+        },
+
+        validateCategory(value) {
+            if (!value) {
+                return 'Kategory tidak boleh kosong!'
+            }
+
+            return true
+        },
+
+        getPublisher() {
+            this.options.publisher = []
+
+            window.axios
+                .get('/upload/data-books/x0y0z0', {
+                    params: {
+                        param: 'publisher-mst',
+                    },
+                })
+                .then((response) => {
+                    this.options.publisher = response.data
+                })
+                .catch((e) => {
+                    console.error(e)
+                })
+        },
+
+        changePublisher(event) {
+            const selectedValue = event.target.value
+            this.form.field.success[0].forEach((element) => {
+                element.publisher = selectedValue
+            })
+        },
+
+        validatePublisher(value) {
+            if (!value) {
+                return 'Publisher tidak boleh kosong!'
+            }
+
+            return true
+        },
+
         showImages(file) {
             this.image_url = file
             this.open = true
@@ -485,13 +765,82 @@ export default {
             this.form.review = false
             this.form.tabs = 1
 
-            this.clearForm()
+            this.form.field.file = ''
+            this.form.field.cover = ''
+            this.form.field.excel = ''
+        },
+
+        onReview() {
+            this.form.data = false
+            this.form.upload = false
+            this.form.review = true
+            this.form.tabs = 2
+
+            this.getCategory()
+            this.getPublisher()
+        },
+
+        onDraft() {
+            this.form.data = false
+            this.form.upload = false
+            this.form.review = true
+            this.form.tabs = 2
+
+            this.form.field.success = []
+
+            let data = this.selectedRows.map((element) => ({
+                bookId: element.book_id,
+                fileName: element.filename,
+                isbn: element.isbn,
+                eisbn: element.eisbn,
+                title: element.title,
+                writer: element.writer,
+                size: element.size,
+                years: element.year,
+                volume: element.volume,
+                edition: element.edition,
+                page: element.page,
+                sinopsis: element.sinopsis,
+                sellPrice: element.sellprice,
+                rentPrice: element.rentprice,
+                retailPrice: element.retailprice,
+                city: element.city,
+                ages: element.age,
+                fileExist: element.fileExist,
+                coverExist: element.coverExist,
+                coverFile: element.path_cover,
+                publisher: element.publisher_id,
+                category: element.category_id,
+            }))
+
+            this.form.field.success = [data]
+
+            this.getCategory()
+            this.getPublisher()
         },
 
         cancelUpload() {
             this.form.data = true
             this.form.upload = false
             this.form.review = false
+
+            this.clearForm()
+            this.getData()
+
+            this.form.tabs = 0
+        },
+
+        cancelReview() {
+            this.form.data = true
+            this.form.upload = false
+            this.form.review = false
+
+            this.form.field.success = []
+            this.form.field.exists = []
+            this.form.field.failed = []
+
+            this.getData()
+
             this.form.tabs = 0
         },
 
@@ -506,25 +855,25 @@ export default {
             if (files.length > 0) {
                 this.form.field.file = files[0].file
             } else {
-                this.form.field.file = null
+                this.form.field.file = ''
             }
         },
 
         onChangeCover() {
             const files = this.$refs.cover.getFiles()
             if (files.length > 0) {
-                this.form.field.cover = files[0].cover
+                this.form.field.cover = files[0].file
             } else {
-                this.form.field.cover = null
+                this.form.field.cover = ''
             }
         },
 
         onChangeExcel() {
             const files = this.$refs.excel.getFiles()
             if (files.length > 0) {
-                this.form.field.excel = files[0].excel
+                this.form.field.excel = files[0].file
             } else {
-                this.form.field.excel = null
+                this.form.field.excel = ''
             }
         },
 
@@ -549,6 +898,132 @@ export default {
                 this.sortKey = header.key
                 this.sortAsc = true
             }
+        },
+
+        submit() {
+            this.form.submit_count += 1
+            if (this.form.submit_count === 1) {
+                let loader = this.$loading.show()
+
+                let form_data = new FormData()
+                Object.keys(this.form.field).forEach((value) => {
+                    form_data.append(value, this.form.field[value])
+                })
+
+                window.axios
+                    .post('/upload/data-books?menu=' + this.$route.name, form_data, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    })
+                    .then((response) => {
+                        this.form.submit_count = 0
+
+                        this.clearForm()
+
+                        loader.hide()
+                        if (response.data.data.failed.length > 0) {
+                            this.form.field.failed = response.data.data.failed
+                            this.form.field.exists = response.data.data.exists
+                            this.form.field.success = response.data.data.new
+                            this.open_notif = true
+                            this.$notyf.error(response.data.message)
+                        } else {
+                            this.form.field.success = response.data.data.new
+                            this.$notyf.success(response.data.message)
+                        }
+                    })
+                    .catch((e) => {
+                        this.form.submit_count = 0
+
+                        this.clearForm()
+
+                        loader.hide()
+                        Object.keys(e.response.data.errors).forEach((key) => {
+                            this.$notyf.error(`${e.response.data.errors[key]}`)
+                        })
+                    })
+            }
+        },
+
+        submitReview() {
+            if (!this.form.submitted) {
+                this.form.submitted = true
+
+                this.$refs.form.validate().then((result) => {
+                    if (result.valid) {
+                        this.form.submitted = false
+
+                        if (this.form.review) {
+                            let loader = this.$loading.show()
+
+                            window.axios
+                                .post('/upload/data-books-submit/submit-draft?menu=' + this.$route.name, this.form.field.success)
+                                .then((response) => {
+                                    this.cancelReview()
+                                    loader.hide()
+                                    this.$notyf.success(response.data)
+                                })
+                                .catch((e) => {
+                                    this.form.submitted = false
+                                    loader.hide()
+
+                                    if (e.response && e.response.data && e.response.data.message) {
+                                        this.$notyf.error(e.response.data.message)
+                                    } else {
+                                        this.$notyf.error(e.message || 'An error occurred.')
+                                    }
+                                })
+                        }
+                    } else {
+                        this.form.submitted = false
+                    }
+                })
+            }
+        },
+
+        async exportData() {
+            await window
+                .axios({
+                    url: '/upload/encrypt-books-excel/export-data',
+                    method: 'POST',
+                    responseType: 'blob',
+                })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', 'data_buku.xlsx')
+                    document.body.appendChild(link)
+                    link.click()
+                })
+                .catch((e) => {
+                    console.log(e.response.data)
+                })
+        },
+
+        async downloadFile(param, file) {
+            await window
+                .axios({
+                    url: '/upload/data-books-download/download-file',
+                    method: 'GET',
+                    responseType: 'blob',
+                    params: {
+                        data: param,
+                        file: file,
+                    },
+                })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]))
+                    const link = document.createElement('a')
+                    link.href = url
+                    link.setAttribute('download', file)
+                    document.body.appendChild(link)
+                    link.click()
+                })
+                .catch((e) => {
+                    console.log(e.response.data)
+                })
         },
     },
 

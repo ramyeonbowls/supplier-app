@@ -1358,7 +1358,7 @@ export default {
         async exportData() {
             await window
                 .axios({
-                    url: '/upload/encrypt-books-excel/export-data',
+                    url: '/upload/data-books-excel/export-data',
                     method: 'POST',
                     responseType: 'blob',
                 })
@@ -1378,7 +1378,7 @@ export default {
         async downloadFile(param, file) {
             await window
                 .axios({
-                    url: '/upload/encrypt-books-download/download-file',
+                    url: '/upload/data-books-download/download-file',
                     method: 'GET',
                     responseType: 'blob',
                     params: {

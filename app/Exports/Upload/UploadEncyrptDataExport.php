@@ -50,7 +50,6 @@ class UploadEncyrptDataExport implements WithCustomStartCell, WithHeadings, With
     public function headings(): array
     {
         return [
-            'BOOK_ID',
             'FILENAME',
             'ISBN',
             'EISBN',
@@ -84,7 +83,7 @@ class UploadEncyrptDataExport implements WithCustomStartCell, WithHeadings, With
                 $event->sheet->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
 
                 $event->sheet
-                    ->styleCells('A1:Q1', [
+                    ->styleCells('A1:P1', [
                         'font' => [
                             'bold' => true
                         ],
@@ -114,13 +113,12 @@ class UploadEncyrptDataExport implements WithCustomStartCell, WithHeadings, With
                 $event->sheet->getColumnDimension('N')->setWidth(15);
                 $event->sheet->getColumnDimension('O')->setWidth(15);
                 $event->sheet->getColumnDimension('P')->setWidth(15);
-                $event->sheet->getColumnDimension('Q')->setWidth(15);
 
                 $row_cell = 2;
                 if ($this->with_data) {
                     foreach ($this->with_data as $i => $value) {
-                        $event->sheet->setCellValue('A'. $row_cell, '');
-                        $event->sheet->setCellValue('B'. $row_cell, $value);
+                        $event->sheet->setCellValue('A'. $row_cell, $value);
+                        $event->sheet->setCellValue('B'. $row_cell, '');
                         $event->sheet->setCellValue('C'. $row_cell, '');
                         $event->sheet->setCellValue('D'. $row_cell, '');
                         $event->sheet->setCellValue('E'. $row_cell, '');
@@ -135,7 +133,6 @@ class UploadEncyrptDataExport implements WithCustomStartCell, WithHeadings, With
                         $event->sheet->setCellValue('N'. $row_cell, '');
                         $event->sheet->setCellValue('O'. $row_cell, '');
                         $event->sheet->setCellValue('P'. $row_cell, '');
-                        $event->sheet->setCellValue('Q'. $row_cell, '');
 
                         $row_cell++;
                     }
@@ -144,7 +141,7 @@ class UploadEncyrptDataExport implements WithCustomStartCell, WithHeadings, With
                 $last_row = $row_cell == 2 ? 7 : $row_cell - 1;
 
                 $event->sheet
-                    ->styleCells('A1:Q'.$last_row, [
+                    ->styleCells('A1:P'.$last_row, [
                         'borders' => [
                             'allBorders' => [
                                 'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

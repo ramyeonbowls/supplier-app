@@ -39,7 +39,7 @@ const routes = [
         path: '/encrypt-file',
         name: 'encrypt_file',
         component: () => import(/* webpackChunkName: "encrypt_file" */ './components/EncryptFiles.vue'),
-        meta: { roles: [0] },
+        meta: { roles: [0, 1] },
     },
     {
         path: '/approval-book',
@@ -92,14 +92,20 @@ const routes = [
     {
         path: '/approval-distributor',
         name: 'approval_distributor',
-        component: () => import(/* webpackChunkName: "approval_distributor'," */ './components/ApprovalDistributor.vue'),
+        component: () => import(/* webpackChunkName: "approval_distributor" */ './components/ApprovalDistributor.vue'),
         meta: { roles: [0] },
     },
     {
         path: '/approval-edit-client',
         name: 'approval_edit_client',
-        component: () => import(/* webpackChunkName: "approval_edit_client'," */ './components/ApprovalEditClient.vue'),
+        component: () => import(/* webpackChunkName: "approval_edit_client" */ './components/ApprovalEditClient.vue'),
         meta: { roles: [0] },
+    },
+    {
+        path: '/data-books',
+        name: 'data_books',
+        component: () => import(/* webpackChunkName: "data_books" */ './components/DataBooks.vue'),
+        meta: { roles: [1] },
     },
 ]
 
